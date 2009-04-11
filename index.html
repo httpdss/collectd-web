@@ -21,8 +21,11 @@ $(document).ready(function() {
 	$.AjaxifyDefaults.loading_target = '#loader';
 
 	$('#hosts a').livequery( function(){
-		    $(this).ajaxify({target:'#plugins'});
-		});
+        $(this).ajaxify({
+            target:'#plugins',
+            cache:true
+        });
+    });
 
 	$('#plugins a').livequery( function(){
 		$(this).ajaxify({
