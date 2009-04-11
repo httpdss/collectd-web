@@ -37,14 +37,12 @@ $(document).ready(function() {
 		});
 	});
 	$('#hosts').load('/cgi-bin/collection.modified.cgi');
-    $('li').livequery(function(){
-            $(this).each(function(){
-               $(this).addClass("testing");
-               });
-            });
 
-    $('li').addClass("adding");
-
+//    $('li.show-hide-button').livequery(function(){
+//      $(this).each(function(){
+//            $(this).addClass("testing");
+  //          });
+    //    });
 }); 
 </script>
 <style type="text/css">
@@ -84,7 +82,7 @@ $(document).ready(function() {
             <div id="plugins" class="no-bullets"></div>
         </div>
         <div class='column last prepend-1 span-16'>
-            <div id="graph-container"></div>
+            <div id="graph-container" class="no-bullets"></div>
         </div>
     </div>
     <div class='container'>
