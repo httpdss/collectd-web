@@ -819,8 +819,6 @@ sub main
 	  return (0);
 	}
 
-	print_header ();
-
 	if (!$Args->{'host'})
 	{
 	  list_hosts ();
@@ -839,8 +837,6 @@ sub main
 	    $Args->{'plugin'}, $Args->{'plugin_instance'},
 	    $Args->{'type'}, $Args->{'type_instance'});
 	}
-
-	print_footer ();
 
 	return (0);
 }
