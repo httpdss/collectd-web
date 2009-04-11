@@ -557,16 +557,11 @@ sub action_show_plugin
 	    $graph_url .= ';plugin_instance=' . uri_escape ($pinst);
 	  }
 
-	  if ($files_printed != 0)
-	  {
-	    print "      <ul>\n";
-	  }
-
 	  for (@hosts)
 	  {
 	    my $host = $_;
 	    my $host_graph_url = $graph_url . ';host=' . uri_escape ($host);
-
+            if ($files_printed == 0) { print " <ul>"}
 	    print "\t<li>";
 	if ($files_printed == 0)
 	{
@@ -585,12 +580,13 @@ sub action_show_plugin
 	    print "</li>\n";
 	  } # for (my $k = 0; $k < @hosts; $k++)
 
-	  print "      </ul>\n";
+
 
 	  $files_printed++;
 	  next; # pinst
 	} # if (exists ($MetaGraphDefs->{$type}))
 
+	  print "      </ul>\n";
 	for (sort (keys %{$all_plugins->{$plugin}{$pinst}{$type}}))
 	{
 	  my $tinst = $_;
@@ -608,7 +604,7 @@ sub action_show_plugin
 	    $graph_url .= ';type_instance=' . uri_escape ($tinst);
 	  }
 
-	  if ($files_printed != 0)
+	  if ($files_printed == 0)
 	  {
 	    print "      <ul>\n";
 	  }
@@ -627,10 +623,10 @@ sub action_show_plugin
 	    print "</li>\n";
 	  } # for (my $k = 0; $k < @hosts; $k++)
 
-	  print "      </ul>\n";
 
 	  $files_printed++;
 	} # for ($tinst)
+	  print "      </ul>\n";
       } # for ($type)
     } # for ($pinst)
   } # for ($plugin)
