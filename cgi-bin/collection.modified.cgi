@@ -518,7 +518,7 @@ sub action_show_plugin
     my $plugin_html = encode_entities ($plugin);
     my $plugin_url = "$url_prefix;plugin=" . uri_escape ($plugin);
     my $all_pinst = $all_plugins->{$plugin};
-    print "<ul>"
+    print "<ul>";
     for (sort (keys %$all_pinst))
     {
       my $pinst = $_;
@@ -621,7 +621,7 @@ sub action_show_plugin
 	} # for ($tinst)
       } # for ($type)
     } # for ($pinst)
-    print "</ul>"
+    print "</ul>";
   } # for ($plugin)
 } # action_show_plugin
 
