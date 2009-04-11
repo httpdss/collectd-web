@@ -764,40 +764,12 @@ sub print_header
 Content-Type: application/xhtml+xml; charset=utf-8
 Cache-Control: no-cache
 
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-  <head>
-    <title>collection.cgi, Version 2</title>
-    <style type="text/css">
-      img
-      {
-	border: none;
-      }
-      table.graphs
-      {
-	border-collapse: collapse;
-      }
-      table.graphs td,
-      table.graphs th
-      {
-	border: 1px solid black;
-	empty-cells: hide;
-      }
-    </style>
-  </head>
-
-  <body>
 HEAD
 } # print_header
 
 sub print_footer
 {
   print <<FOOT;
-  </body>
-</html>
 FOOT
 } # print_footer
 
@@ -840,7 +812,6 @@ sub main
 	    $Args->{'type'}, $Args->{'type_instance'});
 	}
 
-	print_footer ();
 
 	return (0);
 }
