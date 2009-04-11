@@ -46,11 +46,23 @@ $(document).ready(function() {
 	#loader {
 		margin-top:10px;
 	}
+    .header-content {
+        height:70px;
+    
+    }
+    #logo {
+        margin-top:10px;
+    }
+    .no-bullets ul{
+        list-style-type:none;
+        padding-bottom:10px;
+        margin:0;
+    }
 </style>
 </head>
 
 <body>
-	<div class='container'>
+	<div class='container header-content'>
 		<div class='column span-6'>
 			<div id="logo"><h1>Collectd-web</h1></div>
 		</div>
@@ -60,16 +72,16 @@ $(document).ready(function() {
 	</div>
 	<div class='container'>
 		<div class='column span-7'>
-			<div id="hosts"></div>
+			<div id="hosts" class="no-bullets"></div>
+            <hr />
 			<div id="plugins"></div>
 		</div>
-		<div class='column last span-17'>
+		<div class='column last prepend-1 span-16'>
 			<div id="graph-container"></div>
 		</div>
 	</div>
 	<div class='container'>
 	</div> 
-
 </body>
 
 </html>
