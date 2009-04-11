@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="en-us" http-equiv="Content-Language" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Ajaxify</title>
+<link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection">
+<link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print">    
+<link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print">    
+<link rel="stylesheet" href="/css/blueprint/plugins/buttons/screen.css" type="text/css" media="screen, projection">
+<link rel="stylesheet" href="/css/blueprint/plugins/fancy-type/screen.css" type="text/css" media="screen, projection">
+<!--[if IE]><link rel="stylesheet" href="/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+
+<script type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.ajaxify.js"></script>
+<script type="text/javascript" src="/js/jquery.livequery.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {  
+	$.AjaxifyDefaults.loading_target = '#loader';
+
+	$('#hosts a').livequery( function(){
+		    $(this).ajaxify({target:'#plugins'});
+		});
+
+	$('#plugins a').livequery( function(){
+		$(this).ajaxify({
+			target:'#graph-container',
+			animateOut:{opacity:'0'},
+			animateOutSpeed:300,
+			animateIn:{opacity:'1'},
+			animateInSpeed:300,
+		});
+	});
+	$('#hosts').load('/cgi-bin/collection.modified.cgi');
+}); 
+</script>
+<style type="text/css">
+	#loader {
+		margin-top:10px;
+	}
+</style>
+</head>
+
+<body>
+	<div class='container'>
+		<div class='column span-4'>
+			<div id="logo"><h1>Monitor</h1></div>
+		</div>
+		<div class='column last span-20'>
+			<div id="loader"></div>
+		</div>
+	</div>
+	<div class='container'>
+		<div class='column span-7'>
+			<div id="hosts"></div>
+			<div id="plugins"></div>
+		</div>
+		<div class='column last span-17'>
+			<div id="graph-container"></div>
+		</div>
+	</div>
+	<div class='container'>
+	</div> 
+
+</body>
+
+</html>
