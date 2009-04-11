@@ -518,7 +518,7 @@ sub action_show_plugin
     my $plugin_html = encode_entities ($plugin);
     my $plugin_url = "$url_prefix;plugin=" . uri_escape ($plugin);
     my $all_pinst = $all_plugins->{$plugin};
-
+    print "<ul>"
     for (sort (keys %$all_pinst))
     {
       my $pinst = $_;
@@ -561,7 +561,6 @@ sub action_show_plugin
 	  {
 	    my $host = $_;
 	    my $host_graph_url = $graph_url . ';host=' . uri_escape ($host);
-            if ($files_printed == 0) { print " <ul>"}
 	    print "\t<li>";
 	if ($files_printed == 0)
 	{
@@ -586,7 +585,6 @@ sub action_show_plugin
 	  next; # pinst
 	} # if (exists ($MetaGraphDefs->{$type}))
 
-	  print "      </ul>\n";
 	for (sort (keys %{$all_plugins->{$plugin}{$pinst}{$type}}))
 	{
 	  my $tinst = $_;
@@ -602,11 +600,6 @@ sub action_show_plugin
 	  if ($tinst ne '-')
 	  {
 	    $graph_url .= ';type_instance=' . uri_escape ($tinst);
-	  }
-
-	  if ($files_printed == 0)
-	  {
-	    print "      <ul>\n";
 	  }
 
 	  for (my $k = 0; $k < @hosts; $k++)
@@ -626,9 +619,9 @@ sub action_show_plugin
 
 	  $files_printed++;
 	} # for ($tinst)
-	  print "      </ul>\n";
       } # for ($type)
     } # for ($pinst)
+    print "</ul>"
   } # for ($plugin)
 } # action_show_plugin
 
