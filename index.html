@@ -37,13 +37,13 @@ $(document).ready(function() {
 		});
 	});
 	$('#hosts').load('/cgi-bin/collection.modified.cgi');
-    $('li.show-delete').livequery(function(){
+    $('li').livequery(function(){
             $(this).each(function(){
                $(this).addClass("testing");
                });
             });
 
-    $('li.show-add').addClass("adding");
+    $('li').addClass("adding");
 
 }); 
 </script>
