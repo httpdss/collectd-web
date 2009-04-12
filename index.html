@@ -42,15 +42,19 @@ $(document).ready(function() {
 	});
 	$('#hosts').load('/cgi-bin/collection.modified.cgi');
 
-$('li.graph-image').livequery(function(){
-  $(this).each(function(){
-        $(this).append(remove_button);
-        });
-    });
-$('.ui-icon').hover(
-    function() { $(this).addClass('ui-state-hover'); },
-    function() { $(this).removeClass('ui-state-hover'); }
- );
+    $('li.graph-image').livequery(function(){
+            $(this).each(function(){
+                $(this).append(remove_button);
+                });
+            });
+    $('.ui-icon').livequery(function(){
+            $(this).each(function(){
+                $(this).hover(
+                    function() { $(this).addClass('ui-state-hover'); },
+                    function() { $(this).removeClass('ui-state-hover'); }
+                    );
+                });
+            });
 }); 
 </script>
 <style type="text/css">
