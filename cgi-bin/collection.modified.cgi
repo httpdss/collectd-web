@@ -561,7 +561,7 @@ sub action_show_plugin
 	  {
 	    my $host = $_;
 	    my $host_graph_url = $graph_url . ';host=' . uri_escape ($host);
-	    print "\t<li>";
+	    print qq(<li class="graph-image">);
 	if ($files_printed == 0)
 	{
 	  my $title = $plugin_html;
@@ -607,7 +607,7 @@ sub action_show_plugin
 	    my $host = $hosts[$k];
 	    my $host_graph_url = $graph_url . ';host=' . uri_escape ($host);
 
-	    print "\t<li>";
+	    print qq(<li class="graph-image">);
 	    if ($plugins_per_host->{$host}{$plugin}{$pinst}{$type}{$tinst})
 	    {
 	      print qq(<img src="$host_graph_url" />);

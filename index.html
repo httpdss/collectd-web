@@ -19,6 +19,7 @@
 <script type="text/javascript" src="/js/jquery.ajaxify.js"></script>
 <script type="text/javascript" src="/js/jquery.livequery.pack.js"></script>
 <script type="text/javascript">
+    var remove_button = '<a class="remove-button" href="#">Remove</a>'
 $(document).ready(function() {  
 	$.AjaxifyDefaults.loading_target = '#loader';
 
@@ -40,11 +41,11 @@ $(document).ready(function() {
 	});
 	$('#hosts').load('/cgi-bin/collection.modified.cgi');
 
-//    $('li.show-hide-button').livequery(function(){
-//      $(this).each(function(){
-//            $(this).addClass("testing");
-  //          });
-    //    });
+$('li.graph-image').livequery(function(){
+  $(this).each(function(){
+        $(this).append(remove_button);
+        });
+    });
 }); 
 </script>
 <style type="text/css">
