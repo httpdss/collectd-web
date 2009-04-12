@@ -763,6 +763,7 @@ sub print_header
   print <<HEAD;
 Content-Type: application/xhtml+xml; charset=utf-8
 Cache-Control: no-cache
+
 HEAD
 } # print_header
 
