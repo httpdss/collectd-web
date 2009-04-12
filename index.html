@@ -56,6 +56,12 @@ $(document).ready(function() {
                     );
                 });
             });
+    $('.sortable').livequery(function(){
+            $(this).each(function(){
+                $(this).sortable();
+                $(this).disableSelection();
+                });
+            });
 }); 
 </script>
 <style type="text/css">
