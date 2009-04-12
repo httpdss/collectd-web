@@ -45,6 +45,9 @@ $(document).ready(function() {
     $('li.graph-image').livequery(function(){
             $(this).each(function(){
                 $(this).prepend(remove_button);
+                $('li.graph-image .ui-icon-close').click(function (){ 
+                        $(this).parent().remove();
+                    });
                 });
             });
     $('.ui-icon').livequery(function(){
