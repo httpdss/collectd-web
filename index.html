@@ -10,96 +10,14 @@
 <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print">    
 <link rel="stylesheet" href="/css/smoothness/ui.all.css" type="text/css" media="screen, projection">
 <!--[if IE]><link rel="stylesheet" href="/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+<link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
 
 <script type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
 <script type="text/javascript" src="/js/jquery-ui-1.5.3.min.js"></script>
 
 <script type="text/javascript" src="/js/jquery.ajaxify.js"></script>
 <script type="text/javascript" src="/js/jquery.livequery.pack.js"></script>
-<script type="text/javascript">
-    var remove_button = '<div class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-close"/></div>'
-
-$(document).ready(function() {  
-	$.AjaxifyDefaults.loading_target = '#loader';
-
-	$('#hosts a').livequery( function(){
-        $(this).ajaxify({
-            target:'#plugins',
-        });
-    });
-
-	$('#plugins a').livequery( function(){
-		$(this).ajaxify({
-			target:'#graph-container',
-			animateOut:{opacity:'0'},
-			animateOutSpeed:300,
-			animateIn:{opacity:'1'},
-			animateInSpeed:300,
-		});
-	});
-	$('#hosts').load('/cgi-bin/collection.modified.cgi');
-
-    $('li.graph-image').livequery(function(){
-            $(this).each(function(){
-                $(this).prepend(remove_button);
-                $('li.graph-image .ui-icon-close').click(function (){ 
-                        $(this).parent().parent().remove();
-                    });
-                });
-            });
-    $('.icons').livequery(function(){
-            $(this).each(function(){
-                $(this).hover(
-                    function() { $(this).addClass('ui-state-hover'); },
-                    function() { $(this).removeClass('ui-state-hover'); }
-                    );
-                });
-            });
-    $('.sortable').livequery(function(){
-            $(this).each(function(){
-                    $(this).sortable();
-                });
-            });
-}); 
-</script>
-<style type="text/css">
-    body {
-        height:101%;
-    }
-	#loader {
-		margin-top:10px;
-	}
-    .header-content {
-        height:70px;
-    }
-    #logo {
-        margin-top:10px;
-    }
-    .no-bullets ul{
-        list-style-type:none;
-        margin:0;
-    }
-    .ui-widget-header h3 {
-        margin:5px 0 5px 10px;
-    }
-    #hosts-container, #plugin-container {
-        padding:10px;
-    } 
-    #plugins {
-        margin-top:20px;
-    }
-
-    .icons {
-        cursor:pointer;
-float:right;
-margin:2px;
-padding:4px 0;
-position:relative;
-    }
-    span.ui-icon {
-        margin:0 4px;
-    }
-</style>
+<script type="text/javascript" src="/js/base.js"></script>
 </head>
 
 <body>

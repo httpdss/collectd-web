@@ -1,0 +1,36 @@
+body {
+    height:101%;
+}
+#loader {
+    margin-top:10px;
+}
+.header-content {
+    height:70px;
+}
+#logo {
+    margin-top:10px;
+}
+.no-bullets ul{
+    list-style-type:none;
+    margin:0;
+}
+.ui-widget-header h3 {
+    margin:5px 0 5px 10px;
+}
+#hosts-container, #plugin-container {
+    padding:10px;
+} 
+#plugins {
+    margin-top:20px;
+}
+
+.icons {
+    cursor:pointer;
+    float:right;
+    margin:2px;
+    padding:4px 0;
+    position:relative;
+}
+span.ui-icon {
+    margin:0 4px;
+}
