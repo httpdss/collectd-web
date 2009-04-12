@@ -365,7 +365,7 @@ sub list_hosts
 {
   my @hosts = _find_hosts ();
   @hosts = sort (@hosts);
-  print qq(<div class="ui-widget-header"><h2>Hosts<h2></div>\n);
+  print qq(<div class="ui-widget-header"><h3>Hosts</h3></div>\n);
   print qq(<div id="hosts-container"><ul>\n);
   for (my $i = 0; $i < @hosts; $i++)
   {
@@ -467,8 +467,8 @@ sub action_show_host
   my $url_prefix = script_name () . '?action=show_plugin'
   . join ('', map { ';host=' . uri_escape ($_) } (@hosts))
   . ';timespan=' . uri_escape ($timespan);
-  print qq( <div class="ui-widget-header"><h2>Available Plugins</h2></div> );
-  print qq(<div id="plugin-container">   <ul>\n);
+  print qq(<div class="ui-widget-header"><h3>Available Plugins</h3></div>\n);
+  print qq(<div id="plugin-container"><ul>\n);
   for (sort (keys %$all_plugins))
   {
     my $plugin = $_;
@@ -476,7 +476,7 @@ sub action_show_host
     my $url_plugin = $url_prefix . ';plugin=' . uri_escape ($plugin);
     print qq(      <li><a href="$url_plugin">$plugin_html</a></li>\n);
   }
-  print "   </ul></div>\n";
+  print "</ul></div>\n";
 } # action_show_host
 
 sub action_show_plugin
