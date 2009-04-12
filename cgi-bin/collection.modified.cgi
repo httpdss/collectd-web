@@ -24,7 +24,7 @@ our $ValidTimespan =
   year => 366 * 86400
 };
 
-our @RRDDefaultArgs = ('-w', '400');
+our @RRDDefaultArgs = ('-w', '600');
 
 our $Args = {};
 
@@ -763,7 +763,6 @@ sub print_header
   print <<HEAD;
 Content-Type: application/xhtml+xml; charset=utf-8
 Cache-Control: no-cache
-
 HEAD
 } # print_header
 
