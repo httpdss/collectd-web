@@ -28,7 +28,6 @@ $(document).ready(function() {
 	$('#hosts a').livequery( function(){
         $(this).ajaxify({
             target:'#plugins',
-            cache:true
         });
     });
 
@@ -58,8 +57,8 @@ $(document).ready(function() {
             });
     $('.sortable').livequery(function(){
             $(this).each(function(){
-                $(this).sortable();
-                $(this).disableSelection();
+                    $(this).sortable();
+                    $(this).disableSelection();
                 });
             });
 }); 
