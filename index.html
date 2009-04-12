@@ -19,7 +19,8 @@
 <script type="text/javascript" src="/js/jquery.ajaxify.js"></script>
 <script type="text/javascript" src="/js/jquery.livequery.pack.js"></script>
 <script type="text/javascript">
-    var remove_button = '<a class="remove-button" href="#">Remove</a>'
+    var remove_button = '<span class="ui-icon ui-icon-close ui-state-default ui-corner-all"/>'
+
 $(document).ready(function() {  
 	$.AjaxifyDefaults.loading_target = '#loader';
 
@@ -46,6 +47,10 @@ $('li.graph-image').livequery(function(){
         $(this).append(remove_button);
         });
     });
+$('.ui-icon').hover(
+    function() { $(this).addClass('ui-state-hover'); },
+    function() { $(this).removeClass('ui-state-hover'); }
+ );
 }); 
 </script>
 <style type="text/css">
