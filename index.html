@@ -1,45 +1,44 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta content="en-us" http-equiv="Content-Language" />
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <title>Collectd-web</title>
+        <link type="image/png" href="/images/shortcut-icon.png" rel="icon"/>
+        <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print">    
+        <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print">    
+        <link rel="stylesheet" href="/css/smoothness/ui.all.css" type="text/css" media="screen, projection">
+        <!--[if IE]><link rel="stylesheet" href="/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+        <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
 
-<head>
-<meta content="en-us" http-equiv="Content-Language" />
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title>Collectd-web</title>
-<link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection">
-<link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print">    
-<link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print">    
-<link rel="stylesheet" href="/css/smoothness/ui.all.css" type="text/css" media="screen, projection">
-<!--[if IE]><link rel="stylesheet" href="/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
-<link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
+        <script type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
+        <script type="text/javascript" src="/js/jquery-ui-1.5.3.min.js"></script>
 
-<script type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
-<script type="text/javascript" src="/js/jquery-ui-1.5.3.min.js"></script>
+        <script type="text/javascript" src="/js/jquery.ajaxify.js"></script>
+        <script type="text/javascript" src="/js/jquery.livequery.pack.js"></script>
+        <script type="text/javascript" src="/js/base.js"></script>
+    </head>
 
-<script type="text/javascript" src="/js/jquery.ajaxify.js"></script>
-<script type="text/javascript" src="/js/jquery.livequery.pack.js"></script>
-<script type="text/javascript" src="/js/base.js"></script>
-</head>
-
-<body>
-    <div class='container header-content'>
-        <div class='column span-6'>
-            <div id="logo"><h1>Collectd-web</h1></div>
+    <body>
+        <div class='container header-content'>
+            <div class='column span-6'>
+                <div id="logo"><h1>Collectd-web</h1></div>
+            </div>
+            <div class='column last span-16'>
+                <div id="loader"></div>
+            </div>
         </div>
-        <div class='column last span-16'>
-            <div id="loader"></div>
+        <div class='container'>
+            <div class='column span-7'>
+                <div id="hosts" class="no-bullets ui-widget"></div>
+                <div id="plugins" class="no-bullets ui-widget"></div>
+            </div>
+            <div class='column last prepend-1 span-16'>
+                <div id="graph-container" class="no-bullets"></div>
+            </div>
         </div>
-    </div>
-    <div class='container'>
-        <div class='column span-7'>
-            <div id="hosts" class="no-bullets ui-widget"></div>
-            <div id="plugins" class="no-bullets ui-widget"></div>
-        </div>
-        <div class='column last prepend-1 span-16'>
-            <div id="graph-container" class="no-bullets"></div>
-        </div>
-    </div>
-    <div class='container'>
-    </div> 
-</body>
-
+        <div class='container'>
+        </div> 
+    </body>
 </html>
