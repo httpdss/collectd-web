@@ -664,6 +664,51 @@ sub action_show_type
   }
 } # action_show_type
 
+sub action_show_fetch
+{
+  my $host = shift;
+  my $plugin = shift;
+  my $plugin_instance = shift;
+  my $type = shift;
+  my $type_instance = shift;
+  my @rrd_args;
+  my $title;
+  
+  # FIXME
+  if (exists ($MetaGraphDefs->{$type}))
+  {
+    my %types = _find_types ($host, $plugin, $plugin_instance);
+    return $MetaGraphDefs->{$type}->($host, $plugin, $plugin_instance, $type, $types{$type});
+  }
+
+  return if (!defined ($GraphDefs->{$type}));
+  @rrd_args = @{$GraphDefs->{$type}};
+
+  $title = "$host/$plugin" . (defined ($plugin_instance) ? "-$plugin_instance" : '')
+  . "/$type" . (defined ($type_instance) ? "-$type_instance" : '');
+
+  for (my $i = 0; $i < @DataDirs; $i++)
+  {
+    my $file = $DataDirs[$i] . "/$title.rrd";
+    next if (!-f $file);
+
+    $file =~ s/:/\\:/g;
+    s/{file}/$file/ for (@rrd_args);
+    
+    print $title;
+    my ($start,$step,$ds_names,$data) = RRDs::fetch("$file", "AVERAGE");
+
+    print STDERR Data::Dumper->Dump ($start);
+    print STDERR Data::Dumper->Dump ($step);
+    print STDERR Data::Dumper->Dump ($ds_names);
+    print STDERR Data::Dumper->Dump ($data);
+    if (my $err = RRDs::error ())
+    {
+      die ("RRDs::fetch: $err");
+    }
+  }
+} # action_show_fetch
+
 sub action_show_graph
 {
   my $host = shift;
@@ -780,6 +825,15 @@ FOOT
 } # print_footer
 
 sub main
+{
+	read_config ();
+	validate_args ();
+
+        action_show_fetch("localhost","memory","","memory","");
+
+	return (0);
+}
+sub main2
 {
 	read_config ();
 	validate_args ();
