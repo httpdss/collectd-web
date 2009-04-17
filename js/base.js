@@ -19,7 +19,6 @@ $(document).ready(function() {
                 });
             });
         $('#hosts').load('/cgi-bin/collection.modified.cgi');
-        $('#hosts').append(' <p><label for="host-filter">Host filter</label><br /> <input type="text" class="title" id="host-filter"/> </p> ');
 
         $('li.graph-image').livequery(function(){
             $(this).each(function(){

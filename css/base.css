@@ -34,3 +34,7 @@ body {
 span.ui-icon {
     margin:0 4px;
 }
+
+.ui-widget input {
+    width:220px;
+}
