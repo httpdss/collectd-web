@@ -698,10 +698,10 @@ sub action_show_fetch
     print $title;
     my ($start,$step,$ds_names,$data) = RRDs::fetch("$file", "AVERAGE");
 
-    print STDERR Data::Dumper->Dump ($start);
-    print STDERR Data::Dumper->Dump ($step);
-    print STDERR Data::Dumper->Dump ($ds_names);
-    print STDERR Data::Dumper->Dump ($data);
+    print STDOUT Data::Dumper->Dump ($start);
+    print STDOUT Data::Dumper->Dump ($step);
+    print STDOUT Data::Dumper->Dump ($ds_names);
+    print STDOUT Data::Dumper->Dump ($data);
     if (my $err = RRDs::error ())
     {
       die ("RRDs::fetch: $err");
