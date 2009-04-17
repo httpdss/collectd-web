@@ -372,7 +372,7 @@ sub list_hosts
   my @hosts = _find_hosts ();
   @hosts = sort (@hosts);
   print qq(<div class="ui-widget-header ui-corner-top"><h3>Hosts</h3></div>\n);
-  print qq(<div id="hosts-container" class="ui-widget-content ui-corner-bottom "><ul>\n);
+  print qq(<div id="hosts-container" class="ui-widget-content ui-corner-bottom "><input type="text" class="title" id="host-filter"/><ul>\n);
   for (my $i = 0; $i < @hosts; $i++)
   {
     my $host_html = encode_entities ($hosts[$i]);
