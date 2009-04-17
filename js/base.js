@@ -7,6 +7,11 @@ $(document).ready(function() {
             $(this).ajaxify({
                     target:'#plugins',
                 });
+                $("#host-filter").keyup(function () {
+                    var searchText = $(this).val();
+                    $("#hosts li").hide();
+                    $("#hosts li:contains("+searchText+")").show();
+                });
             });
 
         $('#plugins a').livequery( function(){
@@ -44,15 +49,11 @@ $(document).ready(function() {
             });
         });
 
-        $("#host-filter").keyup(function () {
-            var searchText = $(this).val();
-            $("#hosts li").hide();
-            $("#hosts li:contains("+searchText+")").show();
-        });
 
         $('#hosts li, #plugins li').livequery(function(){
             $(this).click(function (){
                     $(this).addClass("selected");
             });
         });
+
 }); 
