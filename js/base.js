@@ -59,8 +59,8 @@ $(document).ready(function() {
             });
             $(this).focus();
             $(this).bt({
-                trigger: ['focus', 'blur'],
-                positions: ['right']
+                trigger: ['click','focus', 'blur'],
+                positions: ['left']
             });
         });
 
