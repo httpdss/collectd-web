@@ -58,10 +58,6 @@ $(document).ready(function() {
                 $("#hosts li:contains("+searchText+")").show();
             });
             $(this).focus();
-            $(this).bt({
-                trigger: ['click','focus', 'blur'],
-                positions: ['left']
-            });
         });
 
 }); 
