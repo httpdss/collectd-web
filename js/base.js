@@ -50,12 +50,18 @@ $(document).ready(function() {
                     $(this).addClass("selected");
             });
         });
-$("#host-filter").livequery(function(){
-        $(this).keyup(function () {
-            var searchText = $(this).val();
-            $("#hosts li").hide();
-            $("#hosts li:contains("+searchText+")").show();
+
+        $("#host-filter").livequery(function(){
+            $(this).keyup(function () {
+                var searchText = $(this).val();
+                $("#hosts li").hide();
+                $("#hosts li:contains("+searchText+")").show();
+            });
+            $(this).focus();
+            $(this).bt({
+                trigger: ['focus', 'blur'],
+                positions: ['right']
+            });
         });
-});
 
 }); 
