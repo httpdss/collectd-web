@@ -36,5 +36,7 @@ span.ui-icon {
 }
 
 .ui-widget input {
-    width:220px;
+    width:100%;
+    padding-right:0;
+    padding-left:0;
 }
