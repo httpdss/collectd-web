@@ -1,0 +1,15 @@
+=========
+CHANGELOG 
+=========
+
+Version 0.1.1 (05/18/09)
+========================
+ * Bug fixed
+ * Added host filtering
+
+Version 0.1 (04/11/09)
+======================
+ * Collectd-web release ! 
+ * Menu and graphs loading using ajax
+ * Option to remove graph
+ * Graph sorting (Drag&Drop)
