@@ -10,6 +10,16 @@ Features
 
 Installation
 ============
+You must have a path containing each host's files in a separate
+sub-directory, named according to the host.
+
+For example,
+ /etc/collectd/collectd-web/localhost/
+
+In this case, your datadir will be '/etc/collectd/collectd-web/'.
+Create /etc/collectd/collection.conf with the content:
+
+ datadir: "/etc/collectd/collectd-web/"
 
 Still to be done
 ================
