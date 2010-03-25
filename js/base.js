@@ -18,7 +18,7 @@ $(document).ready(function() {
                     animateInSpeed:300,
                 });
             });
-        $('#hosts').load('/cgi-bin/collection.modified.cgi');
+        $('#hosts').load('cgi-bin/collection.modified.cgi');
 
         $('li.graph-image').livequery(function(){
             $(this).each(function(){
