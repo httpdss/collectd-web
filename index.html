@@ -4,42 +4,122 @@
         <meta content="en-us" http-equiv="Content-Language" />
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
         <title>Collectd-web</title>
-        <link type="image/png" href="/images/shortcut-icon.png" rel="icon"/>
-        <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection">
-        <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print">    
-        <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print">    
-        <link rel="stylesheet" href="/css/smoothness/ui.all.css" type="text/css" media="screen, projection">
-        <!--[if IE]><link rel="stylesheet" href="/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
-        <link rel="stylesheet" href="/css/base.css" type="text/css" media="screen, projection">
-
-        <script type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
-        <script type="text/javascript" src="/js/jquery-ui-1.5.3.min.js"></script>
-
-        <script type="text/javascript" src="/js/jquery.ajaxify.js"></script>
-        <script type="text/javascript" src="/js/jquery.livequery.pack.js"></script>
-        <script type="text/javascript" src="/js/base.js"></script>
+        <link type="image/png" href="images/shortcut-icon.png" rel="icon"/>
+        <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print">
+        <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print">
+        <link rel="stylesheet" href="css/custom-theme/jquery-ui-1.8.custom.css" type="text/css" media="screen, projection">
+        <!--[if IE]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+        <link rel="stylesheet" href="css/base.css" type="text/css" media="screen, projection">
+        <script type="text/javascript" src="js/jquery-1.4.2.min.js">
+        </script>
+        <script type="text/javascript" src="js/jquery.livequery.js">
+        </script>
+        <script type="text/javascript" src="js/jquery-ui-1.8.custom.min.js">
+        </script>
+        <script type="text/javascript" src="js/jquery.jclock.js">
+        </script>
+        <script type="text/javascript" src="js/base.js">
+        </script>
     </head>
-
     <body>
-        <img src="/images/loading.gif" style="display:none;"/>
-        <div class='container header-content'>
-            <div class='column span-6'>
-                <div id="logo"><h1>Collectd-web</h1></div>
+        <div id="slide-menu-container" class="ui-widget container">
+            <div id="slide-menu-content" class="ui-widget-content column span-22 append-1 prepend-1">
+                <div id="menu-tabs">
+                    <ul>
+                        <li>
+                            <a href="#rrdeditor-container">Time Range</a>
+                        </li>
+                        <li>
+                            <a href="#tab2">Clocks</a>
+                        </li>
+                    </ul>
+                    <div id="rrdeditor-container">
+                        <form action="">
+                            <fieldset>
+                                <legend>
+                                    Choose timespan [UNDER CONTRUCTION]
+                                </legend>
+                                <div class="">
+                                    <div class="column span-20">
+                                        <div class="span-10">
+                                            <p>
+                                                <label for="date_from">
+                                                    From
+                                                </label>
+                                                <br/>
+                                                <input type="text" class="text date-field" />
+                                            </p>
+                                        </div>
+                                        <div class="span-10 last">
+                                            <p>
+                                                <label for="date_from">
+                                                    To
+                                                </label>
+                                                <br/>
+                                                <input type="text" class="text" />
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p>
+                                    <button type="submit">
+                                        Submit
+                                    </button>
+                                    <button type="reset">
+                                        Reset
+                                    </button>
+                                </p>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div id="tab2">
+                        <div class="container">
+                            <div class="column span-20">
+                                <div class="span-10">
+                                    <h3>Local time</h3>
+                                    <div id="clock" class="clock-container">
+                                    </div>
+                                </div>
+                                <div class="span-10 last">
+                                    <h3>Server time [UNDER CONTRUCTION]</h3>
+                                    <div id="clock-server" class="clock-container">
+                                    </div>
+                                    <div id="clock-server-slider">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class='column last span-16'>
-                <div id="loader"></div>
+            <div id="slide-menu-btn" class="ui-widget-header ui-corner-bottom">
+                <h3>Menu</h3>
+            </div>
+        </div>
+        <div class='container header-content'>
+            <div class='column span-24'>
+                <div id="logo" class="span-6">
+                    <h1>Collectd-web</h1>
+                </div>
+                <div class="span-17">
+                    <img id="loading" alt="loading" src="images/loading.gif" style="display:none;"/>
+                </div>
             </div>
         </div>
         <div class='container'>
             <div class='column span-7'>
                 <div id="hosts" class="no-bullets ui-widget">
                 </div>
-                <div id="plugins" class="no-bullets ui-widget"></div>
+                <div id="plugins" class="no-bullets ui-widget">
+                </div>
             </div>
             <div class='column last prepend-1 span-16'>
-                <div id="graph-container" class="no-bullets"></div>
+                <div id="graph-container" class="no-bullets">
+                </div>
             </div>
         </div>
-        <div class='container'></div> 
+        <div class='container'>
+        </div>
     </body>
 </html>
