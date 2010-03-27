@@ -7,6 +7,11 @@ Two days of research where enough to realize that collectd didn't have a real fr
 
 Features
 ========
+ * Host list and filtering
+ * jQuery-based web interface
+ * Themable UI using jQueryUI
+ * Perl backend
+ * Sortable graphs
 
 Installation
 ============
@@ -23,5 +28,4 @@ Create /etc/collectd/collection.conf with the content:
 
 Still to be done
 ================
-
-
+Check out the issues list ;)

@@ -2,6 +2,13 @@
 CHANGELOG 
 =========
 
+Version 0.2.0 (27/03/10)
+========================
+ * Extended options menu
+ * Added local time clock (server time clock in near future)
+ * Updated everything to jQuery 1.4.2 and jQuery 1.8
+ * Added timespan! 
+
 Version 0.1.1 (05/18/09)
 ========================
  * Bug fixed
