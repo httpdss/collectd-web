@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>Collectd-Web</name>
+	<comment></comment>
+	<projects>
+		<project>AptanaScripnips</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.epic.perleditor.perlbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.epic.perleditor.perlnature</nature>
+	</natures>
+</projectDescription>
