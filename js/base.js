@@ -10,6 +10,19 @@ function get_container(elem) {
 	return $(elem).parent().parent().parent().attr('id');
 }
 
+function get_gmt(offset) {
+	off = '';
+	if (offset == 0) {
+		off = '';
+	} else if (offset > 0) {
+		off = '+' + offset
+	} else {
+		off = offset
+	}
+
+	return off 
+}
+
 /**
  * default control container
  * 
@@ -58,8 +71,9 @@ $(document).ready(function() {
 										max: 12,
 										step: 0.5,
 										change: function (event, ui) {
-													//$("#clock-server").html('');
-													//$("#clock-server").jclock({utc: true, utc_offset: ui.value});
+													$('#clock-server-gmt').html('GMT'+get_gmt(ui.value))
+													$.fn.jclock.stopClock($("#clock-server"));
+													$("#clock-server").jclock({utc: true, utcOffset: ui.value});
 												}
 									});
 	

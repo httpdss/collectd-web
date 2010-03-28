@@ -1,5 +1,5 @@
 /*
-* jQuery jclock - Clock plugin - v 2.2.0
+* jQuery jclock - Clock plugin - v 2.3.0
 * http://plugins.jquery.com/project/jclock
 *
 * Copyright (c) 2007-2009 Doug Sparling <http://www.dougsparling.com>
@@ -9,7 +9,7 @@
 (function($) {
  
   $.fn.jclock = function(options) {
-    var version = '2.2.0';
+    var version = '2.3.0';
  
     // options
     var opts = $.extend({}, $.fn.jclock.defaults, options);
@@ -175,7 +175,7 @@
           var hours = (dateObject.getHours() % 12 || 12);
           return ((hours < 10) ? "0" : "") + hours;
       case "m": // month number
-          return ((dateObject.getMonth() < 10) ? "0" : "") + (dateObject.getMonth() + 1);
+          return (((dateObject.getMonth() + 1) < 10) ? "0" : "") + (dateObject.getMonth() + 1);
       case "M": // minute as a decimal number
           return ((dateObject.getMinutes() < 10) ? "0" : "") + dateObject.getMinutes();
       case "p": // either `am' or `pm' according to the given time value,
