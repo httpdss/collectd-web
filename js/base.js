@@ -57,6 +57,14 @@ $(document).ready(function() {
 	$("#clock-server-slider").slider();
 	
 	$('button').button();
+	$('#show-ruler-checkbox').click(function(){
+		if ($(this).attr('checked')) {
+			$('#ruler').fadeIn();
+		} else {
+			$('#ruler').fadeOut();
+		}
+	});
+	$('#ruler').draggable( { axis: 'x' } );
 	
 	$('#hosts a, #plugins a').live('click', load_url);
 	

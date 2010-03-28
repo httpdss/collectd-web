@@ -23,6 +23,8 @@
         </script>
     </head>
     <body>
+        <div id="ruler">
+        </div>
         <div id="slide-menu-container" class="ui-widget container">
             <div id="slide-menu-content" class="ui-widget-content column span-22 append-1 prepend-1">
                 <div id="menu-tabs">
@@ -32,6 +34,9 @@
                         </li>
                         <li>
                             <a href="#tab2">Clocks</a>
+                        </li>
+                        <li>
+                            <a href="#options-tab">Options</a>
                         </li>
                         <li>
                             <a href="#about-tab">About</a>
@@ -94,12 +99,25 @@
                             </div>
                         </div>
                     </div>
+                    <div id="options-tab" class="no-bullets">
+                        <ul>
+                            <li>
+                                <p>
+                                    <input value="Show ruler" type="checkbox" id="show-ruler-checkbox" />Show ruler
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
                     <div id="about-tab">
                         <div class="container">
                             <div class="column span-20">
                                 <div class="span-10">
-                                    <p>The main objective of this is to develop an easy to use and customizable web interface for Collectd (Resource monitoring software).</p>
-                                    <p>Two days of research where enough to realize that collectd didn't have a real frontend and the one bundled with the backend was really made for testing purposes, so much of the usablility and strength of statistics was left aside.</p>
+                                    <p>
+                                        The main objective of this is to develop an easy to use and customizable web interface for Collectd (Resource monitoring software).
+                                    </p>
+                                    <p>
+                                        Two days of research where enough to realize that collectd didn't have a real frontend and the one bundled with the backend was really made for testing purposes, so much of the usablility and strength of statistics was left aside.
+                                    </p>
                                 </div>
                                 <div class="span-10 last">
                                     <ul>

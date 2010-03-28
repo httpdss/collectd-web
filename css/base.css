@@ -114,3 +114,14 @@ span.ui-icon {
 .small-container {
     width:800px;
 }
+
+#ruler {
+    position:fixed;
+    height:100%;
+    width:1px;
+    background:#f6ae38;
+    left:50%;
+    display:none;
+    z-index:10;
+    cursor:w-resize;
+}
