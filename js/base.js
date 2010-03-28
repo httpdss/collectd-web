@@ -45,7 +45,7 @@ $(document).ready(function() {
 		$('.sortable').sortable();
 	});
 	
-	$('#hosts').load('/cgi-bin/collection.modified.cgi');
+	$('#hosts').load('cgi-bin/collection.modified.cgi');
 	
 	$('#menu-tabs').tabs();
 
