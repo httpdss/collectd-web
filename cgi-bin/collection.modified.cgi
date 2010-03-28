@@ -758,7 +758,7 @@ sub main
             $Args->{'type'}, $Args->{'type_instance'});
         return (0);
     }
-
+    
     print_header ();
 
     print "<div>";
