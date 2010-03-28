@@ -17,6 +17,8 @@ our $Config = "/etc/collectd/collection.conf";
 our @DataDirs = ();
 our $LibDir;
 
+our $make_transparent = 1;
+
 our $ValidTimespan =
 {
     hour => 3600,
@@ -26,7 +28,10 @@ our $ValidTimespan =
     year => 366 * 86400
 };
 
-our @RRDDefaultArgs = ('-w', '400');
+our @RRDDefaultArgs = ('-w',  '400', 
+                       '-c',  'BACK#FF000000', 
+                       '-c' , 'SHADEA#FF000000',
+                       '-c' , 'SHADEB#FF000000'); 
 
 our $Args = {};
 
@@ -514,7 +519,7 @@ sub action_show_plugin
     {
         print "\t<h2>", encode_entities ($_), "</h2>\n";
     }
-    print qq(<ul id="timespan-menu"><li class="selected">hour</li><li>day</li><li>week</li><li>month</li><li class="last">year</li></ul>);
+    print qq(<div><strong>Select:</strong> All, None<ul id="timespan-menu"><li class="selected">hour</li><li>day</li><li>week</li><li>month</li><li class="last">year</li></ul></div>);
     for (sort (keys %$selected_plugins))
     {
         my $plugin = $_;
@@ -563,7 +568,7 @@ sub action_show_plugin
                     {
                         my $host = $_;
                         my $host_graph_url = $graph_url . ';host=' . uri_escape ($host);
-                        print qq(<li class="ui-widget graph-image"><div class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-close"/></div>);
+                        print qq(<li class="ui-widget graph-image">);
                         if ($files_printed == 0)
                         {
                             my $title = $plugin_html;
@@ -581,11 +586,11 @@ sub action_show_plugin
                             my $host_graph_url_month = $host_graph_url . ';timespan=month';
                             my $host_graph_url_year = $host_graph_url . ';timespan=year';
                             print qq(<ul>);
-                            print qq(<li class="hour"><img src="$host_graph_url_hour" /></li>);
-                            print qq(<li class="day"><img src="$host_graph_url_day" /></li>);
-                            print qq(<li class="week"><img src="$host_graph_url_week" /></li>);
-                            print qq(<li class="month"><img src="$host_graph_url_month" /></li>);
-                            print qq(<li class="year"><img src="$host_graph_url_year" /></li>);
+                            print qq(<li class="gc hour"><span class="gc-menu fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-close"/></span></span></span><span class="selectable"></span><img src="$host_graph_url_hour" /></li>);
+                            print qq(<li class="gc day"><span class="gc-menu"></span><span class="selectable"></span><img src="$host_graph_url_day" /></li>);
+                            print qq(<li class="gc week"><span class="gc-menu"></span><span class="selectable"></span><img src="$host_graph_url_week" /></li>);
+                            print qq(<li class="gc month"><span class="gc-menu"></span><span class="selectable"></span><img src="$host_graph_url_month" /></li>);
+                            print qq(<li class="gc year"><span class="gc-menu"></span><span class="selectable"></span><img src="$host_graph_url_year" /></li>);
                             print qq(</ul>);
                         }
                         print "</li>\n";
@@ -618,7 +623,7 @@ sub action_show_plugin
                         my $host = $hosts[$k];
                         my $host_graph_url = $graph_url . ';host=' . uri_escape ($host);
 
-                        print qq(<li class="ui-widget graph-image"><div class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-close"/></div>);
+                        print qq(<li class="ui-widget graph-image">);
                         if ($plugins_per_host->{$host}{$plugin}{$pinst}{$type}{$tinst})
                         {
                             my $host_graph_url_hour = $host_graph_url . ';timespan=hour';
@@ -627,11 +632,11 @@ sub action_show_plugin
                             my $host_graph_url_month = $host_graph_url . ';timespan=month';
                             my $host_graph_url_year = $host_graph_url . ';timespan=year';
                             print qq(<ul>);
-                            print qq(<li class="hour"><img src="$host_graph_url_hour" /></li>);
-                            print qq(<li class="day"><img src="$host_graph_url_day" /></li>);
-                            print qq(<li class="week"><img src="$host_graph_url_week" /></li>);
-                            print qq(<li class="month"><img src="$host_graph_url_month" /></li>);
-                            print qq(<li class="year"><img src="$host_graph_url_year" /></li>);
+                            print qq(<li class="gc hour"><span class="gc-menu fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-close"/></span></span><span class="selectable"></span><img src="$host_graph_url_hour" /></li>);
+                            print qq(<li class="gc day"><span class="gc-menu"></span><span class="selectable"></span><img src="$host_graph_url_day" /></li>);
+                            print qq(<li class="gc week"><span class="gc-menu"></span><span class="selectable"></span><img src="$host_graph_url_week" /></li>);
+                            print qq(<li class="gc month"><span class="gc-menu"></span><span class="selectable"></span><img src="$host_graph_url_month" /></li>);
+                            print qq(<li class="gc year"><span class="gc-menu"></span><span class="selectable"></span><img src="$host_graph_url_year" /></li>);
                             print qq(</ul>);
                         }
                         print "</li>\n";

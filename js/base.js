@@ -69,7 +69,7 @@ $(document).ready(function() {
 	$('#hosts a, #plugins a').live('click', load_url);
 	
 	$('li.graph-image .ui-icon-close').live('click', function() {
-		$(this).parent().parent().remove();
+		$(this).parent().parent().parent().remove();
 	});
 	
 	$("#slide-menu-container .ui-widget-header").click(function() {
