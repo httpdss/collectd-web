@@ -89,7 +89,7 @@ $(document).ready(function() {
 	});
 	
 	$("#host-filter").live('keyup', function() {
-		var searchText = $(this).attr('text');
+		var searchText = $(this).val();
 		$("#hosts li").hide();
 		if (searchText == "") {
 			$("#hosts li").show();

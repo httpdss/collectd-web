@@ -1,10 +1,6 @@
 #!/usr/bin/perl
 
-#TODO have 2 a small and a big version of the graph (fullsize=1 or 0)
-#TODO hosts and plugins send in json format
-#TODO export title to a get_title function
 #TODO customizable GraphDefs
-#TODO send data to flot (jquery graphing plugin)
 
 use strict;
 use warnings;
