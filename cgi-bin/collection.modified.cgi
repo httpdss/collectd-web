@@ -1,7 +1,5 @@
 #!/usr/bin/perl
 
-#TODO customizable GraphDefs
-
 use strict;
 use warnings;
 

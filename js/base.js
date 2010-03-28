@@ -54,7 +54,14 @@ $(document).ready(function() {
 	$("#clock").jclock();
 	
 	$("#clock-server").jclock();
-	$("#clock-server-slider").slider();
+	$("#clock-server-slider").slider({  min: -12,
+										max: 12,
+										step: 0.5,
+										change: function (event, ui) {
+													//$("#clock-server").html('');
+													//$("#clock-server").jclock({utc: true, utc_offset: ui.value});
+												}
+									});
 	
 	$('button').button();
 	$('#show-ruler-checkbox').click(function(){
