@@ -151,14 +151,14 @@ li.gc .selected {
 li.gc .gc-menu {
     position: absolute;
     visibility:hidden;
-    left: 0;
+    right: 0;
     top: 10px;
     filter: alpha(opacity = 90);
     -moz-opacity: 0.9;
     -khtml-opacity: 0.9;
     opacity: 0.9;
     height:30px;
-    width:30%;
+    width:100px;
     
 }
 

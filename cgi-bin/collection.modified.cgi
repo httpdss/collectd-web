@@ -169,6 +169,11 @@ sub validate_args
     } # _find_hosts
 }
 
+sub _get_menu_buttons 
+{
+    return '<span class="gc-menu fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-close"/></span></span><span class="selectable"></span>';
+    
+}
 sub _get_param_host
 {
     my %all_hosts = map { $_ => 1 } (_find_hosts ());
@@ -585,12 +590,13 @@ sub action_show_plugin
                             my $host_graph_url_week = $host_graph_url . ';timespan=week';
                             my $host_graph_url_month = $host_graph_url . ';timespan=month';
                             my $host_graph_url_year = $host_graph_url . ';timespan=year';
+                            my $menu_buttons = _get_menu_buttons(); 
                             print qq(<ul>);
-                            print qq(<li class="gc hour"><span class="gc-menu fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-close"/></span></span></span><span class="selectable"></span><img src="$host_graph_url_hour" /></li>);
-                            print qq(<li class="gc day"><span class="gc-menu"></span><span class="selectable"></span><img src="$host_graph_url_day" /></li>);
-                            print qq(<li class="gc week"><span class="gc-menu"></span><span class="selectable"></span><img src="$host_graph_url_week" /></li>);
-                            print qq(<li class="gc month"><span class="gc-menu"></span><span class="selectable"></span><img src="$host_graph_url_month" /></li>);
-                            print qq(<li class="gc year"><span class="gc-menu"></span><span class="selectable"></span><img src="$host_graph_url_year" /></li>);
+                            print qq(<li class="gc hour">$menu_buttons<img src="$host_graph_url_hour" /></li>);
+                            print qq(<li class="gc day">$menu_buttons<img src="$host_graph_url_day" /></li>);
+                            print qq(<li class="gc week">$menu_buttons</span><img src="$host_graph_url_week" /></li>);
+                            print qq(<li class="gc month">$menu_buttons</span><img src="$host_graph_url_month" /></li>);
+                            print qq(<li class="gc year">$menu_buttons</span><img src="$host_graph_url_year" /></li>);
                             print qq(</ul>);
                         }
                         print "</li>\n";
@@ -631,12 +637,13 @@ sub action_show_plugin
                             my $host_graph_url_week = $host_graph_url . ';timespan=week';
                             my $host_graph_url_month = $host_graph_url . ';timespan=month';
                             my $host_graph_url_year = $host_graph_url . ';timespan=year';
+                            my $menu_buttons = _get_menu_buttons(); 
                             print qq(<ul>);
-                            print qq(<li class="gc hour"><span class="gc-menu fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-close"/></span></span><span class="selectable"></span><img src="$host_graph_url_hour" /></li>);
-                            print qq(<li class="gc day"><span class="gc-menu"></span><span class="selectable"></span><img src="$host_graph_url_day" /></li>);
-                            print qq(<li class="gc week"><span class="gc-menu"></span><span class="selectable"></span><img src="$host_graph_url_week" /></li>);
-                            print qq(<li class="gc month"><span class="gc-menu"></span><span class="selectable"></span><img src="$host_graph_url_month" /></li>);
-                            print qq(<li class="gc year"><span class="gc-menu"></span><span class="selectable"></span><img src="$host_graph_url_year" /></li>);
+                            print qq(<li class="gc hour">$menu_buttons<img src="$host_graph_url_hour" /></li>);
+                            print qq(<li class="gc day">$menu_buttons<img src="$host_graph_url_day" /></li>);
+                            print qq(<li class="gc week">$menu_buttons<img src="$host_graph_url_week" /></li>);
+                            print qq(<li class="gc month">$menu_buttons<img src="$host_graph_url_month" /></li>);
+                            print qq(<li class="gc year">$menu_buttons<img src="$host_graph_url_year" /></li>);
                             print qq(</ul>);
                         }
                         print "</li>\n";
