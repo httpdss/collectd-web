@@ -31,6 +31,15 @@ var load_url = function() {
 	var place = get_container(this) == 'hosts-container' ? '#plugins'
 			: '#graph-container';
 	$(place).load(url);
+	$('#plugins a').each(function(){
+		$(this).removeClass('selected');
+	});
+	if (get_container(this) == 'hosts-container') {
+		$('#hosts a').each(function(){
+			$(this).removeClass('selected');
+		});
+	}
+	$(this).addClass('selected');
 	return false;
 }
 
