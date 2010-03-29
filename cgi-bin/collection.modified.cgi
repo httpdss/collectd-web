@@ -169,10 +169,9 @@ sub validate_args
     } # _find_hosts
 }
 
-sub _get_menu_buttons 
+sub _get_menu_buttons
 {
     return '<span class="gc-menu fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-close"/></span></span><span class="selectable"></span>';
-    
 }
 sub _get_param_host
 {
@@ -590,7 +589,7 @@ sub action_show_plugin
                             my $host_graph_url_week = $host_graph_url . ';timespan=week';
                             my $host_graph_url_month = $host_graph_url . ';timespan=month';
                             my $host_graph_url_year = $host_graph_url . ';timespan=year';
-                            my $menu_buttons = _get_menu_buttons(); 
+                            my $menu_buttons = _get_menu_buttons();
                             print qq(<ul>);
                             print qq(<li class="gc hour">$menu_buttons<img src="$host_graph_url_hour" /></li>);
                             print qq(<li class="gc day">$menu_buttons<img src="$host_graph_url_day" /></li>);
@@ -637,7 +636,7 @@ sub action_show_plugin
                             my $host_graph_url_week = $host_graph_url . ';timespan=week';
                             my $host_graph_url_month = $host_graph_url . ';timespan=month';
                             my $host_graph_url_year = $host_graph_url . ';timespan=year';
-                            my $menu_buttons = _get_menu_buttons(); 
+                            my $menu_buttons = _get_menu_buttons();
                             print qq(<ul>);
                             print qq(<li class="gc hour">$menu_buttons<img src="$host_graph_url_hour" /></li>);
                             print qq(<li class="gc day">$menu_buttons<img src="$host_graph_url_day" /></li>);
