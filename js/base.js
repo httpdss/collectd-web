@@ -44,6 +44,15 @@ var load_url = function() {
 	var place = get_container(this) == 'hosts-container' ? '#plugins'
 			: '#graph-container';
 	$(place).load(url);
+	$('#plugins a').each(function(){
+		$(this).removeClass('selected');
+	});
+	if (get_container(this) == 'hosts-container') {
+		$('#hosts a').each(function(){
+			$(this).removeClass('selected');
+		});
+	}
+	$(this).addClass('selected');
 	return false;
 }
 
@@ -88,9 +97,19 @@ $(document).ready(function() {
 	$('#ruler').draggable( { axis: 'x' } );
 	
 	$('#hosts a, #plugins a').live('click', load_url);
+
+	$('#select-all').live('click', function(){
+		$('.selectable').addClass('selected');
+		return false;
+	});
+	
+	$('#select-none').live('click', function(){
+		$('.selectable').removeClass('selected');
+		return false;
+	});
 	
 	$('li.graph-image .ui-icon-close').live('click', function() {
-		$(this).parent().parent().remove();
+		$(this).parent().parent().parent().remove();
 	});
 	
 	$("#slide-menu-container .ui-widget-header").click(function() {
