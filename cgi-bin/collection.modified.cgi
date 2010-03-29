@@ -28,7 +28,7 @@ our $ValidTimespan =
     year => 366 * 86400
 };
 
-our @RRDDefaultArgs = ('-w',  '400', 
+our @RRDDefaultArgs = ('-w',  '450', 
                        '-c',  'BACK#FF000000', 
                        '-c' , 'SHADEA#FF000000',
                        '-c' , 'SHADEB#FF000000'); 
@@ -720,7 +720,7 @@ sub action_show_graph
     @rrd_args = @{$GraphDefs->{$type}};
 
     my $short_title = (defined ($plugin_instance) ? "$plugin_instance/" : '')
-    . "$type" . (defined ($type_instance) ? "-$type_instance" : '') . " [".$Args->{'timespan'}."]";
+    . "$type" . (defined ($type_instance) ? "-$type_instance" : '');
 
     $title = "$host/$plugin" . (defined ($plugin_instance) ? "-$plugin_instance" : '')
     . "/$type" . (defined ($type_instance) ? "-$type_instance" : '');
