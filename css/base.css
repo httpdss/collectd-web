@@ -143,31 +143,29 @@ li.gc .selected {
     -moz-opacity: 0.15;
     -khtml-opacity: 0.15;
     opacity: 0.15;
-    height:100%;
-    width:100%;
-    
+    height: 100%;
+    width: 100%;
+    z-index: 5;
 }
 
 li.gc .gc-menu {
     position: absolute;
-    visibility:hidden;
-    right: 0;
+    visibility: hidden;
+    right: 10px;
     top: 10px;
     filter: alpha(opacity = 90);
     -moz-opacity: 0.9;
     -khtml-opacity: 0.9;
     opacity: 0.9;
-    height:30px;
-    width:100px;
-    
+    height: 30px;
+    width: 100px;
+    z-index: 40;
 }
 
 li.gc {
     position: relative;
-    /*
-display: block;
-*/
 }
+
 li.gc:hover .gc-menu {
-    visibility:visible;
+    visibility: visible;
 }
