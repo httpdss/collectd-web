@@ -171,7 +171,11 @@ sub validate_args
 
 sub _get_menu_buttons
 {
-    return '<span class="gc-menu fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-close"/></span></span><span class="selectable"></span>';
+    return '<span class="gc-menu fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix">
+              <span class="icons ui-state-default ui-corner-all">
+                <span class="ui-icon ui-icon-close"/>
+              </span>
+            </span><span class="selectable"></span>';
 }
 sub _get_param_host
 {
@@ -523,7 +527,7 @@ sub action_show_plugin
     {
         print "\t<h2>", encode_entities ($_), "</h2>\n";
     }
-    print qq(<div><strong>Select:</strong> All, None<ul id="timespan-menu"><li class="selected">hour</li><li>day</li><li>week</li><li>month</li><li class="last">year</li></ul></div>);
+    print qq(<div><strong>Select:</strong> <a id="select-all" href="">All</a>, <a id="select-none" href="">None</a><ul id="timespan-menu"><li class="selected">hour</li><li>day</li><li>week</li><li>month</li><li class="last">year</li></ul></div>);
     for (sort (keys %$selected_plugins))
     {
         my $plugin = $_;
@@ -593,9 +597,9 @@ sub action_show_plugin
                             print qq(<ul>);
                             print qq(<li class="gc hour">$menu_buttons<img src="$host_graph_url_hour" /></li>);
                             print qq(<li class="gc day">$menu_buttons<img src="$host_graph_url_day" /></li>);
-                            print qq(<li class="gc week">$menu_buttons</span><img src="$host_graph_url_week" /></li>);
-                            print qq(<li class="gc month">$menu_buttons</span><img src="$host_graph_url_month" /></li>);
-                            print qq(<li class="gc year">$menu_buttons</span><img src="$host_graph_url_year" /></li>);
+                            print qq(<li class="gc week">$menu_buttons<img src="$host_graph_url_week" /></li>);
+                            print qq(<li class="gc month">$menu_buttons<img src="$host_graph_url_month" /></li>);
+                            print qq(<li class="gc year">$menu_buttons<img src="$host_graph_url_year" /></li>);
                             print qq(</ul>);
                         }
                         print "</li>\n";

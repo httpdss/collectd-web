@@ -67,6 +67,16 @@ $(document).ready(function() {
 	$('#ruler').draggable( { axis: 'x' } );
 	
 	$('#hosts a, #plugins a').live('click', load_url);
+
+	$('#select-all').live('click', function(){
+		$('.selectable').addClass('selected');
+		return false;
+	});
+	
+	$('#select-none').live('click', function(){
+		$('.selectable').removeClass('selected');
+		return false;
+	});
 	
 	$('li.graph-image .ui-icon-close').live('click', function() {
 		$(this).parent().parent().parent().remove();
