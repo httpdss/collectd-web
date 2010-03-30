@@ -54,7 +54,12 @@ $(document).ready(function() {
 		$('.sortable').sortable();
 	});
 	
-	$('#hosts').load('cgi-bin/collection.modified.cgi');
+	//$('#hosts').load('cgi-bin/collection.modified.cgi');
+	$.getJSON ('cgi-bin/collection.modified.cgi?action=hostlist_json', function(data){
+		for (i = 0; i < data.length; i++) {
+			$("#hosts ul").append ('<li><a href="cgi-bin/collection.modified.cgi?action=show_host;host='+data[i]+'">' + data[i] + '</a></li>');
+		}
+	});
 	
 	$('#menu-tabs').tabs();
 
