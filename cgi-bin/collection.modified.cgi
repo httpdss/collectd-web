@@ -30,6 +30,7 @@ use HTML::Entities ('encode_entities');
 use URI::Escape ('uri_escape');
 use RRDs ();
 use Data::Dumper ();
+use JSON ('objToJson');
 
 our $Config = "/etc/collectd/collection.conf";
 our @DataDirs = ();
@@ -113,7 +114,7 @@ sub read_config
 
 sub validate_args
 {
-    if ($Args->{'action'} && ($Args->{'action'} =~ m/^(overview|show_host|show_plugin|show_type|show_graph)$/))
+    if ($Args->{'action'} && ($Args->{'action'} =~ m/^(overview|show_host|show_plugin|show_type|show_graph|hostlist_json)$/))
     {
         $Args->{'action'} = $1;
     }
@@ -393,6 +394,22 @@ sub _files_plugin_inst_count
     }
     return ($i);
 } # _files_plugin_count
+
+sub list_hosts_json
+{
+    my @hosts = _find_hosts ();
+    my $host_ref = \@hosts;
+    @hosts = sort (@hosts);
+
+    # Enable autoflush
+    $| = 1;
+
+    print STDOUT header (-Content_Type => 'application/json',
+	-Charset => 'utf-8',
+	-Expires => '+1h');
+    print STDOUT objToJson ($host_ref, { pretty => 1, indent => 2 });
+    return (1);
+} # list_hosts_json
 
 sub list_hosts
 {
@@ -778,6 +795,12 @@ sub main
 {
     read_config ();
     validate_args ();
+
+    if (defined ($Args->{'action'})
+	&& ($Args->{'action'} eq 'hostlist_json'))
+    {
+	return (list_hosts_json ());
+    }
 
     if (defined ($Args->{'host'})
         && defined ($Args->{'plugin'})
