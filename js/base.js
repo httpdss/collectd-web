@@ -96,10 +96,10 @@ $(document).ready(function() {
 
 	$(".date-field").datepicker();
 
-	$("#clock").jclock({format:'%H:%M'});
+	$("#clock").jclock();
 	
 	$.getJSON('cgi-bin/time.cgi', function(data){
-		$("#clock-server").jclock({format:'%H:%M', utc:true, utcOffset:parseInt(data.tz)});
+		$("#clock-server").jclock({utc:true, utcOffset:parseInt(data.tz)});
 	});
 	
 	$("#clock-server-slider").slider({  min: -12,
