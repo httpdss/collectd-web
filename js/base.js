@@ -28,6 +28,19 @@ function get_container(elem) {
 	return $(elem).parent().parent().parent().attr('id');
 }
 
+function get_gmt(offset) {
+	off = '';
+	if (offset == 0) {
+		off = '';
+	} else if (offset > 0) {
+		off = '+' + offset
+	} else {
+		off = offset
+	}
+
+	return offset 
+}
+
 /**
  * default control container
  * 
@@ -83,12 +96,33 @@ $(document).ready(function() {
 
 	$(".date-field").datepicker();
 
-	$("#clock").jclock();
+	$("#clock").jclock({format:'%H:%M'});
 	
-	$("#clock-server").jclock();
-	$("#clock-server-slider").slider();
+	$.getJSON('cgi-bin/time.cgi', function(data){
+		$("#clock-server").jclock({format:'%H:%M', utc:true, utcOffset:parseInt(data.tz)});
+	});
+	
+	$("#clock-server-slider").slider({  min: -12,
+										max: 12,
+										step: 0.5,
+										change: function (event, ui) {
+													$('#clock-server-gmt').html(get_gmt(ui.value));
+												}
+									});
+	
+	$('#clock-server-add').submit(function(){
+		var offset = parseInt($('#clock-server-gmt').html());
+		var new_span = $(document.createElement("span")); 
+		var new_li = $(document.createElement("li")); 
+		new_span.jclock({format:'%H:%M',utc:true,utcOffset:offset});
+		$(new_span).appendTo(new_li);
+		new_li.append(' '+$('#clock-server-add-label').val());
+		$(new_li).appendTo('#new-clock-container');
+		return false;
+	});
 	
 	$('button').button();
+	
 	$('#show-ruler-checkbox').click(function(){
 		if ($(this).attr('checked')) {
 			$('#ruler').fadeIn();
@@ -96,6 +130,7 @@ $(document).ready(function() {
 			$('#ruler').fadeOut();
 		}
 	});
+	
 	$('#ruler').draggable( { axis: 'x' } );
 	
 	$('#hosts a, #plugins a').live('click', load_url);
