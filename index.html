@@ -25,7 +25,6 @@
     <body>
         <div id="ruler">
         </div>
-        
         <div id="slide-menu-container" class="ui-widget container">
             <div id="slide-menu-content" class="ui-widget-content column span-22 append-1 prepend-1">
                 <div id="menu-tabs">
@@ -90,13 +89,26 @@
                                     <div id="clock" class="clock-container">
                                     </div>
                                 </div>
-                                <div class="span-10 last">
-                                    <h3>Server time </h3>
+                                <div class="span-10 last no-bullets">
+                                    <h3>Server time</h3>
                                     <div id="clock-server" class="clock-container">
                                     </div>
+                                    <ul id="new-clock-container">
+                                    </ul>
                                     <div id="clock-server-slider">
                                     </div>
-                                    <div id="clock-server-gmt">GMT</div>
+                                    <div>
+                                        <p>
+                                            <strong>Offset:</strong>
+                                            <span id="clock-server-gmt">0</span>
+                                        </p>
+                                        <form action="#" id="clock-server-add">
+                                            <input id="clock-server-add-label" class="text" type="text" value="label" />
+                                            <button type="submit">
+                                                Add
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
