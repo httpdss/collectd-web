@@ -33,6 +33,9 @@
                             <a href="#rrdeditor-container">Time Range</a>
                         </li>
                         <li>
+                            <a href="#graphdefs-tab">Graph Definitions</a>
+                        </li>
+                        <li>
                             <a href="#tab2">Clocks</a>
                         </li>
                         <li>
@@ -80,6 +83,23 @@
                                 </p>
                             </fieldset>
                         </form>
+                    </div>
+                    <div id="graphdefs-tab">
+                        <div class="container">
+                            <div class="column span-20">
+                                <div class="span-10">
+                                    <button class="button" id="load-graphdefs" >Load definitions</button>
+                                    <p>
+                                        <label for="graphdef-name">Name</label><br />
+                                        <select style="font-size:120%;" name="graphdef-name" id="graphdef-name">
+                                        </select>
+                                    </p>
+                                </div>
+                                <div class="span-10 last">
+                                    <textarea name="graphdef-content" id="graphdef-content" cols="30" rows="10"></textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div id="tab2">
                         <div class="container">

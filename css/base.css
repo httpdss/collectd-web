@@ -188,3 +188,7 @@ li.gc:hover .gc-menu {
 #options-tab {
     min-height:200px;
 }
+
+#graphdef-content {
+    font-family: "Courier New", Courier, monospace;
+}

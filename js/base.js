@@ -28,6 +28,8 @@ function get_container(elem) {
 	return $(elem).parent().parent().parent().attr('id');
 }
 
+var graph_def_values = [];
+
 function get_gmt(offset) {
 	off = '';
 	if (offset == 0) {
@@ -203,4 +205,18 @@ $(document).ready(function() {
 				$("#timespan-menu li:contains(" + timespan + ")").addClass(
 						"selected");
 		});
+	$('#load-graphdefs').click(function() {
+		$.getJSON('cgi-bin/graphdefs.cgi', function(data) {
+			graph_def_values = data.graph_defs 
+			for ( var def in graph_def_values) {
+				$('#graphdef-name').append('<option value="'+def+'">'+def+'</option>');
+			}
+		});
+	});
+	
+	$('#graphdef-name').change(function(){
+		var gdef = $(this).val();
+		var values = graph_def_values[gdef];
+		$('#graphdef-content').val(values.join('\n'));
+	});
 });
