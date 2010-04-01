@@ -95,10 +95,9 @@
                                     </div>
                                     <ul id="new-clock-container">
                                     </ul>
-
                                     <div style="display:none;">
-                                    <div id="clock-server-slider">
-                                    </div>
+                                        <div id="clock-server-slider">
+                                        </div>
                                         <p>
                                             <strong>Offset:</strong>
                                             <span id="clock-server-gmt">0</span>
@@ -115,13 +114,27 @@
                         </div>
                     </div>
                     <div id="options-tab" class="no-bullets">
-                        <ul>
-                            <li>
-                                <p>
-                                    <input value="Show ruler" type="checkbox" id="show-ruler-checkbox" />Show ruler
-                                </p>
-                            </li>
-                        </ul>
+                        <div class="container">
+                            <div class="column span-20">
+                                <div class="span-10">
+                                    <ul>
+                                        <li class="ttip" rel="Check this option to see the ruler. <br/>This will enable you to compare different graphs at a given moment">
+                                            <input value="Show ruler" type="checkbox" id="show-ruler-checkbox" />Show ruler
+                                        </li>
+                                        <li class="ttip" rel="Set this option into an integer value.<br/> This will be used as the increment or decrement on moving timespans [FEATURE UNDER DEVELOPMENT]">
+                                            <label for="graph-step">
+                                                Graph step (in minutes) 
+                                            </label>
+                                            <input disabled="true" value="10" name="graph-step" type="text" id="graph-step" class="text" />
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="span-10 last">
+                                    <div id="help-box" style="display:none;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div id="about-tab">
                         <div class="container">
@@ -175,9 +188,14 @@
         <div class='container'>
             <div class='column span-7'>
                 <div id="hosts" class="no-bullets ui-widget">
-                    <div class="ui-widget-header ui-corner-top"><h3>Hosts</h3></div>
-                    <div id="hosts-container" class="ui-widget-content ui-corner-bottom "><input title="Filter by host" type="text" class="title" id="host-filter"/><ul>
-                    </ul></div>
+                    <div class="ui-widget-header ui-corner-top">
+                        <h3>Hosts</h3>
+                    </div>
+                    <div id="hosts-container" class="ui-widget-content ui-corner-bottom ">
+                        <input title="Filter by host" type="text" class="title" id="host-filter"/>
+                        <ul>
+                        </ul>
+                    </div>
                 </div>
                 <div id="plugins" class="no-bullets ui-widget">
                 </div>

@@ -192,9 +192,22 @@ sub _get_menu_buttons
 {
     return '<span class="gc-menu fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix">
               <span class="icons ui-state-default ui-corner-all">
+                <span class="ui-icon ui-icon-triangle-1-w"/>
+              </span>
+              <span class="icons ui-state-default ui-corner-all">
+                <span class="ui-icon ui-icon-triangle-1-e"/>
+              </span>
+              <span class="icons ui-state-default ui-corner-all">
+                <span class="ui-icon ui-icon-plus"/>
+              </span>
+              <span class="icons ui-state-default ui-corner-all">
+                <span class="ui-icon ui-icon-minus"/>
+              </span>
+              <span class="icons ui-state-default ui-corner-all">
                 <span class="ui-icon ui-icon-close"/>
               </span>
-            </span><span class="selectable"></span>';
+            </span>
+            <span class="selectable"></span>';
 }
 sub _get_param_host
 {

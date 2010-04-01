@@ -98,6 +98,15 @@ $(document).ready(function() {
 
 	$("#clock").jclock();
 	
+	$('.ttip').hover(function (){
+		var text = $(this).attr('rel');
+		$('#help-box')
+				.html(text)
+				.fadeIn();
+	}, function(){
+		$('#help-box').html('').hide();
+	});
+	
 	$.getJSON('cgi-bin/time.cgi', function(data){
 		$("#clock-server").jclock({utc:true, utcOffset:parseInt(data.tz)});
 	});

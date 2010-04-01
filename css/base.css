@@ -157,8 +157,8 @@ li.gc .gc-menu {
     -moz-opacity: 0.9;
     -khtml-opacity: 0.9;
     opacity: 0.9;
-    height: 30px;
-    width: 100px;
+    height: 90px;
+    width: 60px;
     z-index: 40;
 }
 
@@ -168,4 +168,23 @@ li.gc {
 
 li.gc:hover .gc-menu {
     visibility: visible;
+}
+
+#graph-step {
+    width: 40px;
+}
+
+#help-box {
+    background-image: url(../images/question.png);
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-color: transparent;
+    height:170px;
+    width:80%;
+    padding-left:100px;
+    padding-top:25px;
+}
+
+#options-tab {
+    min-height:200px;
 }
