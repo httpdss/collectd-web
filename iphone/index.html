@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Collectd-web</title>
+        <style type="text/css" media="screen">@import "../media/jqtouch/jqtouch/jqtouch.min.css";
+        </style>
+        <style type="text/css" media="screen">@import "../media/jqtouch/themes/apple/theme.min.css";
+        </style>
+        <script src="../media/jqtouch/jqtouch/jquery.1.3.2.min.js" type="text/javascript" charset="utf-8">
+        </script>
+        <script src="../media/jqtouch/jqtouch/jqtouch.min.js" type="application/x-javascript" charset="utf-8">
+        </script>
+        <script type="text/javascript" charset="utf-8">
+            var jQT = new $.jQTouch({
+                icon: '../media/jqtouch/jqtouch/jqtouch.png',
+                addGlossToIcon: false,
+                startupScreen: '../media/jqtouch/jqtouch/jqt_startup.png',
+                statusBar: 'blue',
+                preloadImages: ['../media/jqtouch/themes/apple/img/backButton.png', '../media/jqtouch/themes/apple/img/grayButton.png', '../media/jqtouch/themes/apple/img/whiteButton.png', '../media/jqtouch/themes/apple/img/loading.gif', '../media/jqtouch/themes/apple/img/pinstripes.png']
+            });
+            // Some sample Javascript functions:
+            $(function(){
+                // Show a swipe event on swipe test
+                $('#swipeme').swipe(function(evt, data){
+                    $(this).html('You swiped <strong>' + data.direction + '</strong>!');
+                });
+                $('a[target="_blank"]').click(function(){
+                    if (confirm('This link opens in a new window.')) {
+                        return true;
+                    }
+                    else {
+                        $(this).removeClass('active');
+                        return false;
+                    }
+                });
+                
+                // Orientation callback event
+                $('body').bind('turn', function(e, data){
+                    $('#orient').html('Orientation: ' + data.orientation);
+                });
+                
+                
+                
+                $('#hosts').bind('pageAnimationEnd', function(e, info){
+                    $("#hosts ul li").each(function(){
+                        $(this).remove();
+                    });
+                    $(this).append($('<div id="loaging-hosts" style="width:100%;text-align:center;"><img src="../media/jqtouch/themes/apple/img/loading.gif" alt="Loading" /> Loading</div>'));
+                    $.getJSON('../cgi-bin/collection.modified.cgi?action=hostlist_json', function(data){
+                        $('#loaging-hosts').remove();
+                        for (i = 0; i < data.length; i++) {
+                            $("#hosts ul").append('<li class="arrow"><a href="cgi-bin/collection.modified.cgi?action=show_host;host=' + data[i] + '">' + data[i] + '</a></li>');
+                        }
+                    });
+                });
+                
+            });
+        </script>
+        <style type="text/css" media="screen">
+            body.fullscreen #home .info {
+                display: none;
+            }
+            
+            #about {
+                padding: 100px 10px 40px;
+                text-shadow: rgba(255, 255, 255, 0.3) 0px -1px 0;
+                font-size: 13px;
+                text-align: center;
+                background: transparent url(../media/jqtouch/themes/apple/img/pinstripes.png);
+            }
+            
+            #about p {
+                margin-bottom: 8px;
+            }
+            
+            #about a {
+                color: #333;
+                font-weight: bold;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="about" class="selectable">
+            <p>
+                <img src="../media/jqtouch/jqtouch/jqtouch.png" />
+            </p>
+            <p>
+                <strong>Collectd-web</strong>
+                <br/>
+                Version 0.3 alpha
+                <br/>
+                <a href="http://kenny.belitzky.com">By Kenneth Belitzky</a>
+            </p>
+            <p>
+                <em>Checkout your servers' data
+                    <br/>
+                    through an iphone interface.
+                </em>
+            </p>
+            <p>
+                <a href="http://twitter.com/httpdss" target="_blank">@httpdss on Twitter</a>
+            </p>
+            <p>
+                <br/>
+                <br/>
+                <a href="#" class="whiteButton goback">Close</a>
+            </p>
+        </div>
+        <div id="settings">
+            <div class="toolbar">
+                <h1>Settings</h1>
+                <a class="button slideup" id="infoButton" href="#about">About</a>
+                <a href="#" class="back">Back</a>
+            </div>
+            <form>
+                <ul class="edit rounded">
+                    <li>
+                        <input type="text" name="name" placeholder="Url" id="url_to_collectd" />
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <div id="hosts">
+            <div class="toolbar">
+                <h1>Hosts</h1>
+                <a href="#" class="back">Back</a>
+            </div>
+            <ul class="edgetoedge">
+            </ul>
+        </div>
+        <div id="home" class="current">
+            <div class="toolbar">
+                <h1>Collectd-Web</h1>
+                <a class="button slideup" id="infoButton" href="#about">About</a>
+                <!--<a href="#settings" class="button leftButton flip">Settings</a>-->
+            </div>
+            <ul class="rounded">
+                <li class="arrow">
+                    <a href="#hosts">Hosts</a>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>
