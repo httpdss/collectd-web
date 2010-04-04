@@ -19,7 +19,7 @@
                 statusBar: 'blue',
                 preloadImages: ['../media/jqtouch/themes/apple/img/backButton.png', '../media/jqtouch/themes/apple/img/grayButton.png', '../media/jqtouch/themes/apple/img/whiteButton.png', '../media/jqtouch/themes/apple/img/loadinfo.net.gif', '../media/jqtouch/themes/apple/img/loading.gif', '../media/jqtouch/themes/apple/img/pinstripes.png']
             });
-            $(function(){                
+            $(function(){
                 $('#hosts').bind('pageAnimationEnd', function(e, info){
                     if (!$('#hosts').data('got_hosts')) {
                         $("#hosts ul li").each(function(){
@@ -35,13 +35,13 @@
                                 $('#hosts').data('selected_host', $(this).attr('rel'));
                             });
                         });
-                        $('#hosts').data('got_hosts',true);
+                        $('#hosts').data('got_hosts', true);
                     };
                     
                         });
                 
                 $('#plugins').bind('pageAnimationEnd', function(e, info){
-                    $selected_host = $('#hosts').data('selected_host')
+                    $selected_host = $('#hosts').data('selected_host');
                     $('.selected-host').html($selected_host);
                     $("#plugins ul li").each(function(){
                         $(this).remove();
@@ -51,7 +51,7 @@
                     $.getJSON('../cgi-bin/collection.modified.cgi?action=pluginlist_json&host=' + $selected_host, function(plugins){
                         $('#loading-plugins').remove();
                         for (var plugin in plugins) {
-                            $("#plugins ul").append('<li class="arrow"><a rel="' + plugin + '" href="#plugins">' + plugin + '</a></li>');
+                            $("#plugins ul").append('<li class="arrow"><a rel="' + plugin + '" href="#under-construction">' + plugin + '</a></li>');
                         }
                         
                     });
@@ -150,6 +150,12 @@
             </div>
             <ul class="rounded">
             </ul>
+        </div>
+        <div id="under-construction">
+            <div class="toolbar">
+                <a href="#" class="back">Back</a>
+            </div>
+            <h2 style="text-align:center;">Under Construction</h2>
         </div>
         <div id="home" class="current">
             <div class="toolbar">
