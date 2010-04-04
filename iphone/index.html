@@ -51,7 +51,7 @@
                     $.getJSON('../cgi-bin/collection.modified.cgi?action=pluginlist_json&host=' + $selected_host, function(plugins){
                         $('#loading-plugins').remove();
                         for (var plugin in plugins) {
-                            $("#plugins ul").append('<li class="arrow"><a rel="' + plugin + '" href="#plugins">' + plugin + '</a></li>');
+                            $("#plugins ul").append('<li class="arrow"><a rel="' + plugin + '" href="#under-construction">' + plugin + '</a></li>');
                         }
                         
                     });
@@ -150,6 +150,12 @@
             </div>
             <ul class="rounded">
             </ul>
+        </div>
+        <div id="under-construction">
+            <div class="toolbar">
+                <a href="#" class="back">Back</a>
+            </div>
+            <h2 style="text-align:center;">Under Construction</h2>
         </div>
         <div id="home" class="current">
             <div class="toolbar">
