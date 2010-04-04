@@ -114,7 +114,7 @@ sub read_config
 
 sub validate_args
 {
-    if ($Args->{'action'} && ($Args->{'action'} =~ m/^(overview|show_host|show_plugin|show_type|show_graph|hostlist_json)$/))
+    if ($Args->{'action'} && ($Args->{'action'} =~ m/^(overview|show_host|show_plugin|show_type|show_graph|hostlist_json|pluginlist_json)$/))
     {
         $Args->{'action'} = $1;
     }
@@ -542,6 +542,38 @@ sub action_show_host
     print "</ul></div>\n";
 } # action_show_host
 
+sub action_show_host_json
+{
+    my @hosts = _get_param_host ();
+    @hosts = sort (@hosts);
+
+    my $timespan = _get_param_timespan ();
+    my $all_plugins = _find_files_for_hosts (@hosts);
+
+    my $url_prefix = script_name () . '?action=show_plugin'
+    . join ('', map { ';host=' . uri_escape ($_) } (@hosts))
+    . ';timespan=' . uri_escape ($timespan);
+    
+        # Enable autoflush
+    $| = 1;
+
+    print STDOUT header (-Content_Type => 'application/json',
+	-Charset => 'utf-8',
+	-Expires => '+1h');
+    print STDOUT to_json ($all_plugins, { pretty => 1, indent => 2 });
+    return (1);
+#    
+#    
+#    for (sort (keys %$all_plugins))
+#    {
+#        my $plugin = $_;
+#        my $plugin_html = encode_entities ($plugin);
+#        my $url_plugin = $url_prefix . ';plugin=' . uri_escape ($plugin);
+#        
+#        print qq(      <li><a href="$url_plugin">$plugin_html</a></li>\n);
+#    }
+} # action_show_host_json
+
 sub action_show_plugin
 {
     my @hosts = _get_param_host ();
@@ -813,6 +845,12 @@ sub main
 	&& ($Args->{'action'} eq 'hostlist_json'))
     {
 	return (list_hosts_json ());
+    }
+    
+    if (defined ($Args->{'action'})
+	&& ($Args->{'action'} eq 'pluginlist_json'))
+    {
+	return (action_show_host_json ());
     }
 
     if (defined ($Args->{'host'})

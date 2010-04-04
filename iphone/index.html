@@ -19,6 +19,7 @@
                 statusBar: 'blue',
                 preloadImages: ['../media/jqtouch/themes/apple/img/backButton.png', '../media/jqtouch/themes/apple/img/grayButton.png', '../media/jqtouch/themes/apple/img/whiteButton.png', '../media/jqtouch/themes/apple/img/loadinfo.net.gif', '../media/jqtouch/themes/apple/img/loading.gif', '../media/jqtouch/themes/apple/img/pinstripes.png']
             });
+            var selected_host = '';
             // Some sample Javascript functions:
             $(function(){
                 // Show a swipe event on swipe test
@@ -50,8 +51,26 @@
                     $.getJSON('../cgi-bin/collection.modified.cgi?action=hostlist_json', function(data){
                         $('#loading-hosts').remove();
                         for (i = 0; i < data.length; i++) {
-                            $("#hosts ul").append('<li class="arrow"><a href="cgi-bin/collection.modified.cgi?action=show_host;host=' + data[i] + '">' + data[i] + '</a></li>');
+                            $("#hosts ul").append('<li class="arrow"><a rel="' + data[i] + '" href="#plugins">' + data[i] + '</a></li>');
                         }
+                        $('#hosts ul li a').click(function(){
+                           selected_host = $(this).attr('rel');
+                        });
+                    });
+                });
+                
+                $('#plugins').bind('pageAnimationEnd', function(e, info){
+                    $("#plugins ul li").each(function(){
+                        $(this).remove();
+                    });
+                    
+                    $(this).append($('<div id="loading-hosts"><img src="../media/jqtouch/themes/apple/img/loadinfo.net.gif" alt="Loading" /><p>Loading...</p></div>'));
+                    $.getJSON('../cgi-bin/collection.modified.cgi?action=pluginlist_json&host=' + selected_host, function(data){
+                        $('#loading-hosts').remove();
+                        for (var plugin in data) {
+                            $("#plugins ul").append('<li class="arrow"><a rel="' + plugin + '" href="#plugins">'+ plugin +'</a></li>');
+                        }
+                        $('.selected-host').html(selected_host);
                     });
                 });
                 
@@ -79,19 +98,20 @@
                 font-weight: bold;
                 text-decoration: none;
             }
+            
             #loading-hosts {
-                background:#000;
-                width:100px;
-                height:100px;
-                margin:10px auto;
-                text-align:center;
-                color:#fff;
-                -webkit-border-radius:8px;
-            }
-            #loading-hosts img {
-                margin-top:10px;
+                background: #000;
+                width: 100px;
+                height: 100px;
+                margin: 10px auto;
+                text-align: center;
+                color: #fff;
+                -webkit-border-radius: 8px;
             }
             
+            #loading-hosts img {
+                margin-top: 10px;
+            }
         </style>
     </head>
     <body>
@@ -131,6 +151,14 @@
                     </li>
                 </ul>
             </form>
+        </div>
+        <div id="plugins">
+            <div class="toolbar">
+                <h1>Plugins for <span class="selected-host"></span></h1>
+                <a href="#" class="back">Back</a>
+            </div>
+            <ul class="rounded">
+            </ul>
         </div>
         <div id="hosts">
             <div class="toolbar">
