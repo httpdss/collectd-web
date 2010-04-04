@@ -19,58 +19,41 @@
                 statusBar: 'blue',
                 preloadImages: ['../media/jqtouch/themes/apple/img/backButton.png', '../media/jqtouch/themes/apple/img/grayButton.png', '../media/jqtouch/themes/apple/img/whiteButton.png', '../media/jqtouch/themes/apple/img/loadinfo.net.gif', '../media/jqtouch/themes/apple/img/loading.gif', '../media/jqtouch/themes/apple/img/pinstripes.png']
             });
-            var selected_host = '';
-            // Some sample Javascript functions:
-            $(function(){
-                // Show a swipe event on swipe test
-                $('#swipeme').swipe(function(evt, data){
-                    $(this).html('You swiped <strong>' + data.direction + '</strong>!');
-                });
-                $('a[target="_blank"]').click(function(){
-                    if (confirm('This link opens in a new window.')) {
-                        return true;
-                    }
-                    else {
-                        $(this).removeClass('active');
-                        return false;
-                    }
-                });
-                
-                // Orientation callback event
-                $('body').bind('turn', function(e, data){
-                    $('#orient').html('Orientation: ' + data.orientation);
-                });
-                
-                
-                
+            $(function(){                
                 $('#hosts').bind('pageAnimationEnd', function(e, info){
-                    $("#hosts ul li").each(function(){
-                        $(this).remove();
-                    });
-                    $(this).append($('<div id="loading-hosts"><img src="../media/jqtouch/themes/apple/img/loadinfo.net.gif" alt="Loading" /><p>Loading...</p></div>'));
-                    $.getJSON('../cgi-bin/collection.modified.cgi?action=hostlist_json', function(data){
-                        $('#loading-hosts').remove();
-                        for (i = 0; i < data.length; i++) {
-                            $("#hosts ul").append('<li class="arrow"><a rel="' + data[i] + '" href="#plugins">' + data[i] + '</a></li>');
-                        }
-                        $('#hosts ul li a').click(function(){
-                           selected_host = $(this).attr('rel');
+                    if (!$('#hosts').data('got_hosts')) {
+                        $("#hosts ul li").each(function(){
+                            $(this).remove();
                         });
-                    });
-                });
+                        $(this).append($('<div id="loading-hosts"><img src="../media/jqtouch/themes/apple/img/loadinfo.net.gif" alt="Loading" /><p>Loading...</p></div>'));
+                        $.getJSON('../cgi-bin/collection.modified.cgi?action=hostlist_json', function(data){
+                            $('#loading-hosts').remove();
+                            for (i = 0; i < data.length; i++) {
+                                $("#hosts ul").append('<li class="arrow"><a rel="' + data[i] + '" href="#plugins">' + data[i] + '</a></li>');
+                            }
+                            $('#hosts ul li a').click(function(){
+                                $('#hosts').data('selected_host', $(this).attr('rel'));
+                            });
+                        });
+                        $('#hosts').data('got_hosts',true);
+                    };
+                    
+                        });
                 
                 $('#plugins').bind('pageAnimationEnd', function(e, info){
+                    $selected_host = $('#hosts').data('selected_host')
+                    $('.selected-host').html($selected_host);
                     $("#plugins ul li").each(function(){
                         $(this).remove();
                     });
                     
-                    $(this).append($('<div id="loading-hosts"><img src="../media/jqtouch/themes/apple/img/loadinfo.net.gif" alt="Loading" /><p>Loading...</p></div>'));
-                    $.getJSON('../cgi-bin/collection.modified.cgi?action=pluginlist_json&host=' + selected_host, function(data){
-                        $('#loading-hosts').remove();
-                        for (var plugin in data) {
-                            $("#plugins ul").append('<li class="arrow"><a rel="' + plugin + '" href="#plugins">'+ plugin +'</a></li>');
+                    $(this).append($('<div id="loading-plugins"><img src="../media/jqtouch/themes/apple/img/loadinfo.net.gif" alt="Loading" /><p>Loading...</p></div>'));
+                    $.getJSON('../cgi-bin/collection.modified.cgi?action=pluginlist_json&host=' + $selected_host, function(plugins){
+                        $('#loading-plugins').remove();
+                        for (var plugin in plugins) {
+                            $("#plugins ul").append('<li class="arrow"><a rel="' + plugin + '" href="#plugins">' + plugin + '</a></li>');
                         }
-                        $('.selected-host').html(selected_host);
+                        
                     });
                 });
                 
@@ -99,7 +82,7 @@
                 text-decoration: none;
             }
             
-            #loading-hosts {
+            #loading-hosts, #loading-plugins {
                 background: #000;
                 width: 100px;
                 height: 100px;
@@ -109,7 +92,7 @@
                 -webkit-border-radius: 8px;
             }
             
-            #loading-hosts img {
+            #loading-hosts img, #loading-plugins img {
                 margin-top: 10px;
             }
         </style>
@@ -119,7 +102,7 @@
             <p>
                 <strong>Collectd-web for iPhone</strong>
                 <br/>
-                Version 0.1 alpha
+                Version 0.3 alpha
                 <br/>
                 <a href="http://kenny.belitzky.com">By Kenneth Belitzky</a>
             </p>
