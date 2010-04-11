@@ -3,7 +3,7 @@ body {
 }
 
 body > * {
-    background: rgb(197,204,211) url(img/pinstripes.png);
+    background: rgb(197,204,211);
 }
 
 h1, h2 {
@@ -20,7 +20,7 @@ h1, h2 {
     border-bottom: 1px solid #2d3642;
     padding: 10px;
     height: 45px;
-    background: url(img/toolbar.png) #6d84a2 repeat-x;
+    background: #6d84a2 repeat-x;
     position: relative;
 }
 
@@ -623,7 +623,7 @@ ul.individual li a {
 
 ul.individual li a:hover {
     color: #fff;
-    background: #36c;
+    background: #f7b64c;
 }
 
 /* @end */
