@@ -48,10 +48,10 @@
                     });
                     
                     $(this).append($('<div id="loading-plugins"><img src="../media/jqtouch/themes/apple/img/loadinfo.net.gif" alt="Loading" /><p>Loading...</p></div>'));
-                    $.getJSON('../cgi-bin/collection.modified.cgi?action=pluginlist_json&host=' + $selected_host, function(plugins){
+                    $.getJSON('../cgi-bin/collection.modified.cgi?action=pluginlist_json&host=' + $selected_host, function(data){
                         $('#loading-plugins').remove();
-                        for (var plugin in plugins) {
-                            $("#plugins ul").append('<li class="arrow"><a rel="' + plugin + '" href="#under-construction">' + plugin + '</a></li>');
+                        for (i = 0; i < data.length; i++) {
+                            $("#plugins ul").append('<li class="arrow"><a rel="' + data[i] + '" href="#under-construction">' + data[i] + '</a></li>');
                         }
                         
                     });
