@@ -454,28 +454,22 @@ qq(<div id="plugin-container" class="ui-widget-content ui-corner-bottom  "><ul>\
     print "</ul></div>\n";
 }    # action_show_host
 
-sub action_show_host_json {
-    my @hosts = _get_param_host();
-    @hosts = sort (@hosts);
-    my $timespan    = _get_param_timespan();
-    my $all_plugins = _find_files_for_hosts(@hosts);
-    my $url_prefix =
-        script_name()
-      . '?action=show_plugin'
-      . join( '', map { ';host=' . uri_escape($_) } (@hosts) )
-      . ';timespan='
-      . uri_escape($timespan);
+sub action_show_host_json
+{
+    my @hosts = _get_param_host ();
+    my $all_plugins = _find_files_for_hosts (@hosts);
 
     # Enable autoflush
     $| = 1;
-    print STDOUT header(
-        -Content_Type => 'application/json',
-        -Charset      => 'utf-8',
-        -Expires      => '+1h'
-    );
-    print STDOUT to_json($all_plugins, { pretty => 1, indent => 2 } );
+
+    print STDOUT header (-Content_Type => 'application/json',
+	-Charset => 'utf-8',
+	-Expires => '+1h');
+    print STDOUT to_json ([sort (keys %$all_plugins)],
+	{ pretty => 1, indent => 2 }) . "\n";
     return (1);
-}    # action_show_host_json
+} # action_show_host_json
+
 
 sub action_show_plugin {
     my @hosts           = _get_param_host();
