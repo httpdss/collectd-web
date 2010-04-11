@@ -37,8 +37,7 @@
                         });
                         $('#hosts').data('got_hosts', true);
                     };
-                    
-                        });
+	            });
                 
                 $('#plugins').bind('pageAnimationEnd', function(e, info){
                     $selected_host = $('#hosts').data('selected_host');
@@ -51,9 +50,40 @@
                     $.getJSON('../cgi-bin/collection.modified.cgi?action=pluginlist_json&host=' + $selected_host, function(data){
                         $('#loading-plugins').remove();
                         for (i = 0; i < data.length; i++) {
-                            $("#plugins ul").append('<li class="arrow"><a rel="' + data[i] + '" href="#under-construction">' + data[i] + '</a></li>');
+                            $("#plugins ul").append('<li class="arrow"><a rel="' + data[i] + '" href="#graphs">' + data[i] + '</a></li>');
                         }
-                        
+                        $('#plugins ul li a').click(function(){
+                                $('#plugins').data('selected_plugin', $(this).attr('rel'));
+                        });
+                    });
+                });
+                $('#graphs').bind('pageAnimationEnd', function(e, info){
+                    $selected_host = $('#hosts').data('selected_host');
+                    $selected_plugin = $('#plugins').data('selected_plugin');
+                    $('.selected-host').html($selected_host);
+                    $('.selected-plugin').html($selected_plugin);
+                    $("#graphs-hour li, #graphs-day li,#graphs-week li,#graphs-month li,#graphs-year li").each(function(){
+                        $(this).remove();
+                    });
+                    
+                    $(this).append($('<div id="loading-graphs"><img src="../media/jqtouch/themes/apple/img/loadinfo.net.gif" alt="Loading" /><p>Loading...</p></div>'));
+                    $.getJSON('../cgi-bin/collection.modified.cgi?action=graphs_json;plugin='+$selected_plugin+';host='+$selected_host, function(data){
+                        $('#loading-graphs').remove();
+                        for (i = 0; i < data.hour.length; i++) {
+                            $("#graphs-hour").append('<li><img src="'+data.hour[i]+'"/></li>');
+                        }
+                        for (i = 0; i < data.day.length; i++) {
+                            $("#graphs-day").append('<li><img src="'+data.day[i]+'"/></li>');
+                        }
+                        for (i = 0; i < data.week.length; i++) {
+                            $("#graphs-week").append('<li><img src="'+data.week[i]+'"/></li>');
+                        }
+                        for (i = 0; i < data.month.length; i++) {
+                            $("#graphs-month").append('<li><img src="'+data.month[i]+'"/></li>');
+                        }
+                        for (i = 0; i < data.year.length; i++) {
+                            $("#graphs-year").append('<li><img src="'+data.year[i]+'"/></li>');
+                        }
                     });
                 });
                 
@@ -82,7 +112,7 @@
                 text-decoration: none;
             }
             
-            #loading-hosts, #loading-plugins {
+            #loading-hosts, #loading-plugins, #loading-graphs {
                 background: #000;
                 width: 100px;
                 height: 100px;
@@ -92,7 +122,7 @@
                 -webkit-border-radius: 8px;
             }
             
-            #loading-hosts img, #loading-plugins img {
+            #loading-hosts img, #loading-plugins img, #loading-graphs img {
                 margin-top: 10px;
             }
         </style>
@@ -151,11 +181,21 @@
             <ul class="rounded">
             </ul>
         </div>
-        <div id="under-construction">
+        <div id="graphs">
             <div class="toolbar">
                 <a href="#" class="back">Back</a>
             </div>
-            <h2 style="text-align:center;">Under Construction</h2>
+            <h2>Hour</h2>
+            <ul class="rounded" id="graphs-hour"></ul>
+            <h2>Day</h2>
+            <ul class="rounded" id="graphs-day"></ul>
+            <h2>Week</h2>
+            <ul class="rounded" id="graphs-week"></ul>
+            <h2>Month</h2>
+            <ul class="rounded" id="graphs-month"></ul>
+            <h2>Year</h2>
+            <ul class="rounded" id="graphs-year"></ul>
+            
         </div>
         <div id="home" class="current">
             <div class="toolbar">

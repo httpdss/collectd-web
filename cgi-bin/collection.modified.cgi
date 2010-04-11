@@ -49,7 +49,7 @@ our $OutputFormat = '';
 our $ContentType = 'image/png';
 load_graph_definitions();
 
-for (qw(action host plugin plugin_instance type type_instance timespan)) {
+for (qw(action host plugin plugin_instance type type_instance timespan output)) {
     $Args->{$_} = param($_);
 }
 exit( main() );
@@ -93,12 +93,7 @@ sub read_config {
 }    # read_config
 
 sub validate_args {
-    if (
-        $Args->{'action'}
-        && ( $Args->{'action'} =~
-m/^(overview|show_host|show_plugin|show_type|show_graph|hostlist_json|pluginlist_json)$/
-        )
-      )
+    if ( $Args->{'action'} && ( $Args->{'action'} =~ m/^(overview|show_host|show_plugin|show_type|show_graph|hostlist_json|pluginlist_json|graphs_json)$/ ))
     {
         $Args->{'action'} = $1;
     }
@@ -137,6 +132,14 @@ m/^(overview|show_host|show_plugin|show_type|show_graph|hostlist_json|pluginlist
     }
     else {
         $Args->{'timespan'} = 'day';
+    }
+    
+    if ( defined( $Args->{'output'} )
+        && ( $Args->{'output'} =~ m/^(json)$/ ) )
+    {
+        $Args->{'output'} = $1;
+    } else {
+        $Args->{'output'} = "html";
     }
 }    # validate_args
 {
@@ -580,7 +583,6 @@ qq(<li class="gc year">$menu_buttons<img src="$host_graph_url_year" /></li>);
                     sort ( keys %{ $all_plugins->{$plugin}{$pinst}{$type} } ) )
                 {
                     my $tinst     = $_;
-                    my $tinst_esc = encode_entities($tinst);
                     my $graph_url =
                         script_name()
                       . '?action=show_graph'
@@ -646,6 +648,11 @@ sub action_show_plugin_json {
     my $all_plugins = {};
     my $plugins_per_host = {};
     my $selected_plugins = {};
+    my @plugin_list_hour =  ();
+    my @plugin_list_day =   ();
+    my @plugin_list_week =  ();
+    my @plugin_list_month = ();
+    my @plugin_list_year =  ();
 
     for ( my $i = 0 ; $i < @hosts ; $i++ ) {
         $plugins_per_host->{ $hosts[$i] } = _find_files_for_host( $hosts[$i] );
@@ -656,17 +663,14 @@ sub action_show_plugin_json {
             $selected_plugins->{$_} = 1;
         }
     }
-    for (@hosts) {
-        print "\t<h2>", encode_entities($_), "</h2>\n";
-    }
-    print
-qq(<div><strong>Select:</strong> <a id="select-all" href="">All</a>, <a id="select-none" href="">None</a><ul id="timespan-menu"><li class="selected">hour</li><li>day</li><li>week</li><li>month</li><li class="last">year</li></ul></div>);
+    # TODO: send list of hosts
+    
     for ( sort ( keys %$selected_plugins ) ) {
         my $plugin      = $_;
         my $plugin_html = encode_entities($plugin);
         my $plugin_url  = "$url_prefix;plugin=" . uri_escape($plugin);
         my $all_pinst   = $all_plugins->{$plugin};
-        print qq(<ul class="sortable">);
+
         for ( sort ( keys %$all_pinst ) ) {
             my $pinst      = $_;
             my $pinst_html = '';
@@ -698,54 +702,27 @@ qq(<div><strong>Select:</strong> <a id="select-all" href="">All</a>, <a id="sele
                     }
                     for (@hosts) {
                         my $host = $_;
-                        my $host_graph_url =
-                          $graph_url . ';host=' . uri_escape($host);
-                        print qq(<li class="ui-widget graph-image">);
-                        if ( $files_printed == 0 ) {
-                            my $title = $plugin_html;
-                            if ( $pinst ne '-' ) {
-                                $title .= " ($pinst_html)";
-                            }
-                            print "\t<h3>$title</h3>\n";
+                        my $host_graph_url = $graph_url . ';host=' . uri_escape($host);
+                        
+                        if ( exists $plugins_per_host->{$host}{$plugin}{$pinst}{$type} ) {
+                            my $host_graph_url_hour = $host_graph_url . ';timespan=hour';
+                            my $host_graph_url_day = $host_graph_url . ';timespan=day';
+                            my $host_graph_url_week = $host_graph_url . ';timespan=week';
+                            my $host_graph_url_month = $host_graph_url . ';timespan=month';
+                            my $host_graph_url_year = $host_graph_url . ';timespan=year';
+                            push( @plugin_list_hour, $host_graph_url_hour);
+                            push( @plugin_list_day, $host_graph_url_day);
+                            push( @plugin_list_week, $host_graph_url_week);
+                            push( @plugin_list_month, $host_graph_url_month);
+                            push( @plugin_list_year, $host_graph_url_year);
                         }
-                        if (
-                            exists $plugins_per_host->{$host}{$plugin}{$pinst}
-                            {$type} )
-                        {
-                            my $host_graph_url_hour =
-                              $host_graph_url . ';timespan=hour';
-                            my $host_graph_url_day =
-                              $host_graph_url . ';timespan=day';
-                            my $host_graph_url_week =
-                              $host_graph_url . ';timespan=week';
-                            my $host_graph_url_month =
-                              $host_graph_url . ';timespan=month';
-                            my $host_graph_url_year =
-                              $host_graph_url . ';timespan=year';
-                            my $menu_buttons = _get_menu_buttons();
-                            print qq(<ul>);
-                            print
-qq(<li class="gc hour">$menu_buttons<img src="$host_graph_url_hour" /></li>);
-                            print
-qq(<li class="gc day">$menu_buttons<img src="$host_graph_url_day" /></li>);
-                            print
-qq(<li class="gc week">$menu_buttons<img src="$host_graph_url_week" /></li>);
-                            print
-qq(<li class="gc month">$menu_buttons<img src="$host_graph_url_month" /></li>);
-                            print
-qq(<li class="gc year">$menu_buttons<img src="$host_graph_url_year" /></li>);
-                            print qq(</ul>);
-                        }
-                        print "</li>\n";
                     }    # for (my $k = 0; $k < @hosts; $k++)
                     $files_printed++;
                     next;    # pinst
                 }    # if (exists ($MetaGraphDefs->{$type}))
-                for (
-                    sort ( keys %{ $all_plugins->{$plugin}{$pinst}{$type} } ) )
+                for ( sort ( keys %{ $all_plugins->{$plugin}{$pinst}{$type} } ) )
                 {
                     my $tinst     = $_;
-                    my $tinst_esc = encode_entities($tinst);
                     my $graph_url =
                         script_name()
                       . '?action=show_graph'
@@ -763,42 +740,39 @@ qq(<li class="gc year">$menu_buttons<img src="$host_graph_url_year" /></li>);
                         my $host = $hosts[$k];
                         my $host_graph_url =
                           $graph_url . ';host=' . uri_escape($host);
-                        print qq(<li class="ui-widget graph-image">);
-                        if ( $plugins_per_host->{$host}{$plugin}{$pinst}{$type}
-                            {$tinst} )
+                        if ( $plugins_per_host->{$host}{$plugin}{$pinst}{$type}{$tinst} )
                         {
-                            my $host_graph_url_hour =
-                              $host_graph_url . ';timespan=hour';
-                            my $host_graph_url_day =
-                              $host_graph_url . ';timespan=day';
-                            my $host_graph_url_week =
-                              $host_graph_url . ';timespan=week';
-                            my $host_graph_url_month =
-                              $host_graph_url . ';timespan=month';
-                            my $host_graph_url_year =
-                              $host_graph_url . ';timespan=year';
-                            my $menu_buttons = _get_menu_buttons();
-                            print qq(<ul>);
-                            print
-qq(<li class="gc hour">$menu_buttons<img src="$host_graph_url_hour" /></li>);
-                            print
-qq(<li class="gc day">$menu_buttons<img src="$host_graph_url_day" /></li>);
-                            print
-qq(<li class="gc week">$menu_buttons<img src="$host_graph_url_week" /></li>);
-                            print
-qq(<li class="gc month">$menu_buttons<img src="$host_graph_url_month" /></li>);
-                            print
-qq(<li class="gc year">$menu_buttons<img src="$host_graph_url_year" /></li>);
-                            print qq(</ul>);
+                            my $host_graph_url_hour = $host_graph_url . ';timespan=hour';
+                            my $host_graph_url_day = $host_graph_url . ';timespan=day';
+                            my $host_graph_url_week = $host_graph_url . ';timespan=week';
+                            my $host_graph_url_month = $host_graph_url . ';timespan=month';
+                            my $host_graph_url_year = $host_graph_url . ';timespan=year';
+                            push( @plugin_list_hour, $host_graph_url_hour);
+                            push( @plugin_list_day, $host_graph_url_day);
+                            push( @plugin_list_week, $host_graph_url_week);
+                            push( @plugin_list_month, $host_graph_url_month);
+                            push( @plugin_list_year, $host_graph_url_year);
                         }
-                        print "</li>\n";
                     }    # for (my $k = 0; $k < @hosts; $k++)
                     $files_printed++;
                 }    # for ($tinst)
             }    # for ($type)
         }    # for ($pinst)
-        print "</ul>";
     }    # for ($plugin)
+    
+    # Enable autoflush
+    $| = 1;
+
+    print STDOUT header (-Content_Type => 'application/json',
+	-Charset => 'utf-8',
+	-Expires => '+1h');
+    print STDOUT to_json ({hour => [@plugin_list_hour],
+                           day =>  [@plugin_list_day] ,
+                           week => [@plugin_list_week],
+                           month => [@plugin_list_month],
+                           year => [@plugin_list_year]},
+	{ pretty => 1, indent => 2 }) . "\n";
+    return (1);
 }    # action_show_plugin_json
 
 sub action_show_type {
@@ -933,6 +907,12 @@ sub main {
         && ( $Args->{'action'} eq 'pluginlist_json' ) )
     {
         return ( action_show_host_json() );
+    }
+    
+    if ( defined( $Args->{'action'} )
+        && ( $Args->{'action'} eq 'graphs_json' ) )
+    {
+        return ( action_show_plugin_json() );
     }
     if (   defined( $Args->{'host'} )
         && defined( $Args->{'plugin'} )
