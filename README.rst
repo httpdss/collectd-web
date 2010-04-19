@@ -10,6 +10,9 @@ usability and strength of statistics was left aside.
 
 Features
 ========
+ * [NEW] IPhone interface
+ * [NEW] Comparison ruler
+ * [NEW] Local and server clock
  * Host list and filtering
  * jQuery-based web interface
  * Themable UI using jQueryUI

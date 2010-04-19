@@ -2,6 +2,23 @@
 CHANGELOG 
 =========
 
+Version 0.3.0 (18/04/10)
+========================
+ * [NEW] IPhone interface
+ * [NEW] We are now licenced! (Thanks Florian for introducing me to this world!)
+ * [NEW] JSON for hosts and plugins (Another great contribution from Mr. octo)
+ * [NEW] Comparison ruler
+ * [NEW] Show local and server clock
+ * [NEW] Added jstore for whats going to come...
+ * [NEW] Support for various output formats (based on collection3)...
+ * [FIX] Host filtering not working
+ * [FIX] Finally all paths are relative!
+ * Lots of UI improvements
+ * More menu sections added
+ * Selectable graphs (for actions to come)
+ * Lots of bug fixes!
+ * [KNOWN ISSUE] IPhone interface is a bit buggy on some webkit versions
+
 Version 0.2.0 (27/03/10)
 ========================
  * Extended options menu
