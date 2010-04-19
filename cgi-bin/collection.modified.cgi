@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#TODO customizable GraphDefs
+
 use strict;
 use warnings;
 use Carp           (qw(cluck confess));
@@ -165,8 +165,7 @@ sub validate_args {
 }
 
 sub _get_menu_buttons {
-    return
-'<span class="gc-menu fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix">
+    return '<span class="gc-menu fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix">
               <span class="icons ui-state-default ui-corner-all">
                 <span class="ui-icon ui-icon-triangle-1-w"/>
               </span>
@@ -497,8 +496,7 @@ sub action_show_plugin {
     for (@hosts) {
         print "\t<h2>", encode_entities($_), "</h2>\n";
     }
-    print
-qq(<div><strong>Select:</strong> <a id="select-all" href="">All</a>, <a id="select-none" href="">None</a><ul id="timespan-menu"><li class="selected">hour</li><li>day</li><li>week</li><li>month</li><li class="last">year</li></ul></div>);
+    print qq(<div><strong>Select:</strong> <a id="select-all" href="">All</a>, <a id="select-none" href="">None</a><ul id="timespan-menu"><li class="selected">hour</li><li>day</li><li>week</li><li>month</li><li class="last">year</li></ul></div>);
     for ( sort ( keys %$selected_plugins ) ) {
         my $plugin      = $_;
         my $plugin_html = encode_entities($plugin);
@@ -562,16 +560,11 @@ qq(<div><strong>Select:</strong> <a id="select-all" href="">All</a>, <a id="sele
                               $host_graph_url . ';timespan=year';
                             my $menu_buttons = _get_menu_buttons();
                             print qq(<ul>);
-                            print
-qq(<li class="gc hour">$menu_buttons<img src="$host_graph_url_hour" /></li>);
-                            print
-qq(<li class="gc day">$menu_buttons<img src="$host_graph_url_day" /></li>);
-                            print
-qq(<li class="gc week">$menu_buttons<img src="$host_graph_url_week" /></li>);
-                            print
-qq(<li class="gc month">$menu_buttons<img src="$host_graph_url_month" /></li>);
-                            print
-qq(<li class="gc year">$menu_buttons<img src="$host_graph_url_year" /></li>);
+                            print qq(<li class="gc hour">$menu_buttons<img src="$host_graph_url_hour" /></li>);
+                            print qq(<li class="gc day">$menu_buttons<img src="$host_graph_url_day" /></li>);
+                            print qq(<li class="gc week">$menu_buttons<img src="$host_graph_url_week" /></li>);
+                            print qq(<li class="gc month">$menu_buttons<img src="$host_graph_url_month" /></li>);
+                            print qq(<li class="gc year">$menu_buttons<img src="$host_graph_url_year" /></li>);
                             print qq(</ul>);
                         }
                         print "</li>\n";
@@ -604,28 +597,18 @@ qq(<li class="gc year">$menu_buttons<img src="$host_graph_url_year" /></li>);
                         if ( $plugins_per_host->{$host}{$plugin}{$pinst}{$type}
                             {$tinst} )
                         {
-                            my $host_graph_url_hour =
-                              $host_graph_url . ';timespan=hour';
-                            my $host_graph_url_day =
-                              $host_graph_url . ';timespan=day';
-                            my $host_graph_url_week =
-                              $host_graph_url . ';timespan=week';
-                            my $host_graph_url_month =
-                              $host_graph_url . ';timespan=month';
-                            my $host_graph_url_year =
-                              $host_graph_url . ';timespan=year';
+                            my $host_graph_url_hour = $host_graph_url . ';timespan=hour';
+                            my $host_graph_url_day = $host_graph_url . ';timespan=day';
+                            my $host_graph_url_week = $host_graph_url . ';timespan=week';
+                            my $host_graph_url_month = $host_graph_url . ';timespan=month';
+                            my $host_graph_url_year = $host_graph_url . ';timespan=year';
                             my $menu_buttons = _get_menu_buttons();
                             print qq(<ul>);
-                            print
-qq(<li class="gc hour">$menu_buttons<img src="$host_graph_url_hour" /></li>);
-                            print
-qq(<li class="gc day">$menu_buttons<img src="$host_graph_url_day" /></li>);
-                            print
-qq(<li class="gc week">$menu_buttons<img src="$host_graph_url_week" /></li>);
-                            print
-qq(<li class="gc month">$menu_buttons<img src="$host_graph_url_month" /></li>);
-                            print
-qq(<li class="gc year">$menu_buttons<img src="$host_graph_url_year" /></li>);
+                            print qq(<li class="gc hour">$menu_buttons<img src="$host_graph_url_hour" /></li>);
+                            print qq(<li class="gc day">$menu_buttons<img src="$host_graph_url_day" /></li>);
+                            print qq(<li class="gc week">$menu_buttons<img src="$host_graph_url_week" /></li>);
+                            print qq(<li class="gc month">$menu_buttons<img src="$host_graph_url_month" /></li>);
+                            print qq(<li class="gc year">$menu_buttons<img src="$host_graph_url_year" /></li>);
                             print qq(</ul>);
                         }
                         print "</li>\n";
