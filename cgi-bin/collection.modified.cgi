@@ -47,11 +47,13 @@ our $GraphDefs;
 our $MetaGraphDefs = {};
 our $OutputFormat = '';
 our $ContentType = 'image/png';
+
 load_graph_definitions();
 
 for (qw(action host plugin plugin_instance type type_instance timespan output)) {
     $Args->{$_} = param($_);
 }
+
 exit( main() );
 
 sub read_config {
@@ -93,40 +95,31 @@ sub read_config {
 }    # read_config
 
 sub validate_args {
-    if ( $Args->{'action'} && ( $Args->{'action'} =~ m/^(overview|show_host|show_plugin|show_type|show_graph|hostlist_json|pluginlist_json|graphs_json)$/ ))
+    if ($Args->{'action'} && ( $Args->{'action'} =~ m/^(overview|show_host|show_plugin|show_type|show_graph|hostlist_json|pluginlist_json|graphs_json)$/ ))
     {
         $Args->{'action'} = $1;
     }
     else {
         $Args->{'action'} = 'overview';
     }
-    if ( $Args->{'host'} && ( $Args->{'host'} =~ m#/# ) ) {
+    if ($Args->{'host'} && ( $Args->{'host'} =~ m#/# ) ) {
         delete( $Args->{'host'} );
     }
-    if ( $Args->{'plugin'} && ( $Args->{'plugin'} =~ m#/# ) ) {
+    if ($Args->{'plugin'} && ( $Args->{'plugin'} =~ m#/# ) ) {
         delete( $Args->{'plugin'} );
     }
-    if ( $Args->{'type'} && ( $Args->{'type'} =~ m#/# ) ) {
+    if ($Args->{'type'} && ( $Args->{'type'} =~ m#/# ) ) {
         delete( $Args->{'type'} );
     }
-    if (
-        !$Args->{'plugin'}
-        || ( $Args->{'plugin_instance'}
-            && ( $Args->{'plugin_instance'} =~ m#/# ) )
-      )
+    if (!$Args->{'plugin'} || ( $Args->{'plugin_instance'} && ( $Args->{'plugin_instance'} =~ m#/# ) ))
     {
         delete( $Args->{'plugin_instance'} );
     }
-    if (
-        !$Args->{'type'}
-        || ( $Args->{'type_instance'}
-            && ( $Args->{'type_instance'} =~ m#/# ) )
-      )
+    if (!$Args->{'type'} || ( $Args->{'type_instance'} && ( $Args->{'type_instance'} =~ m#/# ) ))
     {
         delete( $Args->{'type_instance'} );
     }
-    if ( defined( $Args->{'timespan'} )
-        && ( $Args->{'timespan'} =~ m/^(hour|day|week|month|year)$/ ) )
+    if (defined( $Args->{'timespan'} ) && ( $Args->{'timespan'} =~ m/^(hour|day|week|month|year)$/ ) )
     {
         $Args->{'timespan'} = $1;
     }
@@ -352,27 +345,9 @@ sub list_hosts_json {
     return (1);
 }    # list_hosts_json
 
-sub list_hosts {
-    my @hosts = _find_hosts();
-    @hosts = sort (@hosts);
-    print
-      qq(<div class="ui-widget-header ui-corner-top"><h3>Hosts</h3></div>\n);
-    print
-qq(<div id="hosts-container" class="ui-widget-content ui-corner-bottom "><input title="Filter by host" type="text" class="title" id="host-filter"/><ul>\n);
-    for ( my $i = 0 ; $i < @hosts ; $i++ ) {
-        my $host_html = encode_entities( $hosts[$i] );
-        my $host_url  = uri_escape( $hosts[$i] );
-        print
-qq(  <li><a href="${\script_name ()}?action=show_host;host=$host_url">$host_html</a></li>\n);
-    }
-    print "</ul></div>\n";
-}    # list_hosts
-
 sub _string_to_color {
     my $color = shift;
-    if ( $color =~
-m/([0-9A-Fa-f][0-9A-Fa-f])([0-9A-Fa-f][0-9A-Fa-f])([0-9A-Fa-f][0-9A-Fa-f])/
-      )
+    if ( $color =~ m/([0-9A-Fa-f][0-9A-Fa-f])([0-9A-Fa-f][0-9A-Fa-f])([0-9A-Fa-f][0-9A-Fa-f])/)
     {
         return ( [ hex($1) / 255.0, hex($2) / 255.0, hex($3) / 255.0 ] );
     }
@@ -381,8 +356,7 @@ m/([0-9A-Fa-f][0-9A-Fa-f])([0-9A-Fa-f][0-9A-Fa-f])([0-9A-Fa-f][0-9A-Fa-f])/
 
 sub _color_to_string {
     confess("Wrong number of arguments") if ( @_ != 1 );
-    return (
-        sprintf( '%02hx%02hx%02hx', map { int( 255.0 * $_ ) } @{ $_[0] } ) );
+    return (sprintf( '%02hx%02hx%02hx', map { int( 255.0 * $_ ) } @{ $_[0] } ) );
 }    # _color_to_string
 
 sub _get_random_color {
@@ -776,10 +750,8 @@ sub action_show_type {
       script_name() . "?action=show_plugin;host=$host_url;plugin=$plugin_url";
     $url_prefix .= ";plugin_instance=$plugin_instance_url"
       if ( defined($plugin_instance) );
-    print
-qq(    <div><a href="$url_prefix">Back to plugin &quot;$plugin_html&quot;</a></div>\n);
-    $url_prefix =
-      script_name() . "?action=show_graph;host=$host_url;plugin=$plugin_url";
+    print qq(    <div><a href="$url_prefix">Back to plugin &quot;$plugin_html&quot;</a></div>\n);
+    $url_prefix = script_name() . "?action=show_graph;host=$host_url;plugin=$plugin_url";
     $url_prefix .= ";plugin_instance=$plugin_instance_url"
       if ( defined($plugin_instance) );
     $url_prefix .= ";type=$type_url";
@@ -930,7 +902,7 @@ sub main {
     print_header();
     print "<div>";
     if ( !$Args->{'host'} ) {
-        list_hosts();
+        qw(<p>No host defined</p>)
     }
     elsif ( !$Args->{'plugin'} ) {
         action_show_host( $Args->{'host'} );
