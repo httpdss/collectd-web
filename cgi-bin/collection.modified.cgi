@@ -175,6 +175,9 @@ sub _get_menu_buttons {
                 <span class="ui-icon ui-icon-disk"/>
               </span>
               <span class="icons ui-state-default ui-corner-all">
+                <span class="ui-icon ui-icon-star"/>
+              </span>
+              <span class="icons ui-state-default ui-corner-all">
                 <span class="ui-icon ui-icon-close"/>
               </span>
             </span>
