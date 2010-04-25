@@ -15,8 +15,6 @@
 // this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-//var remove_button = '<div class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-close"/></div>'
-var remove_button = '<span class="ui-icon ui-icon-close"/>';
 /**
  * Get the id of the container for the selected element
  * 
@@ -38,7 +36,6 @@ function get_gmt(offset) {
 	} else {
 		off = offset
 	}
-
 	return offset
 }
 
