@@ -26,7 +26,7 @@ use HTML::Entities ('encode_entities');
 use URI::Escape    ('uri_escape');
 use RRDs           ();
 use Data::Dumper   ();
-use JSON;
+use JSON ('objToJson');
 our $Config   = "/etc/collectd/collection.conf";
 our @DataDirs = ();
 our $LibDir;
@@ -344,7 +344,7 @@ sub list_hosts_json {
         -Charset      => 'utf-8',
         -Expires      => '+1h'
     );
-    print STDOUT to_json( $host_ref, { pretty => 1, indent => 2 } );
+    print STDOUT objToJson( $host_ref, { pretty => 1, indent => 2 } );
     return (1);
 }    # list_hosts_json
 
@@ -444,7 +444,7 @@ sub action_show_host_json
     print STDOUT header (-Content_Type => 'application/json',
 	-Charset => 'utf-8',
 	-Expires => '+1h');
-    print STDOUT to_json ([sort (keys %$all_plugins)],
+    print STDOUT objToJson ([sort (keys %$all_plugins)],
 	{ pretty => 1, indent => 2 }) . "\n";
     return (1);
 } # action_show_host_json
@@ -726,7 +726,7 @@ sub action_show_plugin_json {
     print STDOUT header (-Content_Type => 'application/json',
 	-Charset => 'utf-8',
 	-Expires => '+1h');
-    print STDOUT to_json ({hour => [@plugin_list_hour],
+    print STDOUT objToJson ({hour => [@plugin_list_hour],
                            day =>  [@plugin_list_day] ,
                            week => [@plugin_list_week],
                            month => [@plugin_list_month],

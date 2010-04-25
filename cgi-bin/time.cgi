@@ -20,12 +20,12 @@ use strict;
 use warnings;
 
 use Time::Local;
-use JSON;
+use JSON ('objToJson');
 use CGI (':cgi');
 my $q = CGI->new;
 
 my $tz = get_timezone();
-my $response = to_json({'tz' => $tz});
+my $response = objToJson({'tz' => $tz});
 print $q->header('application/json');
 print $response;
 

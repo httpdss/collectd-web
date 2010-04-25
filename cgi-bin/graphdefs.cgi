@@ -19,7 +19,7 @@
 use strict;
 use warnings;
 
-use JSON;
+use JSON ('objToJson');
 use CGI (':cgi');
 
 our $GraphDefs;
@@ -27,7 +27,7 @@ load_graph_definitions();
 
 my $q = CGI->new;
 
-my $response = to_json({'graph_defs' => $GraphDefs});
+my $response = objToJson({'graph_defs' => $GraphDefs});
 print $q->header('application/json');
 print $response;
 
