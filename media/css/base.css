@@ -192,3 +192,6 @@ li.gc:hover .gc-menu {
 #graphdef-content {
     font-family: "Courier New", Courier, monospace;
 }
+#output-dialog {
+    display:none;
+}
