@@ -179,19 +179,20 @@ li.gc:hover .gc-menu {
     background-repeat: no-repeat;
     background-position: left top;
     background-color: transparent;
-    height:170px;
-    width:80%;
-    padding-left:100px;
-    padding-top:25px;
+    height: 170px;
+    width: 80%;
+    padding-left: 100px;
+    padding-top: 25px;
 }
 
 #options-tab {
-    min-height:200px;
+    min-height: 200px;
 }
 
 #graphdef-content {
     font-family: "Courier New", Courier, monospace;
 }
+
 #output-dialog {
-    display:none;
+    display: none;
 }

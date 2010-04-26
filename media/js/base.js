@@ -179,12 +179,15 @@ $(document).ready(function() {
 
 		$('li.graph-image .ui-icon-disk').live('click', function() {
 			var img_tag = $(this).parent().parent().next().next();
-			$("#output-dialog a").each(function(){
+			$("#output-dialog a").each(function() {
 				$this = $(this);
 				var join_url = $(img_tag).attr('src') + $this.attr('href');
 				$this.attr('href', join_url);
 			});
-			$("#output-dialog").dialog({title:'Select output format:', modal:true});
+			$("#output-dialog").dialog( {
+				title : 'Select output format:',
+				modal : true
+			});
 		});
 
 		$("#slide-menu-container .ui-widget-header").click(function() {
@@ -248,5 +251,37 @@ $(document).ready(function() {
 			var gdef = $(this).val();
 			var values = graph_def_values[gdef];
 			$('#graphdef-content').val(values.join('\n'));
+		});
+		$('#graph-view').change(function() {
+			var selected_view = $(this).val();
+			if (selected_view == "grid") {
+				$('#graph-container .sortable').css( {
+					'list-style-type' : 'none'
+				});
+				$('#graph-container .sortable li').css( {
+					'float' : 'left',
+					'width' : '200px'
+				});
+
+				$('#graph-container .sortable li img').css('width', '200px');
+
+				$('li.gc .gc-menu').css( {
+					'height' : '60px',
+					'width' : '120px'
+				});
+			} else {
+				// selected_view == 'list'
+				$('#graph-container .sortable li').css( {
+					'float' : 'none',
+					'width' : '100%'
+				});
+
+				$('#graph-container .sortable li img').css('width', '');
+
+				$('li.gc .gc-menu').css( {
+					'height' : '120px',
+					'width' : '60px'
+				});
+			}
 		});
 	});
