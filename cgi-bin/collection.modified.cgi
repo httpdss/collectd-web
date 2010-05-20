@@ -1030,6 +1030,20 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%5.1lf%sA Max,',
             'GPRINT:avg:LAST:%5.1lf%sA Last\l'
         ],
+        counter => [
+            '-v',
+            'Count',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfRed",
+            "AREA:min#$Canvas",
+            "LINE1:max#$FullRed:Count ",
+            'GPRINT:min:MIN:%4.1lf Min,',
+            'GPRINT:avg:AVERAGE:%4.1lf Avg,',
+            'GPRINT:max:MAX:%4.1lf Max,',
+            'GPRINT:avg:LAST:%4.1lf Last\l'
+        ],
         df => [
             '-v',
             'Percent',
