@@ -102,11 +102,11 @@ function create_graph_list(timespan, graphs) {
 	$tpl += '</li>';
 	$('.graph-imgs-container').append($tpl);
 }
-function lazy_check() {
+function lazy_check() {	
 	$('.gc-img').each(function() {
 		window_top = $(window).height() + $(window).scrollTop();
-		if(window_top > $(this).offset().top) {	
-			show_lazy_graph($(this));
+		if(window_top > $(this).position().top) {	
+			show_lazy_graph(this);
 		}
 	});
 }
@@ -141,16 +141,17 @@ var load_url = function() {
 					$graph_json = data
 					create_graph_list("hour", data.hour);
 					$('#graph-container').html(get_graph_main_container($selected_host));
-					
-				});
+					lazy_check();
+				});	
 	}
 	
 	
 	$('#plugins a').each(function() {
 		$(this).removeClass('selected');
 	});
-	lazy_check();
+
 	$(this).addClass('selected');
+
 	return false;
 }
 
@@ -311,7 +312,6 @@ $(document).ready(function() {
 			lazy_check();
         });
 
-
 		$("#timespan-menu li").live(
 				'click',
 				function() {
@@ -325,6 +325,7 @@ $(document).ready(function() {
 					$("li.graph-image").hide();
 					$("li.graph-image." + timespan).show();
 					$("#timespan-menu li:contains(" + timespan + ")").addClass("selected");
+					lazy_check();
 				});
 		$('#load-graphdefs').click(
 				function() {
