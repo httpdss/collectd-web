@@ -196,3 +196,8 @@ li.gc:hover .gc-menu {
 #output-dialog {
     display: none;
 }
+
+.ttip-content, .graph-main-container {
+    display:none;
+}
+

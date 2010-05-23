@@ -15,6 +15,15 @@
 // this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+
+/**
+ * Global vars
+ */
+var $selected_host = '';
+var $selected_plugin = '';
+var $graph_json = null;
+var window_top = 0;
+var previous_window_top = 0;
 /**
  * Get the id of the container for the selected element
  * 
@@ -50,6 +59,59 @@ function control_container(txt) {
 }
 
 /**
+ * return html structure for the available plugins menu
+ * @param host
+ * @param plugins
+ * @return
+ */
+function create_plugin_menu(host, plugins) {
+	var tpl = '<div><div class="ui-widget-header ui-corner-top"><h3>Available Plugins</h3></div>';
+	tpl += '<div id="plugin-container" class="ui-widget-content ui-corner-bottom  "><ul>';
+	for ( var p = 0; p < plugins.length; p++) {
+		tpl += '<li><a href="cgi-bin/collection.modified.cgi?action=show_plugin;host='+host+';timespan=day;plugin='+plugins[p]+'">'+plugins[p]+'</a></li>';
+	}
+	tpl += '</ul></div>';
+	tpl += '</div>';
+	return tpl;
+}
+
+function get_graph_menu() {
+	return $('#graph-menu-partial').html();
+}
+
+function get_graph_main_container(host) {
+	$('.graph-main-container .hostname').html(host)
+	return $('.graph-main-container').html()
+}
+
+function show_lazy_graph(elem){
+	$(elem).attr('src',$(elem).attr('title'))
+}
+
+function create_graph_list(timespan, graphs) {
+	var $tpl = '';
+	$tpl += '<li class="ui-widget graph-image '+timespan+'">';
+	$tpl += '<ul class="sortable ui-sortable">';
+	for ( var g = 0; g < graphs.length; g++) {
+		$tpl += '<li class="gc">';
+		$tpl += get_graph_menu();
+		$tpl += '<img class="gc-img" src="media/images/graph-load.png" title="' + graphs[g] + '"/></li>';
+		$tpl += '</li>';
+	}
+	$tpl += '</ul>';
+	$tpl += '</li>';
+	$('.graph-imgs-container').append($tpl);
+}
+function lazy_check() {
+	$('.gc-img').each(function() {
+		window_top = $(window).height() + $(window).scrollTop();
+		if(window_top > $(this).offset().top) {	
+			show_lazy_graph($(this));
+		}
+	});
+}
+
+/**
  * check which container anchor is clicked and load the apropiate container
  * 
  * @param {Object}
@@ -57,22 +119,44 @@ function control_container(txt) {
  */
 var load_url = function() {
 	var url = $(this).attr('href');
-	var place = get_container(this) == 'hosts-container' ? '#plugins'
-			: '#graph-container';
-	$(place).load(url);
-	$('#plugins a').each(function() {
-		$(this).removeClass('selected');
-	});
+	var place = '#plugins';
 	if (get_container(this) == 'hosts-container') {
 		$('#hosts a').each(function() {
 			$(this).removeClass('selected');
 		});
+		$selected_host = $(this).html();
+		$.getJSON('cgi-bin/collection.modified.cgi?action=pluginlist_json&host=' + $selected_host, function(data){
+			$("#plugins").html('');
+            $("#plugins").append(create_plugin_menu($selected_host, data));
+            
+            $('#plugins ul li a').click(function(){
+                $('#plugins').data('selected_plugin', $(this).attr('rel'));
+            });
+        });
+	} else {
+		$selected_plugin = $(this).html();
+		$(".graph-imgs-container").html('');
+		$.getJSON('cgi-bin/collection.modified.cgi?action=graphs_json;plugin=' + $selected_plugin + ';host=' + $selected_host, 
+				function(data){
+					$graph_json = data
+					create_graph_list("hour", data.hour);
+					$('#graph-container').html(get_graph_main_container($selected_host));
+					
+				});
 	}
+	
+	
+	$('#plugins a').each(function() {
+		$(this).removeClass('selected');
+	});
+	lazy_check();
 	$(this).addClass('selected');
 	return false;
 }
 
 $(document).ready(function() {
+	
+	$.ajaxSetup({cache:true});
 
 	$("#loading").ajaxStart(function() {
 		$(this).show();
@@ -81,9 +165,9 @@ $(document).ready(function() {
 	$("#loading").ajaxStop(function() {
 		$(this).hide();
 		$('.sortable').sortable();
+		$('#graph-view').trigger('change');
 	});
-
-	// $('#hosts').load('cgi-bin/collection.modified.cgi');
+	
 		$.getJSON('cgi-bin/collection.modified.cgi?action=hostlist_json',
 				function(data) {
 					for (i = 0; i < data.length; i++) {
@@ -101,7 +185,7 @@ $(document).ready(function() {
 		$("#clock").jclock();
 
 		$('.ttip').hover(function() {
-			var text = $(this).attr('rel');
+			var text = $(this).find('div.ttip-content').html();
 			$('#help-box').html(text).fadeIn();
 		}, function() {
 			$('#help-box').html('').hide();
@@ -191,7 +275,7 @@ $(document).ready(function() {
 		});
 
 		$("#slide-menu-container .ui-widget-header").click(function() {
-			$("#slide-menu-container .ui-widget-content").slideToggle("slow");
+			$("#slide-menu-container .ui-widget-content").slideToggle("fast");
 			$(this).toggleClass("active");
 			return false;
 		});
@@ -222,6 +306,11 @@ $(document).ready(function() {
 		$('#hosts a, #plugins a').live('click', function() {
 			$(this).addClass("selected");
 		});
+		
+		$(window).scroll(function () {
+			lazy_check();
+        });
+
 
 		$("#timespan-menu li").live(
 				'click',
@@ -230,10 +319,12 @@ $(document).ready(function() {
 						$(this).removeClass("selected");
 					});
 					var timespan = $(this).html();
-					$("li.graph-image li").hide();
-					$("li.graph-image li." + timespan).show();
-					$("#timespan-menu li:contains(" + timespan + ")").addClass(
-							"selected");
+					if (!$("li.graph-image").hasClass(timespan)) {
+						create_graph_list(timespan, $graph_json[timespan]);
+					}
+					$("li.graph-image").hide();
+					$("li.graph-image." + timespan).show();
+					$("#timespan-menu li:contains(" + timespan + ")").addClass("selected");
 				});
 		$('#load-graphdefs').click(
 				function() {
@@ -255,7 +346,7 @@ $(document).ready(function() {
 		$('#graph-view').change(function() {
 			var selected_view = $(this).val();
 			if (selected_view == "grid") {
-				$('#graph-container .sortable').css( {
+				$('#graph-imgs-container .sortable').css( {
 					'list-style-type' : 'none'
 				});
 				$('#graph-container .sortable li').css( {

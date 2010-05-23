@@ -1,8 +1,7 @@
 ﻿<!doctype html>
 <html>
     <head>
-        <meta content="en-us" http-equiv="Content-Language" />
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <meta charset="UTF-8" />
         <title>Collectd-web</title>
         <link type="image/png" href="media/images/shortcut-icon.png" rel="icon"/>
         <link rel="stylesheet" href="media/css/blueprint/screen.css" type="text/css" media="screen, projection">
@@ -11,20 +10,14 @@
         <link rel="stylesheet" href="media/css/custom-theme/jquery-ui-1.8.custom.css" type="text/css" media="screen, projection">
         <!--[if IE]><link rel="stylesheet" href="media/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
         <link rel="stylesheet" href="media/css/base.css" type="text/css" media="screen, projection">
-        <script type="text/javascript" src="media/js/jquery-1.4.2.min.js">
-        </script>
-        <script type="text/javascript" src="media/js/jquery.livequery.js">
-        </script>
-        <script type="text/javascript" src="media/js/jquery-ui-1.8.custom.min.js">
-        </script>
-        <script type="text/javascript" src="media/js/jquery.jclock.js">
-        </script>
-        <script type="text/javascript" src="media/js/base.js">
-        </script>
+        <script type="text/javascript" src="media/js/jquery-1.4.2.min.js"></script>
+        <script type="text/javascript" src="media/js/jquery.livequery.js"></script>
+        <script type="text/javascript" src="media/js/jquery-ui-1.8.custom.min.js"></script>
+        <script type="text/javascript" src="media/js/jquery.jclock.js"></script>
+        <script type="text/javascript" src="media/js/base.js"></script>
     </head>
     <body>
-        <div id="ruler">
-        </div>
+        <div id="ruler"></div>
         <div id="slide-menu-container" class="ui-widget container">
             <div id="slide-menu-content" class="ui-widget-content column span-22 append-1 prepend-1">
                 <div id="menu-tabs">
@@ -48,38 +41,28 @@
                     <div id="rrdeditor-container">
                         <form action="">
                             <fieldset>
-                                <legend>
-                                    Choose timespan [UNDER CONTRUCTION]
-                                </legend>
+                                <legend>Choose timespan [UNDER CONTRUCTION]</legend>
                                 <div class="">
                                     <div class="column span-20">
                                         <div class="span-10">
                                             <p>
-                                                <label for="date_from">
-                                                    From
-                                                </label>
+                                                <label for="date_from">From</label>
                                                 <br/>
-                                                <input type="text" class="text date-field" />
+                                                <input type="date" name="date_from" class="text date-field" />
                                             </p>
                                         </div>
                                         <div class="span-10 last">
                                             <p>
-                                                <label for="date_from">
-                                                    To
-                                                </label>
+                                                <label for="date_to">To</label>
                                                 <br/>
-                                                <input type="text" class="text" />
+                                                <input type="date" name="date_to" class="text" />
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                                 <p>
-                                    <button type="submit">
-                                        Submit
-                                    </button>
-                                    <button type="reset">
-                                        Reset
-                                    </button>
+                                    <button type="submit">Submit</button>
+                                    <button type="reset">Reset</button>
                                 </p>
                             </fieldset>
                         </form>
@@ -88,11 +71,11 @@
                         <div class="container">
                             <div class="column span-20">
                                 <div class="span-10">
-                                    <button class="button" id="load-graphdefs" >Load definitions</button>
+                                    <button class="button" id="load-graphdefs">Load definitions</button>
                                     <p>
-                                        <label for="graphdef-name">Name</label><br />
-                                        <select style="font-size:120%;" name="graphdef-name" id="graphdef-name">
-                                        </select>
+                                        <label for="graphdef-name">Name</label>
+                                        <br/>
+                                        <select style="font-size:120%;" name="graphdef-name" id="graphdef-name"></select>
                                     </p>
                                 </div>
                                 <div class="span-10 last">
@@ -106,27 +89,21 @@
                             <div class="column span-20">
                                 <div class="span-10">
                                     <h3>Local time</h3>
-                                    <div id="clock" class="clock-container">
-                                    </div>
+                                    <div id="clock" class="clock-container"></div>
                                 </div>
                                 <div class="span-10 last no-bullets">
                                     <h3>Server time</h3>
-                                    <div id="clock-server" class="clock-container">
-                                    </div>
-                                    <ul id="new-clock-container">
-                                    </ul>
+                                    <div id="clock-server" class="clock-container"></div>
+                                    <ul id="new-clock-container"></ul>
                                     <div style="display:none;">
-                                        <div id="clock-server-slider">
-                                        </div>
+                                        <div id="clock-server-slider"></div>
                                         <p>
                                             <strong>Offset:</strong>
                                             <span id="clock-server-gmt">0</span>
                                         </p>
                                         <form action="#" id="clock-server-add">
                                             <input id="clock-server-add-label" class="text" type="text" value="label" />
-                                            <button type="submit">
-                                                Add
-                                            </button>
+                                            <button type="submit">Add</button>
                                         </form>
                                     </div>
                                 </div>
@@ -138,29 +115,39 @@
                             <div class="column span-20">
                                 <div class="span-10">
                                     <ul>
-                                        <li class="ttip" rel="Check this option to see the ruler. <br/>This will enable you to compare different graphs at a given moment">
+                                        <li class="ttip">
+                                            <div class="ttip-content">
+                                                Check this option to see the ruler. 
+                                                <br/>
+                                                This will enable you to compare different graphs at a given moment
+                                            </div>
                                             <input value="Show ruler" type="checkbox" id="show-ruler-checkbox" />Show ruler
                                         </li>
-                                        <li class="ttip" rel="Set this option into an integer value.<br/> This will be used as the increment or decrement on moving timespans [FEATURE UNDER DEVELOPMENT]">
-                                            <label for="graph-step">
-                                                Graph step (in minutes) 
-                                            </label>
-                                            <input disabled="true" value="10" name="graph-step" type="text" id="graph-step" class="text" />
+                                        <li class="ttip">
+                                            <div class="ttip-content">
+                                                Set this option into an integer value.
+                                                <br/>
+                                                This will be used as the increment or decrement on moving timespans [FEATURE UNDER DEVELOPMENT]
+                                            </div>
+                                            <label for="graph-step">Graph step (in minutes) </label>
+                                            <input disabled value="10" name="graph-step" type="text" id="graph-step" class="text" />
                                         </li>
-                                        <li class="ttip" rel="Set view options (list or grid) to customize your graphs display">
-                                            <label for="graph-view">
-                                                View:  
-                                            </label>
+                                        <li class="ttip">
+                                            <div class="ttip-content">Set view options (list or grid) to customize your graphs display</div>
+                                            <label for="graph-view">View: </label>
                                             <select name="graph-view" id="graph-view">
                                                 <option value="list" selected="selected">List</option>
                                                 <option value="grid">Grid</option>
                                             </select>
                                         </li>
+                                        <li class="ttip">
+                                            <div class="ttip-content">Setting this option will cache images for 5 minutes</div>
+                                            <input value="Enable graph caching" type="checkbox" id="graph-caching-checkbox" />Enable graph caching
+                                        </li>
                                     </ul>
                                 </div>
                                 <div class="span-10 last">
-                                    <div id="help-box" style="display:none;">
-                                    </div>
+                                    <div id="help-box" style="display:none;"></div>
                                 </div>
                             </div>
                         </div>
@@ -169,12 +156,8 @@
                         <div class="container">
                             <div class="column span-20">
                                 <div class="span-10">
-                                    <p>
-                                        The main objective of this is to develop an easy to use and customizable web interface for Collectd (Resource monitoring software).
-                                    </p>
-                                    <p>
-                                        Two days of research where enough to realize that collectd didn't have a real frontend and the one bundled with the backend was really made for testing purposes, so much of the usablility and strength of statistics was left aside.
-                                    </p>
+                                    <p>The main objective of this is to develop an easy to use and customizable web interface for Collectd (Resource monitoring software).</p>
+                                    <p>Two days of research where enough to realize that collectd didn't have a real frontend and the one bundled with the backend was really made for testing purposes, so much of the usablility and strength of statistics was left aside.</p>
                                 </div>
                                 <div class="span-10 last">
                                     <ul>
@@ -223,26 +206,56 @@
                     </div>
                     <div id="hosts-container" class="ui-widget-content ui-corner-bottom ">
                         <input title="Filter by host" type="text" class="title" id="host-filter"/>
-                        <ul>
-                        </ul>
+                        <ul></ul>
                     </div>
                 </div>
                 <div id="plugins" class="no-bullets ui-widget">
+                    <ul></ul>
                 </div>
             </div>
             <div class='column last prepend-1 span-16'>
-                <div id="graph-container" class="no-bullets">
-                </div>
+                <div id="graph-container" class="no-bullets"></div>
             </div>
         </div>
-        <div class='container'>
-        </div>
+        <div class='container'></div>
         <div id="output-dialog" class="no-bullets">
             <ul>
-                <li><a href="&format=EPS" target="_blank" class="output-link">EPS</a></li>
-                <li><a href="&format=PDF" target="_blank" class="output-link">PDF</a></li>
-                <li><a href="&format=SVG" target="_blank" class="output-link">SVG</a></li>
+                <li>
+                    <a href="&format=EPS" target="_blank" class="output-link">EPS</a>
+                </li>
+                <li>
+                    <a href="&format=PDF" target="_blank" class="output-link">PDF</a>
+                </li>
+                <li>
+                    <a href="&format=SVG" target="_blank" class="output-link">SVG</a>
+                </li>
             </ul>
+        </div>
+        <div id="graph-menu-partial" style="display:none;">
+            <span class="gc-menu fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-triangle-1-w"></span>
+                </span><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-triangle-1-e"></span>
+                </span><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-zoomin"></span>
+                </span><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-zoomout"></span>
+                </span><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-disk"></span>
+                </span><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-star"></span>
+                </span><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-close"></span>
+                </span></span>
+            <span class="selectable"></span>
+        </div>
+        <div class="graph-main-container">
+            <h2 class="hostname"></h2>
+            <div>
+                <strong>Select:</strong>
+                <a id="select-all" href="">All</a>, <a id="select-none" href="">None</a>
+                <ul id="timespan-menu">
+                    <li class="selected">hour</li>
+                    <li>day</li>
+                    <li>week</li>
+                    <li>month</li>
+                    <li class="last">year</li>
+                </ul>
+            </div>
+            <ul class="graph-imgs-container"></ul>
         </div>
     </body>
 </html>

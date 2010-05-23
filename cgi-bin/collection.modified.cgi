@@ -50,7 +50,7 @@ our $ContentType = 'image/png';
 
 load_graph_definitions();
 
-for (qw(action host plugin plugin_instance type type_instance timespan output)) {
+for (qw(action host plugin plugin_instance type type_instance timespan output enable-caching)) {
     $Args->{$_} = param($_);
 }
 
@@ -521,9 +521,7 @@ sub action_show_plugin {
                             }
                             print "\t<h3>$title</h3>\n";
                         }
-                        if (
-                            exists $plugins_per_host->{$host}{$plugin}{$pinst}
-                            {$type} )
+                        if ( exists $plugins_per_host->{$host}{$plugin}{$pinst}{$type} )
                         {
                             my $host_graph_url_hour =
                               $host_graph_url . ';timespan=hour';
@@ -878,7 +876,16 @@ sub main {
         && ( $Args->{'action'} eq 'show_graph' ) )
     {
         $| = 1;
-        print STDOUT header( -Content_Type => $ContentType );
+        if(defined ($Args->{'enable-caching'})){
+            print STDOUT header(-Content_Type => $ContentType, 
+                                -Expires=>'+1h', 
+                                -Cache_Control=>'maxage=3600',
+                                -Pragma=>'public');    
+        } else {
+            print STDOUT header( -Content_Type => $ContentType);
+        }
+        
+        
         action_show_graph(
             $Args->{'host'},            $Args->{'plugin'},
             $Args->{'plugin_instance'}, $Args->{'type'},
@@ -894,7 +901,14 @@ sub main {
         && ( $Args->{'action'} eq 'show_custom_graph' ) )
     {
         $| = 1;
-        print STDOUT header( -Content_Type => $ContentType );
+        if(defined ($Args->{'enable-caching'})){
+            print STDOUT header(-Content_Type => $ContentType,
+                                -Expires=>'+1h', 
+                                -Cache_Control=>'maxage=3600',
+                                -Pragma=>'public' );    
+        } else {
+            print STDOUT header( -Content_Type => $ContentType);
+        }
         action_show_graph(
             $Args->{'host'},            $Args->{'plugin'},
             $Args->{'plugin_instance'}, $Args->{'type'},
