@@ -114,17 +114,13 @@ function lazy_check() {
                 var elem_top = $(this).offset().top;
                 console.info(elem_top);
                 if((window_top > elem_top) && (elem_top != 0)) {
-                    console.info("muestro");
                     show_lazy_graph(this);
                     $(this).removeClass('toload')
                     console.info($(this).attr('src'));
-                } else {
-                    console.info("no muestro");
                 }
+                
                 });
-    } else {
-        console.info("caching-off");
-    }
+    } 
 }
 
 /**
