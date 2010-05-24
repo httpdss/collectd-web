@@ -65,14 +65,14 @@ function control_container(txt) {
  * @return
  */
 function create_plugin_menu(host, plugins) {
-	var tpl = '<div><div class="ui-widget-header ui-corner-top"><h3>Available Plugins</h3></div>';
-	tpl += '<div id="plugin-container" class="ui-widget-content ui-corner-bottom  "><ul>';
-	for ( var p = 0; p < plugins.length; p++) {
-		tpl += '<li><a href="cgi-bin/collection.modified.cgi?action=show_plugin;host='+host+';timespan=day;plugin='+plugins[p]+'">'+plugins[p]+'</a></li>';
-	}
-	tpl += '</ul></div>';
-	tpl += '</div>';
-	return tpl;
+    var tpl = '<div><div class="ui-widget-header ui-corner-top"><h3>Available Plugins</h3></div>';
+    tpl += '<div id="plugin-container" class="ui-widget-content ui-corner-bottom  "><ul>';
+    for ( var p = 0; p < plugins.length; p++) {
+        tpl += '<li><a href="cgi-bin/collection.modified.cgi?action=show_plugin;host='+host+';timespan=day;plugin='+plugins[p]+'">'+plugins[p]+'</a></li>';
+    }
+    tpl += '</ul></div>';
+    tpl += '</div>';
+    return tpl;
 }
 
 function get_graph_menu() {
@@ -89,32 +89,42 @@ function show_lazy_graph(elem){
 }
 
 function create_graph_list(timespan, graphs) {
-	var $tpl = '';
-	$tpl += '<li class="ui-widget graph-image '+timespan+'">';
-	$tpl += '<ul class="sortable ui-sortable">';
-	for ( var g = 0; g < graphs.length; g++) {
-		$tpl += '<li class="gc">';
-		$tpl += get_graph_menu();
-		if ($('#graph-caching-checkbox').attr('checked')) {
-			$tpl += '<img class="gc-img" src="media/images/graph-load.png" title="' + graphs[g] + '"/></li>';
-		} else {
-			$tpl += '<img class="gc-img" src="' + graphs[g] + '"/></li>';
-		}
-		$tpl += '</li>';
-	}
-	$tpl += '</ul>';
-	$tpl += '</li>';
-	$('.graph-imgs-container').append($tpl);
+    var $tpl = '';
+    $tpl += '<li class="ui-widget graph-image '+timespan+'">';
+    $tpl += '<ul class="sortable ui-sortable">';
+    for ( var g = 0; g < graphs.length; g++) {
+        $tpl += '<li class="gc">';
+        $tpl += get_graph_menu();
+        if ($('#graph-caching-checkbox').attr('checked')) {
+            $tpl += '<img class="gc-img toload" src="media/images/graph-load.png" title="' + graphs[g] + '"/></li>';
+        } else {
+            $tpl += '<img class="gc-img" src="' + graphs[g] + '"/></li>';
+        }
+        $tpl += '</li>';
+    }
+    $tpl += '</ul>';
+    $tpl += '</li>';
+    $('.graph-imgs-container').append($tpl);
 }
+
 function lazy_check() {
-	if ($('#graph-caching-checkbox').attr('checked')) {
-	$('.gc-img').each(function() {
-		window_top = $(window).height() + $(window).scrollTop();
-		if(window_top > $(this).position().top) {	
-			show_lazy_graph(this);
-		}
-	});
-	}
+    if ($('#graph-caching-checkbox').attr('checked')) {
+        $('.toload.gc-img').each(function() {
+                window_top = $(window).height() + $(window).scrollTop();
+                var elem_top = $(this).offset().top;
+                console.info(elem_top);
+                if((window_top > elem_top) && (elem_top != 0)) {
+                    console.info("muestro");
+                    show_lazy_graph(this);
+                    $(this).removeClass('toload')
+                    console.info($(this).attr('src'));
+                } else {
+                    console.info("no muestro");
+                }
+                });
+    } else {
+        console.info("caching-off");
+    }
 }
 
 /**
