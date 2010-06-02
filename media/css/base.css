@@ -1,8 +1,4 @@
-html, body {
-    height: 100%;
-    margin: 0 0 1px;
-    padding: 0;
-}
+:root { overflow-y: scroll; }
 
 #loader {
     margin-top: 10px;
