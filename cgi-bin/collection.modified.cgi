@@ -919,7 +919,7 @@ sub main {
     print_header();
     print "<div>";
     if ( !$Args->{'host'} ) {
-        qw(<p>No host defined</p>)
+        print "<p>No host defined</p>"
     }
     elsif ( !$Args->{'plugin'} ) {
         action_show_host( $Args->{'host'} );
