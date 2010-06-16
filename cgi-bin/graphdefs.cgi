@@ -403,6 +403,18 @@ sub load_graph_definitions
         'GPRINT:max:MAX:%4.1lf Max,',
         'GPRINT:avg:LAST:%4.1lf Last\l'
         ],
+        fork_rate => ['-v', 'Forks/s',
+        'DEF:avg={file}:value:AVERAGE',
+        'DEF:min={file}:value:MIN',
+        'DEF:max={file}:value:MAX',
+        "AREA:max#$HalfBlue",
+        "AREA:min#$Canvas",
+        "LINE1:avg#$FullBlue:Forks/s",
+        'GPRINT:min:MIN:%5.1lf%s Min,',
+        'GPRINT:avg:AVERAGE:%5.1lf%s Average,',
+        'GPRINT:max:MAX:%5.1lf%s Max,',
+        'GPRINT:avg:LAST:%5.1lf%s Last\l'
+        ],
         frequency => ['-v', 'Hertz',
         'DEF:avg={file}:frequency:AVERAGE',
         'DEF:min={file}:frequency:MIN',
