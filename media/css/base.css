@@ -197,3 +197,6 @@ li.gc:hover .gc-menu {
     display:none;
 }
 
+a:focus {
+    outline-style:none;
+}

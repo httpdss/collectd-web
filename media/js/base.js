@@ -261,32 +261,6 @@ $(document).ready(function() {
 			return false;
 		});
 
-		$('li.graph-image .ui-icon-close').live('click', function() {
-			$(this).parent().parent().parent().remove();
-		});
-
-		$('li.graph-image .ui-icon-star').live('click', function() {
-			var section = $(this).parent().parent().next();
-			if ($(section).hasClass('selected')) {
-				$(section).removeClass('selected');
-			} else {
-				$(section).addClass('selected');
-			}
-		});
-
-		$('li.graph-image .ui-icon-disk').live('click', function() {
-			var img_tag = $(this).parent().parent().next().next();
-			$("#output-dialog a").each(function() {
-				$this = $(this);
-				var join_url = $(img_tag).attr('src') + $this.attr('href');
-				$this.attr('href', join_url);
-			});
-			$("#output-dialog").dialog( {
-				title : 'Select output format:',
-				modal : true
-			});
-		});
-
 		$("#slide-menu-container .ui-widget-header").click(function() {
 			$("#slide-menu-container .ui-widget-content").slideToggle("fast");
 			$(this).toggleClass("active");
