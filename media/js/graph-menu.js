@@ -60,6 +60,21 @@ function move_graph(menu_element, seconds) {
 	$(gc_img).attr('src', build_url())
 }
 
+function zoom_graph(menu_element, seconds) {
+	var gc_img = $(menu_element).parent().parent().parent().find('.gc-img');
+	var url = $(gc_img).attr('src');
+	var params = get_url_params(url);
+	var start = 0;
+	var end = 0;
+
+	if (params.start != null) { start = params.start; }
+	if (params.end != null) { end = params.end; }
+
+	start = start + seconds;
+	
+	$(gc_img).attr('src', build_url())
+}
+
 
 $(function() {
 
@@ -72,11 +87,11 @@ $(function() {
 	});
 	
 	$('li.graph-image .ui-icon-zoomin').live('click', function() {
-		alert('Under construction');
+		zoom_graph(this, 5);
 	});
 
 	$('li.graph-image .ui-icon-zoomout').live('click', function() {
-		alert('Under construction');
+		zoom_graph(this, -5);
 	});
 
 	$('li.graph-image .ui-icon-close').live('click', function() {
