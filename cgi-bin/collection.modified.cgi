@@ -1070,6 +1070,25 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%4.1lf Max,',
             'GPRINT:avg:LAST:%4.1lf Last\l'
         ],
+        derive => [
+            '-v',
+            'Derive',
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
+            'CDEF:mytime=avg,TIME,TIME,IF',
+            'CDEF:sample_len_raw=mytime,PREV(mytime),-',
+            'CDEF:sample_len=sample_len_raw,UN,0,sample_len_raw,IF',
+            'CDEF:avg_sample=avg,UN,0,avg,IF,sample_len,*',
+            'CDEF:avg_sum=PREV,UN,0,PREV,IF,avg_sample,+',
+            "AREA:max#$HalfRed",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullRed:Derive ",
+            'GPRINT:avg:AVERAGE:%5.1lf%s Avg,',
+            'GPRINT:max:MAX:%5.1lf%s Max,',
+            'GPRINT:avg:LAST:%5.1lf%s Last',
+            'GPRINT:avg_sum:LAST:(ca. %5.1lf%s Total)\l'
+        ],
         df => [
             '-v',
             'Percent',
