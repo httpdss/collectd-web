@@ -189,6 +189,10 @@ $(document).ready(function() {
 										+ data[i] + '">' + data[i]
 										+ '</a></li>');
 					}
+
+                    if (data.length >= 10) {
+                        $('#hosts ul').css({'height':130, 'overflow-y':'auto'});
+                        }
 				});
 
 		$('#menu-tabs').tabs();
