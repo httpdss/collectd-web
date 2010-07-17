@@ -50,7 +50,7 @@ our $ContentType = 'image/png';
 
 load_graph_definitions();
 
-for (qw(action host plugin plugin_instance type type_instance timespan output enable-caching)) {
+for (qw(action host plugin plugin_instance type type_instance timespan output enable-caching start end)) {
     $Args->{$_} = param($_);
 }
 
