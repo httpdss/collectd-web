@@ -41,6 +41,12 @@ span.ui-icon {
     margin: 0 4px;
 }
 
+
+.ui-widget input, .ui-widget textarea, .ui-widget select {
+    background-color:#fff;
+    color:#333;
+}
+
 .ui-widget input {
     padding-right: 0;
     padding-left: 0;
