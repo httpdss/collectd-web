@@ -780,7 +780,15 @@ sub action_show_graph {
         month => 31 * -86400,
         year  => 366 * -86400
     );
-    my $start_time = $times{ $Args->{'timespan'} } || -86400;
+    
+    my $start_time;
+    my $end_time;
+    if (defined($Args->{'end'})) {
+        $start_time = $Args->{'start'};
+        $end_time = $Args->{'end'};
+    } else {
+        $start_time = $times{ $Args->{'timespan'} } || -86400;
+    }
 
     #print STDERR Data::Dumper->Dump ([$Args], ['Args']);
     # FIXME
@@ -804,6 +812,17 @@ sub action_show_graph {
         next if ( !-f $file );
         $file =~ s/:/\\:/g;
         s/{file}/$file/ for (@rrd_args);
+    if (defined($Args->{'end'})) {
+        RRDs::graph(
+            '-',
+            '-a', $OutputFormat,
+            '-s', $start_time, 
+            '-e', $end_time, 
+            '-t', $short_title, 
+            @RRDDefaultArgs,
+            @rrd_args
+        );
+    } else {
         RRDs::graph(
             '-',
             '-a', $OutputFormat,
@@ -812,6 +831,7 @@ sub action_show_graph {
             @RRDDefaultArgs,
             @rrd_args
         );
+    }
         if ( my $err = RRDs::error() ) {
             die("RRDs::graph: $err");
         }
