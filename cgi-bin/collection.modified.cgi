@@ -1984,6 +1984,20 @@ sub load_graph_definitions {
             'GPRINT:read_avg:AVERAGE:%5.1lf Avg,',
             'GPRINT:read_avg:LAST:%5.1lf Last\l'
         ],
+        nginx_requests => [
+             'DEF:min={file}:value:MIN',   'DEF:avg={file}:value:AVERAGE',
+             'DEF:max={file}:value:MAX',   "AREA:max#$HalfBlue",
+             "AREA:min#$Canvas",           "LINE1:avg#$FullBlue:Requests/s",
+             'GPRINT:min:MIN:%6.2lf Min,', 'GPRINT:avg:AVERAGE:%6.2lf Avg,',
+             'GPRINT:max:MAX:%6.2lf Max,', 'GPRINT:avg:LAST:%6.2lf Last'
+         ],
+         nginx_connections => [
+             'DEF:min={file}:value:MIN',   'DEF:avg={file}:value:AVERAGE',
+             'DEF:max={file}:value:MAX',   "AREA:max#$HalfBlue",
+             "AREA:min#$Canvas",           "LINE1:avg#$FullBlue:Requests/s",
+             'GPRINT:min:MIN:%6.2lf Min,', 'GPRINT:avg:AVERAGE:%6.2lf Avg,',
+             'GPRINT:max:MAX:%6.2lf Max,', 'GPRINT:avg:LAST:%6.2lf Last'
+         ],
         opcode => [
             'DEF:avg={file}:value:AVERAGE',
             'DEF:min={file}:value:MIN',
@@ -2255,6 +2269,13 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%6.2lf%sByte Max,',
             'GPRINT:avg:LAST:%6.2lf%sByte Last\l'
         ],
+        swap_io => [
+             'DEF:min={file}:value:MIN',   'DEF:avg={file}:value:AVERAGE',
+             'DEF:max={file}:value:MAX',   "AREA:max#$HalfBlue",
+             "AREA:min#$Canvas",           "LINE1:avg#$FullBlue",
+             'GPRINT:min:MIN:%6.2lf Min,', 'GPRINT:avg:AVERAGE:%6.2lf Avg,',
+             'GPRINT:max:MAX:%6.2lf Max,', 'GPRINT:avg:LAST:%6.2lf Last'
+         ],
         old_swap => [
             'DEF:used_avg={file}:used:AVERAGE',
             'DEF:used_min={file}:used:MIN',
