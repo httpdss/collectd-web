@@ -36,6 +36,12 @@ Still to be done
 ================
 Check out the issues list ;)
 
+Links
+=====
+ * http://kenny.belitzky.com/projects/collectd-web
+ * http://twitter.com/collectdweb
+ * http://twitter.com/collectdweb_git (Commit tracker for collectd-web repository)
+
 License
 =======
 Collectd-web is licensed under the GNU General Public License (GPL), version 2
