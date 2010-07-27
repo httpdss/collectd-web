@@ -968,11 +968,11 @@ sub load_graph_definitions {
             'CDEF:avg_sum=PREV,UN,0,PREV,IF,avg_sample,+',
             "AREA:avg#$HalfBlue",
             "LINE1:avg#$FullBlue:Bit/s",
-            'GPRINT:min:MIN:%5.1lf%s Min,',
-            'GPRINT:avg:AVERAGE:%5.1lf%s Avg,',
-            'GPRINT:max:MAX:%5.1lf%s Max,',
-            'GPRINT:avg:LAST:%5.1lf%s Last',
-            'GPRINT:avg_sum:LAST:(ca. %5.1lf%sB Total)\l'
+            'GPRINT:min:MIN:%6.1lf%s Min,',
+            'GPRINT:avg:AVERAGE:%6.1lf%s Avg,',
+            'GPRINT:max:MAX:%6.1lf%s Max,',
+            'GPRINT:avg:LAST:%6.1lf%s Last',
+            'GPRINT:avg_sum:LAST:(ca. %6.1lf%sB Total)\l'
         ],
         apache_requests => [
             'DEF:min={file}:count:MIN',   'DEF:avg={file}:count:AVERAGE',
