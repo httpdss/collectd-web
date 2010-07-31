@@ -8,17 +8,6 @@ where enough to realize that collectd didn't have a real frontend and the one
 bundled with the backend was really made for testing purposes, so much of the
 usability and strength of statistics was left aside.
 
-Features
-========
- * [NEW] IPhone interface
- * [NEW] Comparison ruler
- * [NEW] Local and server clock
- * Host list and filtering
- * jQuery-based web interface
- * Themable UI using jQueryUI
- * Perl backend
- * Sortable graphs
-
 Installation
 ============
 You must have a path containing each host's files in a separate
@@ -31,10 +20,6 @@ In this case, your datadir will be '/etc/collectd/collectd-web/'.
 Create /etc/collectd/collection.conf with the content:
 
  datadir: "/etc/collectd/collectd-web/"
-
-Still to be done
-================
-Check out the issues list ;)
 
 License
 =======
