@@ -50,7 +50,7 @@ our $ContentType = 'image/png';
 
 load_graph_definitions();
 
-for (qw(action host plugin plugin_instance type type_instance timespan output enable-caching)) {
+for (qw(action host plugin plugin_instance type type_instance timespan output enable-caching start end)) {
     $Args->{$_} = param($_);
 }
 
@@ -780,7 +780,15 @@ sub action_show_graph {
         month => 31 * -86400,
         year  => 366 * -86400
     );
-    my $start_time = $times{ $Args->{'timespan'} } || -86400;
+    
+    my $start_time;
+    my $end_time;
+    if (defined($Args->{'end'})) {
+        $start_time = $Args->{'start'};
+        $end_time = $Args->{'end'};
+    } else {
+        $start_time = $times{ $Args->{'timespan'} } || -86400;
+    }
 
     #print STDERR Data::Dumper->Dump ([$Args], ['Args']);
     # FIXME
@@ -804,6 +812,17 @@ sub action_show_graph {
         next if ( !-f $file );
         $file =~ s/:/\\:/g;
         s/{file}/$file/ for (@rrd_args);
+    if (defined($Args->{'end'})) {
+        RRDs::graph(
+            '-',
+            '-a', $OutputFormat,
+            '-s', $start_time, 
+            '-e', $end_time, 
+            '-t', $short_title, 
+            @RRDDefaultArgs,
+            @rrd_args
+        );
+    } else {
         RRDs::graph(
             '-',
             '-a', $OutputFormat,
@@ -812,6 +831,7 @@ sub action_show_graph {
             @RRDDefaultArgs,
             @rrd_args
         );
+    }
         if ( my $err = RRDs::error() ) {
             die("RRDs::graph: $err");
         }
@@ -2564,14 +2584,31 @@ sub meta_graph_generic_stack {
     $opts->{'title'}    ||= 'Unknown title';
     $opts->{'rrd_opts'} ||= [];
     $opts->{'colors'}   ||= {};
-    my @cmd = (
-        '-',
-        '-a', $OutputFormat,
-        '-s', $timespan_int, 
-        '-t', $opts->{'title'} || 'Unknown title',
-        @RRDDefaultArgs, 
-        @{ $opts->{'rrd_opts'} }
-    );
+    my $start_time;
+    my $end_time;
+    my @cmd;
+    if (defined($Args->{'end'})) {
+        $start_time = $Args->{'start'};
+        $end_time = $Args->{'end'};
+        @cmd = (
+            '-',
+            '-a', $OutputFormat,
+            '-s', $start_time, 
+            '-e', $end_time, 
+            '-t', $opts->{'title'} || 'Unknown title',
+            @RRDDefaultArgs, 
+            @{ $opts->{'rrd_opts'} }
+        );
+    } else {
+        @cmd = (
+            '-',
+            '-a', $OutputFormat,
+            '-s', $timespan_int, 
+            '-t', $opts->{'title'} || 'Unknown title',
+            @RRDDefaultArgs, 
+            @{ $opts->{'rrd_opts'} }
+        );
+    }
     my $max_inst_name = 0;
 
     for ( $i = 0 ; $i < @$sources ; $i++ ) {
