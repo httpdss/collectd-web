@@ -16,27 +16,6 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-function get_url_params(url) {
-	var params = {};
-	url = url.replace(/.*\?(.*?)/,"$1");
-	variables = url.split (";");
-	for (i = 0; i < variables.length; i++) {
-		separ = variables[i].split("=");
-		params[separ[0]] = separ[1];
-	}
-	return params;
-}
-
-/**
- * Build up and url with the given parameters
- * @param original_url string with the original url
- * @param params hash with all parameters to add to the url
- * @return string
- */
-function build_url(original_url, params) {
-	
-}
-
 /**
  * Function to make the graph move on the x axis
  * @param menu_element the button of the menu pressed
@@ -72,7 +51,7 @@ function zoom_graph(menu_element, seconds) {
 
 	start = start + seconds;
 	
-	$(gc_img).attr('src', build_url())
+	$('.gc_img').attr('src', build_url())
 }
 
 

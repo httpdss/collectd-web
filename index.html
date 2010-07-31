@@ -15,6 +15,7 @@
         <script type="text/javascript" src="media/js/jquery-ui-1.8.custom.min.js"></script>
         <script type="text/javascript" src="media/js/jquery.jclock.js"></script>
         <script type="text/javascript" src="media/js/external/TimeSpan-1.2.min.js"></script>
+        <script type="text/javascript" src="media/js/jquery.validate.pack.js"></script>
         <script type="text/javascript" src="media/js/base.js"></script>
         <script type="text/javascript" src="media/js/graph-menu.js"></script>
     </head>
@@ -41,30 +42,30 @@
                         </li>
                     </ul>
                     <div id="rrdeditor-container">
-                        <form action="">
+                        <form id="rrdeditor-form" action="">
                             <fieldset>
-                                <legend>Choose timespan [UNDER CONTRUCTION]</legend>
+                                <legend>Choose timespan</legend>
                                 <div class="">
                                     <div class="column span-20">
                                         <div class="span-10">
                                             <p>
-                                                <label for="date_from">From</label>
+                                                <label for="date_from">Start</label>
                                                 <br/>
-                                                <input type="date" name="date_from" class="text date-field" />
+                                                <input type="date" name="date_from" class="text timespan-from" />
                                             </p>
                                         </div>
                                         <div class="span-10 last">
                                             <p>
-                                                <label for="date_to">To</label>
+                                                <label for="date_to">End</label>
                                                 <br/>
-                                                <input type="date" name="date_to" class="text" />
+                                                <input type="date" name="date_to" class="text timespan-to" />
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                                 <p>
-                                    <button type="submit">Submit</button>
-                                    <button type="reset">Reset</button>
+                                    <button id="rrdeditor-submit">Submit</button>
+                                    <button class="rrdeditor-reset">Reset</button>
                                 </p>
                             </fieldset>
                         </form>

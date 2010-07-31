@@ -2544,14 +2544,31 @@ sub meta_graph_generic_stack {
     $opts->{'title'}    ||= 'Unknown title';
     $opts->{'rrd_opts'} ||= [];
     $opts->{'colors'}   ||= {};
-    my @cmd = (
-        '-',
-        '-a', $OutputFormat,
-        '-s', $timespan_int, 
-        '-t', $opts->{'title'} || 'Unknown title',
-        @RRDDefaultArgs, 
-        @{ $opts->{'rrd_opts'} }
-    );
+    my $start_time;
+    my $end_time;
+    my @cmd;
+    if (defined($Args->{'end'})) {
+        $start_time = $Args->{'start'};
+        $end_time = $Args->{'end'};
+        @cmd = (
+            '-',
+            '-a', $OutputFormat,
+            '-s', $start_time, 
+            '-e', $end_time, 
+            '-t', $opts->{'title'} || 'Unknown title',
+            @RRDDefaultArgs, 
+            @{ $opts->{'rrd_opts'} }
+        );
+    } else {
+        @cmd = (
+            '-',
+            '-a', $OutputFormat,
+            '-s', $timespan_int, 
+            '-t', $opts->{'title'} || 'Unknown title',
+            @RRDDefaultArgs, 
+            @{ $opts->{'rrd_opts'} }
+        );
+    }
     my $max_inst_name = 0;
 
     for ( $i = 0 ; $i < @$sources ; $i++ ) {
