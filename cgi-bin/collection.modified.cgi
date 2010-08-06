@@ -126,7 +126,7 @@ sub validate_args {
     else {
         $Args->{'timespan'} = 'day';
     }
-    
+
     if ( defined( $Args->{'output'} )
         && ( $Args->{'output'} =~ m/^(json)$/ ) )
     {
@@ -622,7 +622,7 @@ sub action_show_plugin_json {
         }
     }
     # TODO: send list of hosts
-    
+
     for ( sort ( keys %$selected_plugins ) ) {
         my $plugin      = $_;
         my $plugin_html = encode_entities($plugin);
@@ -661,7 +661,7 @@ sub action_show_plugin_json {
                     for (@hosts) {
                         my $host = $_;
                         my $host_graph_url = $graph_url . ';host=' . uri_escape($host);
-                        
+
                         if ( exists $plugins_per_host->{$host}{$plugin}{$pinst}{$type} ) {
                             my $host_graph_url_hour = $host_graph_url . ';timespan=hour';
                             my $host_graph_url_day = $host_graph_url . ';timespan=day';
@@ -717,7 +717,7 @@ sub action_show_plugin_json {
             }    # for ($type)
         }    # for ($pinst)
     }    # for ($plugin)
-    
+
     # Enable autoflush
     $| = 1;
 
@@ -780,7 +780,7 @@ sub action_show_graph {
         month => 31 * -86400,
         year  => 366 * -86400
     );
-    
+
     my $start_time;
     my $end_time;
     if (defined($Args->{'end'})) {
@@ -807,6 +807,7 @@ sub action_show_graph {
       . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
       . "/$type"
       . ( defined($type_instance) ? "-$type_instance" : '' );
+
     for ( my $i = 0 ; $i < @DataDirs ; $i++ ) {
         my $file = $DataDirs[$i] . "/$title.rrd";
         next if ( !-f $file );
@@ -816,9 +817,9 @@ sub action_show_graph {
         RRDs::graph(
             '-',
             '-a', $OutputFormat,
-            '-s', $start_time, 
-            '-e', $end_time, 
-            '-t', $short_title, 
+            '-s', $start_time,
+            '-e', $end_time,
+            '-t', $short_title,
             @RRDDefaultArgs,
             @rrd_args
         );
@@ -826,8 +827,8 @@ sub action_show_graph {
         RRDs::graph(
             '-',
             '-a', $OutputFormat,
-            '-s', $start_time, 
-            '-t', $short_title, 
+            '-s', $start_time,
+            '-t', $short_title,
             @RRDDefaultArgs,
             @rrd_args
         );
@@ -873,7 +874,7 @@ sub main {
     read_config();
     validate_args();
     _get_format_param();
-    
+
     if ( defined( $Args->{'action'} )
         && ( $Args->{'action'} eq 'hostlist_json' ) )
     {
@@ -884,7 +885,7 @@ sub main {
     {
         return ( action_show_host_json() );
     }
-    
+
     if ( defined( $Args->{'action'} )
         && ( $Args->{'action'} eq 'graphs_json' ) )
     {
@@ -897,15 +898,15 @@ sub main {
     {
         $| = 1;
         if(defined ($Args->{'enable-caching'})){
-            print STDOUT header(-Content_Type => $ContentType, 
-                                -Expires=>'+1h', 
+            print STDOUT header(-Content_Type => $ContentType,
+                                -Expires=>'+1h',
                                 -Cache_Control=>'maxage=3600',
-                                -Pragma=>'public');    
+                                -Pragma=>'public');
         } else {
             print STDOUT header( -Content_Type => $ContentType);
         }
-        
-        
+
+
         action_show_graph(
             $Args->{'host'},            $Args->{'plugin'},
             $Args->{'plugin_instance'}, $Args->{'type'},
@@ -923,9 +924,9 @@ sub main {
         $| = 1;
         if(defined ($Args->{'enable-caching'})){
             print STDOUT header(-Content_Type => $ContentType,
-                                -Expires=>'+1h', 
+                                -Expires=>'+1h',
                                 -Cache_Control=>'maxage=3600',
-                                -Pragma=>'public' );    
+                                -Pragma=>'public' );
         } else {
             print STDOUT header( -Content_Type => $ContentType);
         }
@@ -2559,6 +2560,55 @@ sub load_graph_definitions {
             'GPRINT:proc_max:MAX:%4.1lf Max,',
             'GPRINT:proc_avg:LAST:%4.1lf Last\l'
         ],
+        haproxy_sessions => [
+            '-v', 'Sessions', '-l', '0',
+            'DEF:que_min={file}:qcur:MIN',
+            'DEF:que_ave={file}:qcur:AVERAGE',
+            'DEF:que_max={file}:qcur:MAX',
+            'DEF:ses_min={file}:scur:MIN',
+            'DEF:ses_ave={file}:scur:AVERAGE',
+            'DEF:ses_max={file}:scur:MAX',
+            "AREA:que_ave#$HalfRed",
+            "LINE1:ses_ave#$FullGreen:Current Sessions",
+            'GPRINT:ses_min:MIN:Min\: %2.lf',
+            'GPRINT:ses_ave:AVERAGE:Ave\: %2.lf',
+            'GPRINT:ses_max:MAX:Max\: %2.lf',
+            'GPRINT:ses_ave:LAST:Last\: %2.lf\j',
+            "LINE1:que_ave#$FullRed:Average Queue",
+            'GPRINT:que_min:MIN:Min\: %2.lf',
+            'GPRINT:que_ave:AVERAGE:Ave\: %2.lf',
+            'GPRINT:que_max:MAX:Max\: %2.lf',
+            'GPRINT:que_ave:LAST:Last\: %2.lf\j',
+            'COMMENT: \n',
+            'COMMENT: qcur is the current queue size \n',
+            'COMMENT: scur is the current number of sessions '
+        ],
+        haproxy_traffic => [
+            '-v', 'Req/s', '-l', '0',
+            'DEF:stot_min={file}:stot:MIN',
+            'DEF:stot_ave={file}:stot:AVERAGE',
+            'DEF:stot_max={file}:stot:MAX',
+            "AREA:stot_ave#$HalfRed",
+            "LINE1:stot_ave#$FullRed:Total Session",
+            'GPRINT:stot_min:MIN:Min\: %2.lf',
+            'GPRINT:stot_ave:AVERAGE:Ave\: %2.lf',
+            'GPRINT:stot_max:MAX:Max\: %2.lf',
+            'GPRINT:stot_ave:LAST:Last\: %2.lf\j'
+        ],
+        haproxy_status => [
+            '-v', 'Status', '-l', '0',
+            'DEF:stat_min={file}:status:MIN',
+            'DEF:stat_ave={file}:status:AVERAGE',
+            'DEF:stat_max={file}:status:MAX',
+            "AREA:stat_ave#$HalfRed",
+            "LINE1:stat_ave#$FullRed:Status",
+            'GPRINT:stat_min:MIN:Min\: %2.lf',
+            'GPRINT:stat_ave:AVERAGE:Ave\: %2.lf',
+            'GPRINT:stat_max:MAX:Max\: %2.lf',
+            'GPRINT:stat_ave:LAST:Last\: %2.lf\j'
+        ],
+
+
     };
     $GraphDefs->{'if_multicast'}        = $GraphDefs->{'ipt_packets'};
     $GraphDefs->{'if_tx_errors'}        = $GraphDefs->{'if_rx_errors'};
@@ -2593,19 +2643,19 @@ sub meta_graph_generic_stack {
         @cmd = (
             '-',
             '-a', $OutputFormat,
-            '-s', $start_time, 
-            '-e', $end_time, 
+            '-s', $start_time,
+            '-e', $end_time,
             '-t', $opts->{'title'} || 'Unknown title',
-            @RRDDefaultArgs, 
+            @RRDDefaultArgs,
             @{ $opts->{'rrd_opts'} }
         );
     } else {
         @cmd = (
             '-',
             '-a', $OutputFormat,
-            '-s', $timespan_int, 
+            '-s', $timespan_int,
             '-t', $opts->{'title'} || 'Unknown title',
-            @RRDDefaultArgs, 
+            @RRDDefaultArgs,
             @{ $opts->{'rrd_opts'} }
         );
     }

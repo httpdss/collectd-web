@@ -2,17 +2,17 @@
 
 # Collectd-web - graphdefs.cgi
 # Copyright (C) 2009-2010  Kenneth Belitzky
-# 
+#
 # This program is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
 # Foundation; either version 2 of the License, or (at your option) any later
 # version.
-# 
+#
 # This program is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 # FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
 # details.
-# 
+#
 # You should have received a copy of the GNU General Public License along with
 # this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
@@ -1477,7 +1477,7 @@ sub load_graph_definitions
         'GPRINT:total_avg:LAST:%5.1lf Last\l',
         "LINE1:running_avg#$FullRed:Running ",
         'GPRINT:running_min:MIN:%5.1lf Min,',
-        'GPRINT:running_avg:AVERAGE:%5.1lf Avg.,',          
+        'GPRINT:running_avg:AVERAGE:%5.1lf Avg.,',
         'GPRINT:running_max:MAX:%5.1lf Max,',
         'GPRINT:running_avg:LAST:%5.1lf Last\l',
         "LINE1:uninterruptible_avg#$FullGreen:Unintr  ",
@@ -1537,5 +1537,30 @@ sub load_graph_definitions
         'GPRINT:proc_max:MAX:%4.1lf Max,',
         'GPRINT:proc_avg:LAST:%4.1lf Last\l'
         ],
+        haproxy_traffic => [
+            '-v', 'Req/s', '-l', '0',
+            'DEF:stot_min={file}:stot:MIN',
+            'DEF:stot_ave={file}:stot:AVERAGE',
+            'DEF:stot_max={file}:stot:MAX',
+            "AREA:stot_ave#$HalfRed",
+            "LINE1:stot_ave#$FullRed:Total Session",
+            'GPRINT:stot_min:MIN:Min\: %2.lf',
+            'GPRINT:stot_ave:AVERAGE:Ave\: %2.lf',
+            'GPRINT:stot_max:MAX:Max\: %2.lf',
+            'GPRINT:stot_ave:LAST:Last\: %2.lf\j'
+        ],
+        haproxy_status => [
+            '-v', 'Status', '-l', '0',
+            'DEF:stat_min={file}:status:MIN',
+            'DEF:stat_ave={file}:status:AVERAGE',
+            'DEF:stat_max={file}:status:MAX',
+            "AREA:stat_ave#$HalfRed",
+            "LINE1:stat_ave#$FullRed:Status",
+            'GPRINT:stat_min:MIN:Min\: %2.lf',
+            'GPRINT:stat_ave:AVERAGE:Ave\: %2.lf',
+            'GPRINT:stat_max:MAX:Max\: %2.lf',
+            'GPRINT:stat_ave:LAST:Last\: %2.lf\j'
+        ],
+
     };
 } # load_graph_definitions
