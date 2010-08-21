@@ -123,7 +123,6 @@ function update_graphs() {
             'start': start,
             'end': end
         });
-        console.info(new_url)
         $this.attr('src', new_url);
     });
 }
@@ -163,8 +162,7 @@ function lazy_check() {
             var elem_top = $(this).offset().top;
             if ((window_top > elem_top) && (elem_top != 0)) {
                 show_lazy_graph(this);
-                $(this).removeClass('toload')
-                console.info($(this).attr('src'));
+                $(this).removeClass('toload');
             }
 
         });
