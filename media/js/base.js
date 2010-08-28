@@ -183,23 +183,12 @@ var load_url = function () {
             $(this).removeClass('selected');
         });
         $selected_host = $(this).html();
-        $.getJSON('cgi-bin/collection.modified.cgi?action=pluginlist_json&host=' + $selected_host, function (data) {
-            $("#plugins").html('');
-            $("#plugins").append(create_plugin_menu($selected_host, data));
-
-            $('#plugins ul li a').click(function () {
-                $('#plugins').data('selected_plugin', $(this).attr('rel'));
-            });
-        });
+        $.historyLoad($selected_host);
+        display_host();
     } else {
         $selected_plugin = $(this).html();
-        $(".graph-imgs-container").html('');
-        $.getJSON('cgi-bin/collection.modified.cgi?action=graphs_json;plugin=' + $selected_plugin + ';host=' + $selected_host, function (data) {
-            $graph_json = data
-            create_graph_list("hour", data.hour);
-            $('#graph-container').html(get_graph_main_container($selected_host));
-            lazy_check();
-        });
+        $.historyLoad($selected_host + "," + $selected_plugin);
+        display_plugin();
     }
 
 
@@ -212,7 +201,53 @@ var load_url = function () {
     return false;
 }
 
+var display_host = function () {
+    $.getJSON('cgi-bin/collection.modified.cgi?action=pluginlist_json&host=' + $selected_host, function (data) {
+        $("#plugins").html('');
+        $("#plugins").append(create_plugin_menu($selected_host, data));
+
+        $('#plugins ul li a').click(function () {
+            $('#plugins').data('selected_plugin', $(this).attr('rel'));
+        });
+    });
+}
+
+var display_plugin = function () {
+    $(".graph-imgs-container").html('');
+    $.getJSON('cgi-bin/collection.modified.cgi?action=graphs_json;plugin=' + $selected_plugin + ';host=' + $selected_host, function (data) {
+        $graph_json = data
+        create_graph_list("hour", data.hour);
+        $('#graph-container').html(get_graph_main_container($selected_host));
+        lazy_check();
+    });
+}
+
+/**
+ * checks the url hash information and restores the display to that state
+ *     it is called from the history plugin
+ */
+var pageload = function (hash) {
+    var hashParts = hash.split(",");
+    $selected_host = hashParts[0];
+    $selected_plugin = hashParts[1];
+
+    if($selected_host){
+        display_host();
+    }
+    if($selected_plugin){
+        display_plugin();
+    }
+    else{
+        //clear the graph display
+        $('#graph-container').html('');
+    }
+}
+
+
 $(document).ready(function () {
+
+    //set up history
+    $.historyInit(pageload, "jquery_history.html");
 
     $.ajaxSetup({
         cache: true
