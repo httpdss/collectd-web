@@ -3,7 +3,6 @@
 	<name>Collectd-Web</name>
 	<comment></comment>
 	<projects>
-		<project>AptanaScripnips</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
