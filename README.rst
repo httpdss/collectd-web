@@ -22,6 +22,12 @@ Create /etc/collectd/collection.conf with the content:
  datadir: "/etc/collectd/collectd-web/"
 
 
+Using the webserver
+===================
+Give collectd-web a try! Execute the standalone web server and you are done:
+
+	python runserver.py
+
 Links
 =====
  * http://kenny.belitzky.com/projects/collectd-web
