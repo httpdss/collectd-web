@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 # Collectd-web - time.cgi
 # Copyright (C) 2009-2010  Kenneth Belitzky

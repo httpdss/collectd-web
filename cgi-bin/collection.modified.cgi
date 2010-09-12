@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 # Collectd-web - collection.modified.cgi
 # Copyright (C) 2006-2010  Florian "octo" Forster
 # Copyright (C) 2009-2010  Kenneth Belitzky
