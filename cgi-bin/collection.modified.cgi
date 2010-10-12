@@ -1440,7 +1440,7 @@ sub load_graph_definitions {
             'DEF:temp_max={file}:value:MAX',
             "AREA:temp_max#$HalfGreen",
             "AREA:temp_min#$Canvas",
-            "LINE1:temp_avg#$FullGreen:Temperature",
+            "LINE1:temp_avg#$FullGreen:Humidity",
             'GPRINT:temp_min:MIN:%4.1lf%% Min,',
             'GPRINT:temp_avg:AVERAGE:%4.1lf%% Avg,',
             'GPRINT:temp_max:MAX:%4.1lf%% Max,',
