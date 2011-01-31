@@ -59,6 +59,11 @@ function get_url_params(url) {
     return params;
 }
 
+function suggestTimestamp (txt) {
+    console.info(txt);
+    return [txt, txt,'10'];
+}
+
 /**
  * Build up and url with the given parameters
  * @param original_url string with the original url
@@ -89,6 +94,13 @@ function control_container(txt) {
     return '<div class="icons ui-state-default ui-corner-all">' + txt + '</div>';
 }
 
+
+var availableTimeStamps = ["now","end","start",
+    "hours","hour","h",
+    "minute", "minute", "min","m",
+    "seconds","second","sec",
+    "months","month",
+    "years","year","y"];
 /**
  * return html structure for the available plugins menu
  * @param host
@@ -343,6 +355,14 @@ $(document).ready(function () {
             lazy_check();
         });
     }
+
+    $('.timespan-from, .timespan-to').autocomplete({
+
+    source: function( request, response ) {
+					// delegate back to autocomplete, but extract the last term
+					response( suggestTimestamp( request.term ));
+				}}
+            );
 
     $('#rrdeditor-submit').click(function () {
         $('#timespan-menu').data('start',$('.timespan-from').val());

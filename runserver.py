@@ -6,6 +6,8 @@ import BaseHTTPServer
 class Handler(CGIHTTPServer.CGIHTTPRequestHandler):
     cgi_directories = ["/cgi-bin"]
 
+
+
 PORT = 8888
 
 httpd = BaseHTTPServer.HTTPServer(("", PORT), Handler)
