@@ -23,6 +23,23 @@ var $selected_plugin = '';
 var $graph_json = null;
 var window_top = 0;
 var previous_window_top = 0;
+
+
+// error free logger taken from:
+// http://goo.gl/yG9Gb
+var Fb = {}; //An empty object literal for holding the function
+Fb.log = function(obj, consoleMethod) {
+       if (window.console && window.console.firebug && window.console.firebug.replace(/^\s\s*/, '').replace(/\s\s*$/, '') !== '') {
+               if (typeof consoleMethod === "string" && typeof console[consoleMethod] === "function") {
+                       console[consoleMethod](obj);
+               } else {
+                       console.log(obj);
+               }
+       }
+}
+
+
+
 /**
  * Get the id of the container for the selected element
  * 
