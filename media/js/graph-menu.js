@@ -24,7 +24,7 @@
  * @return
  */
 function move_graph(menu_element, seconds) {
-	var gc_img = $(menu_element).parent().parent().parent().find('.gc-img');
+	var gc_img = $(menu_element).closest('li.gc').find('.gc-img');
 	var url = $(gc_img).attr('src');
 	var params = get_url_params(url);
 	var start = 0;
@@ -40,7 +40,7 @@ function move_graph(menu_element, seconds) {
 }
 
 function zoom_graph(menu_element, seconds) {
-	var gc_img = $(menu_element).parent().parent().parent().find('.gc-img');
+	var gc_img = $(menu_element).closest('li.gc').find('.gc-img');
 	var url = $(gc_img).attr('src');
 	var params = get_url_params(url);
 	var start = 0;
@@ -74,7 +74,7 @@ $(function() {
 	});
 
 	$('li.graph-image .ui-icon-close').live('click', function() {
-		$(this).parent().parent().parent().remove();
+		$(this).closest('li.gc').remove();
 	});
 
 	$('li.graph-image .ui-icon-star').live('click', function() {
