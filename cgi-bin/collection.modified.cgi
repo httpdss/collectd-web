@@ -1002,6 +1002,20 @@ sub load_graph_definitions {
             'GPRINT:min:MIN:%6.2lf Min,', 'GPRINT:avg:AVERAGE:%6.2lf Avg,',
             'GPRINT:max:MAX:%6.2lf Max,', 'GPRINT:avg:LAST:%6.2lf Last'
         ],
+        connections => [
+            'DEF:min={file}:value:MIN',   'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',   "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",           "LINE1:avg#$FullBlue:Connections/s",
+            'GPRINT:min:MIN:%6.2lf Min,', 'GPRINT:avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:max:MAX:%6.2lf Max,', 'GPRINT:avg:LAST:%6.2lf Last'
+        ],
+        cache_result => [
+            'DEF:min={file}:value:MIN',   'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',   "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",           "LINE1:avg#$FullBlue:Requests/s",
+            'GPRINT:min:MIN:%6.2lf Min,', 'GPRINT:avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:max:MAX:%6.2lf Max,', 'GPRINT:avg:LAST:%6.2lf Last'
+        ],
         apache_scoreboard => [
             'DEF:min={file}:count:MIN',   'DEF:avg={file}:count:AVERAGE',
             'DEF:max={file}:count:MAX',   "AREA:max#$HalfBlue",
