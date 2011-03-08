@@ -16,61 +16,109 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
+function print_date(in_date) {
+    var out_date = in_date.toString("HH:mm MMM d yyyy");
+    return out_date;
+}
+
+function get_milliseconds (in_date) {
+    var out_date = new Date.UTC(in_date.getFullYear(),
+            in_date.getMonth(),
+            in_date.getDay(),
+            in_date.getHours(),
+            in_date.getMinutes(),
+            in_date.getSeconds(),
+            in_date.getMilliseconds());
+    return out_date;
+}
+function get_exact_date (in_date) {
+    var out_date = Date.parseExact(in_date, "HH:mm MMM d yyyy");
+    return out_date;
+}
+
+function get_date_distance (in_start, in_end) {
+   var start_millis = get_milliseconds(in_start);
+   var end_millis = get_milliseconds(in_end);
+   var millis = end_millis - start_millis;
+   return millis;
+}
+
 /**
  * Function to make the graph move on the x axis
  * @param menu_element the button of the menu pressed
- * @param seconds number of seconds to move. positive values move
+ * @param 
  * the graph to the right and negative values to the left
  * @return
  */
-function move_graph(menu_element, seconds) {
+function move_graph(menu_element, direction) {
 	var gc_img = $(menu_element).closest('li.gc').find('.gc-img');
 	var url = $(gc_img).attr('src');
 	var params = get_url_params(url);
-	var start = 0;
-	var end = 0;
-	
-	if (params.start != null) { start = params.start; }
-	if (params.end != null) { end = params.end; }
-	
-	start = start + seconds;
-	end = end + seconds;
-	
-	$(gc_img).attr('src', build_url())
+
+    var end = Date.parse("now");
+    var start = Date.parse("now").add(-1).hours();
+
+	if (params.start != null) { start = get_exact_date(params.start); }
+    if (params.end != null) { end = get_exact_date(params.end); }
+
+    var date_distance = Math.round(get_date_distance(start, end) / 2);
+
+    if (direction) { 
+        start.add((-1)*date_distance).milliseconds();
+        end.add((-1)*date_distance).milliseconds();
+    } else {
+        start.add(date_distance).milliseconds();
+        end.add(date_distance).milliseconds();
+    }
+
+    $(gc_img).attr('src', build_url(url, {'start':print_date(start), 
+                                          'end':print_date(end)
+                                         }));
 }
 
-function zoom_graph(menu_element, seconds) {
+function zoom_graph(menu_element, direction) {
 	var gc_img = $(menu_element).closest('li.gc').find('.gc-img');
 	var url = $(gc_img).attr('src');
 	var params = get_url_params(url);
-	var start = 0;
-	var end = 0;
 
-	if (params.start != null) { start = params.start; }
-	if (params.end != null) { end = params.end; }
+    var zoom_factor = 0.5;
 
-	start = start + seconds;
-	
-	$('.gc_img').attr('src', build_url())
+    var end = Date.parse("now");
+    var start = Date.parse("now").add(-1).hours();
+
+	if (params.start != null) { start = get_exact_date(params.start); }
+    if (params.end != null) { end = get_exact_date(params.end); }
+
+    var date_distance = Math.round(get_date_distance(start, end) * zoom_factor);
+
+    if (direction) { 
+        start.add((-1)*date_distance).milliseconds();
+    } else {
+        start.add(date_distance).milliseconds();
+    }
+
+    $(gc_img).attr('src', build_url(url, {'start':print_date(start), 
+                                          'end':print_date(end)
+                                         }));
 }
 
 
 $(function() {
 
 	$('li.graph-image .ui-icon-triangle-1-w').live('click', function() {
-		move_graph(this, 5);
+		move_graph(this, true);
 	});
 
 	$('li.graph-image .ui-icon-triangle-1-e').live('click', function() {
-		move_graph(this, -5);
+		move_graph(this, false);
 	});
 	
 	$('li.graph-image .ui-icon-zoomin').live('click', function() {
-		zoom_graph(this, 5);
+		zoom_graph(this, false);
 	});
 
 	$('li.graph-image .ui-icon-zoomout').live('click', function() {
-		zoom_graph(this, -5);
+		zoom_graph(this, true);
 	});
 
 	$('li.graph-image .ui-icon-close').live('click', function() {

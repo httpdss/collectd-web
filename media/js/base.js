@@ -15,6 +15,7 @@
 // this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+
 /**
  * Global vars
  */
@@ -38,6 +39,19 @@ Fb.log = function(obj, consoleMethod) {
        }
 }
 
+/*
+ * checks to see if the number is negative
+ *
+ */
+function is_neg(string) {
+    var numericExpression = /^-[0-9]+$/;
+
+    if(string.match(numericExpression)) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 
 /**
@@ -65,14 +79,15 @@ function get_gmt(offset) {
     return offset
 }
 
-function get_url_params(url) {
+function get_url_params(in_url) {
     var params = {};
-    url = url.replace(/.*\?(.*?)/, "$1");
-    variables = url.split(";");
+    var nurl = in_url.replace(/.*\?(.*?)/, "$1");
+    variables = nurl.split(";");
     for (i = 0; i < variables.length; i++) {
         separ = variables[i].split("=");
         params[separ[0]] = separ[1];
     }
+    Fb.log(params,"info");
     return params;
 }
 
@@ -84,14 +99,16 @@ function get_url_params(url) {
  */
 
 function build_url(original_url, new_params) {
+    Fb.log(new_params,"warning");
     params = get_url_params(original_url);
     $.extend(params, new_params);
     var url = original_url.split('?')[0] + '?';
     for (key in params) {
-        if (params[key] != '') {
+        if (params[key] != '' || params[key] == 0) {
         url += key + '=' + params[key] + ';';
         }
     }
+    Fb.log(url,"info");
     return url;
 }
 
@@ -239,7 +256,6 @@ $(document).ready(function () {
         $(this).show();
     });
 
-    reset_timespan();
 
     $("#loading").ajaxStop(function () {
         $(this).hide();
@@ -247,9 +263,12 @@ $(document).ready(function () {
         $('#graph-view').trigger('change');
     });
 
+    reset_timespan();
+
     $.getJSON('cgi-bin/collection.modified.cgi?action=hostlist_json', function (data) {
         for (i = 0; i < data.length; i++) {
-            $("#hosts ul").append('<li><a href="cgi-bin/collection.modified.cgi?action=show_host;host=' + data[i] + '">' + data[i] + '</a></li>');
+            $("#hosts ul").append('<li><a href="cgi-bin/collection.modified.cgi?action=show_host;host=' + data[i] + '">' 
+                + data[i] + '</a></li>');
         }
     });
 
@@ -258,11 +277,12 @@ $(document).ready(function () {
     $("#clock").jclock();
 
     $('.ttip').hover(function () {
-        var text = $(this).find('div.ttip-content').html();
-        $('#help-box').html(text).fadeIn();
-    }, function () {
-        $('#help-box').html('').hide();
-    });
+                        var text = $(this).find('div.ttip-content').html();
+                        $('#help-box').html(text).fadeIn();
+                    }, 
+                     function () {
+                        $('#help-box').html('').hide();
+                    });
 
     $.getJSON('cgi-bin/time.cgi', function (data) {
         $("#clock-server").jclock({
