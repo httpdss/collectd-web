@@ -2749,6 +2749,19 @@ sub load_graph_definitions {
             'GPRINT:stat_max:MAX:Max\: %2.lf',
             'GPRINT:stat_ave:LAST:Last\: %2.lf\j'
         ],
+        response_time => [
+            '-v', 'Seconds', '-l', '0',
+            'DEF:rt_avg={file}:value:AVERAGE',
+            'DEF:rt_min={file}:value:MIN',
+            'DEF:rt_max={file}:value:MAX',
+            "AREA:rt_max#$HalfBlue",
+            "AREA:rt_min#$Canvas",
+            "LINE1:rt_avg#$FullBlue:Response Time",
+            'GPRINT:rt_min:MIN:%4.1lf ms Min,',
+            'GPRINT:rt_avg:AVERAGE:%4.1lf ms Avg,',
+            'GPRINT:rt_max:MAX:%4.1lf ms Max,',
+            'GPRINT:rt_avg:LAST:%4.1lf ms Last'
+        ],
 
 
     };
