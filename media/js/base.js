@@ -157,7 +157,8 @@ function create_plugin_menu(host, plugins) {
     var tpl = '<div><div class="ui-widget-header ui-corner-top"><h3>Available Plugins</h3></div>';
     tpl += '<div id="plugin-container" class="ui-widget-content ui-corner-bottom  "><ul>';
     for (var p = 0; p < plugins.length; p++) {
-        tpl += '<li><a href="cgi-bin/collection.modified.cgi?action=show_plugin;host=' + host + ';timespan=day;plugin=' + plugins[p] + '">' + plugins[p] + '</a></li>';
+        tpl += '<li><a href="cgi-bin/collection.modified.cgi?action=show_plugin;host=' + host + 
+            ';timespan=day;plugin=' + plugins[p] + '">' + plugins[p] + '</a></li>';
     }
     tpl += '</ul></div>';
     tpl += '</div>';
@@ -167,18 +168,13 @@ function create_plugin_menu(host, plugins) {
 function get_graph_menu() {
     return $('#graph-menu-partial').html();
 }
-function reset_timespan() {
-        $('#timespan-menu').data('start', '');
-        $('#timespan-menu').data('end', '');
-}
-function update_graphs() {
+
+function update_all_graphs(start, end) {
     $('.gc-img').each(function () {
         var $this = $(this)
-        var start = $('#timespan-menu').data('start');
-        var end = $('#timespan-menu').data('end');
         var new_url = build_url($this.attr('src'), {
-            'start': start,
-            'end': end
+            'start': print_date(start),
+            'end': print_date(end)
         });
         $this.attr('src', new_url);
     });
@@ -288,8 +284,6 @@ $(document).ready(function () {
         $('.sortable').sortable();
         $('#graph-view').trigger('change');
     });
-
-    reset_timespan();
 
     $.getJSON('cgi-bin/collection.modified.cgi?action=hostlist_json', function (data) {
         for (i = 0; i < data.length; i++) {
@@ -411,7 +405,7 @@ $(document).ready(function () {
     });
 
     $('.rrdeditor-reset').click(function () {
-        reset_timespan();
+        //FIXME need to reset values 
         update_graphs();
 
         return false;
@@ -419,9 +413,11 @@ $(document).ready(function () {
 
     $("#timespan-menu li").live('click', function () {
         var timespan = $(this).html();
+        
+        var end_date = Date.parse("now");
+        var start_date = get_timespan_start(timespan); 
 
-        reset_timespan();
-        update_graphs();
+        update_all_graphs(start_date, end_date);
 
         $("#timespan-menu li").each(function () {
             $(this).removeClass("selected");
