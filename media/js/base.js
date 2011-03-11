@@ -91,6 +91,29 @@ function get_url_params(in_url) {
     return params;
 }
 
+
+function get_timespan_start (timespan) {
+    var out_date = Date.parse("now");
+    switch (timespan) {
+        case "hour":
+            out_date.add(-1).hours();
+            break;
+        case "day":
+            out_date.add(-1).days();
+            break;
+        case "week":
+            out_date.add(-1).weeks();
+            break;
+        case "month":
+            out_date.add(-1).months();
+            break;
+        case "year":
+            out_date.add(-1).years();
+            break;
+    }
+    return out_date;
+}
+
 /**
  * Build up and url with the given parameters
  * @param original_url string with the original url
@@ -99,7 +122,7 @@ function get_url_params(in_url) {
  */
 
 function build_url(original_url, new_params) {
-    Fb.log(new_params,"warning");
+    Fb.log(new_params, "warning");
     params = get_url_params(original_url);
     $.extend(params, new_params);
     var url = original_url.split('?')[0] + '?';
@@ -171,16 +194,21 @@ function show_lazy_graph(elem) {
 }
 
 function create_graph_list(timespan, graphs) {
+    var end_date = Date.parse("now");
+    var start_date = get_timespan_start(timespan);
+
     var $tpl = '';
+    var final_url = '';
     $tpl += '<li class="ui-widget graph-image ' + timespan + '">';
     $tpl += '<ul class="sortable ui-sortable">';
     for (var g = 0; g < graphs.length; g++) {
+        final_url = build_url(graphs[g], {'start':print_date(start_date), 'end': print_date(end_date)});
         $tpl += '<li class="gc">';
         $tpl += get_graph_menu();
         if ($('#graph-caching-checkbox').attr('checked')) {
-            $tpl += '<img class="gc-img toload" src="media/images/graph-load.png" title="' + graphs[g] + '"/></li>';
+            $tpl += '<img class="gc-img toload" src="media/images/graph-load.png" title="' + final_url + '"/></li>';
         } else {
-            $tpl += '<img class="gc-img" src="' + graphs[g] + '"/></li>';
+            $tpl += '<img class="gc-img" src="' + final_url + '"/></li>';
         }
         $tpl += '</li>';
     }
@@ -248,14 +276,12 @@ var load_url = function () {
 
 $(document).ready(function () {
 
-    $.ajaxSetup({
-        cache: true
-    });
+    $('#menu-tabs').tabs();
+    $('button').button();
 
-    $("#loading").ajaxStart(function () {
-        $(this).show();
-    });
+    $.ajaxSetup({ cache: true });
 
+    $("#loading").ajaxStart(function () { $(this).show(); });
 
     $("#loading").ajaxStop(function () {
         $(this).hide();
@@ -272,10 +298,6 @@ $(document).ready(function () {
         }
     });
 
-    $('#menu-tabs').tabs();
-
-    $("#clock").jclock();
-
     $('.ttip').hover(function () {
                         var text = $(this).find('div.ttip-content').html();
                         $('#help-box').html(text).fadeIn();
@@ -283,6 +305,9 @@ $(document).ready(function () {
                      function () {
                         $('#help-box').html('').hide();
                     });
+
+    // set local and server time
+    $("#clock").jclock();
 
     $.getJSON('cgi-bin/time.cgi', function (data) {
         $("#clock-server").jclock({
@@ -315,7 +340,6 @@ $(document).ready(function () {
         return false;
     });
 
-    $('button').button();
 
     $('#show-ruler-checkbox').click(function () {
         if ($(this).attr('checked')) {
@@ -367,7 +391,6 @@ $(document).ready(function () {
         }
 
         $(this).focus();
-
     });
 
     $('#hosts a, #plugins a').live('click', function () {
@@ -375,7 +398,6 @@ $(document).ready(function () {
     });
 
     if ($('#graph-caching-checkbox').attr('checked')) {
-
         $(window).scroll(function () {
             lazy_check();
         });
@@ -387,23 +409,28 @@ $(document).ready(function () {
         update_graphs();
         return false;
     });
+
     $('.rrdeditor-reset').click(function () {
-            reset_timespan();
+        reset_timespan();
         update_graphs();
 
         return false;
     });
 
     $("#timespan-menu li").live('click', function () {
+        var timespan = $(this).html();
+
         reset_timespan();
         update_graphs();
+
         $("#timespan-menu li").each(function () {
             $(this).removeClass("selected");
         });
-        var timespan = $(this).html();
+
         if (!$("li.graph-image").hasClass(timespan)) {
             create_graph_list(timespan, $graph_json[timespan]);
         }
+
         $("li.graph-image").hide();
         $("li.graph-image." + timespan).show();
         $("#timespan-menu li:contains(" + timespan + ")").addClass("selected");

@@ -32,7 +32,7 @@ function get_milliseconds (in_date) {
     return out_date;
 }
 function get_exact_date (in_date) {
-    var out_date = Date.parseExact(in_date, "HH:mm MMM d yyyy");
+    var out_date = Date.parseExact(unescape(in_date), "HH:mm MMM d yyyy");
     return out_date;
 }
 
