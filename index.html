@@ -15,6 +15,7 @@
         <script type="text/javascript" src="media/js/jquery-ui-1.8.custom.min.js"></script>
         <script type="text/javascript" src="media/js/jquery.jclock.js"></script>
         <script type="text/javascript" src="media/js/external/date.js"></script>
+        <script type="text/javascript" src="media/js/external/jquery.jixedbar.js"></script>
         <script type="text/javascript" src="media/js/jquery.validate.pack.js"></script>
         <script type="text/javascript" src="media/js/base.js"></script>
         <script type="text/javascript" src="media/js/graph-menu.js"></script>
@@ -202,7 +203,7 @@
                 </div>
             </div>
         </div>
-        <div class='container'>
+        <div class='container' style="margin-bottom:60px;">
             <div class='column span-7'>
                 <div id="hosts" class="no-bullets ui-widget">
                     <div class="ui-widget-header ui-corner-top">
@@ -221,7 +222,30 @@
                 <div id="graph-container" class="no-bullets"></div>
             </div>
         </div>
-        <div class='container'></div>
+        <div class='container'>
+
+        </div>
+        <div class="container">
+            <div id="toolbar-container" class="ui-widget container">
+                <div id="toolbar-content" class="ui-widget-content column span-22 append-1 prepend-1">
+                    <span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-home"></span></span>
+
+                    <span class="icons ui-state-default ui-corner-all icon-left"><span class="ui-icon ui-icon-triangle-1-w"></span></span>
+                    <span class="icons ui-state-default ui-corner-all icon-middle"><span class="ui-icon ui-icon-triangle-1-e"></span></span>
+                    <span class="icons ui-state-default ui-corner-all icon-middle"><span class="ui-icon ui-icon-zoomin"></span></span>
+                    <span class="icons ui-state-default ui-corner-all icon-right"><span class="ui-icon ui-icon-zoomout"></span></span>
+
+                    <span class="icons ui-state-default ui-corner-all icon-left"><span class="ui-icon text-icon">H</span></span>
+                    <span class="icons ui-state-default ui-corner-all icon-middle"><span class="ui-icon text-icon">D</span></span>
+                    <span class="icons ui-state-default ui-corner-all icon-middle"><span class="ui-icon text-icon">W</span></span>
+                    <span class="icons ui-state-default ui-corner-all icon-middle"><span class="ui-icon text-icon">M</span></span>
+                    <span class="icons ui-state-default ui-corner-all icon-right"><span class="ui-icon text-icon">Y</span></span>
+
+                    <span class="icons ui-state-default ui-corner-all icon-left"><span class="ui-icon text-icon">All</span></span>
+                    <span class="icons ui-state-default ui-corner-all icon-right"><span class="ui-icon text-icon">None</span></span>
+                </div>
+            </div>
+        </div>
         <div id="output-dialog" class="no-bullets">
             <ul>
                 <li>
@@ -236,14 +260,15 @@
             </ul>
         </div>
         <div id="graph-menu-partial" style="display:none;">
-            <span class="gc-menu fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix"><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-triangle-1-w"></span>
-                </span><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-triangle-1-e"></span>
-                </span><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-zoomin"></span>
-                </span><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-zoomout"></span>
-                </span><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-disk"></span>
-                </span><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-star"></span>
-                </span><span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-close"></span>
-                </span></span>
+            <span class="gc-menu fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix" >
+                <span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-triangle-1-w"></span></span>
+                <span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-triangle-1-e"></span></span>
+                <span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-zoomin"></span></span>
+                <span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-zoomout"></span></span>
+                <span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-disk"></span> </span>
+                <span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-star"></span></span>
+                <span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-close"></span></span>
+            </span>
             <span class="selectable"></span>
         </div>
         <div class="graph-main-container">
