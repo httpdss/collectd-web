@@ -56,6 +56,27 @@ span.ui-icon {
     display: none;
 }
 
+#toolbar-container {
+    position:fixed;
+    bottom:0;
+}
+#toolbar-content {
+    border-bottom:none;
+
+}
+.fg-button { 
+    outline: 0; 
+    margin:2px 4px 2px 0; 
+    padding: .4em 1em; 
+    text-decoration:none !important; 
+    cursor:pointer; 
+    position: relative; 
+    text-align: center; 
+    zoom: 1; 
+    display:block;
+   }
+
+
 #slide-menu-btn {
     float: right;
     width: 100px;
@@ -156,7 +177,7 @@ li.gc .gc-menu {
     right: 10px;
     top: 10px;
     filter: alpha(opacity = 90);
-    -moz-opacity: 0.9;
+    -moz-opacity: 0.9top-Collectainer
     -khtml-opacity: 0.9;
     opacity: 0.9;
     height: 120px;
@@ -205,5 +226,40 @@ li.gc:hover .gc-menu {
 
 a:focus {
     outline-style:none;
+}
+
+.icon-left, .icon-middle {
+    margin-right:0;
+    border-right:0 none #CCC !important;
+-moz-border-radius-bottomright:  0 0;
+-moz-border-radius-topright:  0 0;
+border-top-right-radius:         0 0;
+border-bottom-right-radius:         0 0;
+    
+}
+
+.icon-right, .icon-middle {
+    margin-left:0;
+    border-left:0 none #CCC !important;
+-moz-border-radius-bottomleft:  0 0;
+-moz-border-radius-topleft:  0 0;
+border-top-left-radius:         0 0;
+border-bottom-left-radius:         0 0;
+}
+
+.icon-left span.ui-icon, .icon-middle span.ui-icon {
+}
+
+.icon-right span.ui-icon, .icon-middle span.ui-icon {
+}
+
+.text-icon {
+    text-indent: 4px;
+    color:#EC8E0C;
+    background-image:none !important;
+    font-size:10px;
+    width:100%;
+    padding-left:4px;
+    padding-right:4px;
 }
 
