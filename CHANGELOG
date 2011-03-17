@@ -2,6 +2,26 @@
 CHANGELOG 
 =========
 
+Version 0.4.0 (19/03/2011)
+==================
+ * [NEW] Pan & Zoom of graphs (Finally!)
+ * [NEW] Standalone server
+ * [NEW] Single graph selection
+ * [NEW] UI changes like the bootom toolbar
+ * [NEW] Export single graph to SVG, PDF and EPS
+ * [NEW] Grid view
+ * [NEW] Include htaccess file
+ * [NEW] Added perl dependancy checker
+ * [NEW] Counter GraphDef (Thx to Luca Spiller)
+ * [NEW] Fork Rate for processess GraphDef (Thx to Raman Gupta)
+ * [NEW] contextswitch GraphDef (Thx to Raman Gupta)
+ * [NEW] Basic Drive GraphDef (Thx to Dylan Egan)
+ * [NEW] HAProxy GraphDef (Thx to Elmer Rivera)
+ * [NEW] Process and uptime GraphDef (Thx to Michael Gebetsroither)
+ * [NEW] vmem GraphDef (Thx to Bernd Ahlers)
+ * [NEW] Some kind of image aching support (not really functional right now)
+ * [FIX] Big bug when there was no console.info support
+
 Version 0.3.0 (18/04/10)
 ========================
  * [NEW] IPhone interface
