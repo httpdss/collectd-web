@@ -473,7 +473,6 @@ sub action_show_plugin {
     for (@hosts) {
         print "\t<h2>", encode_entities($_), "</h2>\n";
     }
-    print qq(<div><strong>Select:</strong> <a id="select-all" href="">All</a>, <a id="select-none" href="">None</a><ul id="timespan-menu"><li class="selected">hour</li><li>day</li><li>week</li><li>month</li><li class="last">year</li></ul></div>);
     for ( sort ( keys %$selected_plugins ) ) {
         my $plugin      = $_;
         my $plugin_html = encode_entities($plugin);

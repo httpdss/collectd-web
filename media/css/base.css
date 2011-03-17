@@ -263,3 +263,19 @@ border-bottom-left-radius:         0 0;
     padding-right:4px;
 }
 
+
+#rrdeditor-form {
+    float:left;
+}
+#rrdeditor-form input {
+    margin-top:2px;
+    margin-bottom:0;
+    height:14px;
+}
+.toolbar-item {
+    float:right;
+}
+
+.toolbar-item.menu-options {
+    float:left;
+}

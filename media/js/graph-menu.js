@@ -146,5 +146,4 @@ $(function() {
 			modal : true
 		});
 	});
-   //$("#toolbar-container").jixedbar(); 
 });

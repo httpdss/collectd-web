@@ -27,9 +27,6 @@
                 <div id="menu-tabs">
                     <ul>
                         <li>
-                            <a href="#rrdeditor-container">Time Range</a>
-                        </li>
-                        <li>
                             <a href="#graphdefs-tab">Graph Definitions</a>
                         </li>
                         <li>
@@ -42,36 +39,6 @@
                             <a href="#about-tab">About</a>
                         </li>
                     </ul>
-                    <div id="rrdeditor-container">
-                        <form id="rrdeditor-form" action="">
-                            <fieldset>
-                                <legend>Choose time range</legend>
-                                <div class="">
-                                    <div class="column span-20">
-                                        <p>Enter valid time ranges (eg: 20101230, end-3w, etc). For more valid ranges please check AT-STYLE TIME SPECIFICATION at <a href="http://oss.oetiker.ch/rrdtool/doc/rrdfetch.en.html">rrdfetch section</a>. Remeber you MUST fill in the 2 fields.</p>
-                                        <div class="span-10">
-                                            <p>
-                                                <label for="date_from">Start</label>
-                                                <br/>
-                                                <input type="date" name="date_from" class="text timespan-from" />
-                                            </p>
-                                        </div>
-                                        <div class="span-10 last">
-                                            <p>
-                                                <label for="date_to">End</label>
-                                                <br/>
-                                                <input type="date" name="date_to" class="text timespan-to" />
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p>
-                                    <button id="rrdeditor-submit">Submit</button>
-                                    <button class="rrdeditor-reset">Reset</button>
-                                </p>
-                            </fieldset>
-                        </form>
-                    </div>
                     <div id="graphdefs-tab">
                         <div class="container">
                             <div class="column span-20">
@@ -227,22 +194,35 @@
         </div>
         <div class="container">
             <div id="toolbar-container" class="ui-widget container">
-                <div id="toolbar-content" class="ui-widget-content column span-22 append-1 prepend-1">
+                <div id="toolbar-content" class="ui-widget-header ui-corner-top column span-22 append-1 prepend-1">
                     <span class="icons ui-state-default ui-corner-all"><span class="ui-icon ui-icon-home"></span></span>
+                    <div class="toolbar-item menu-options" style="display:none;">
+                        <span class="icons ui-state-default ui-corner-all icon-left"><span id="item-pan-zoom" class="ui-icon text-icon" title="Pan and Zoom options">Pan/Zoom</span></span>
+                        <span class="icons ui-state-default ui-corner-all icon-right"><span id="item-timespan" class="ui-icon text-icon" title="Timespan options">Timespan</span></span>
+                    </div>
+                    <div class="toolbar-item item-pan-zoom">
+                        <span class="icons ui-state-default ui-corner-all icon-left"><span class="ui-icon ui-icon-clock"></span></span>
+                        <span class="icons ui-state-default ui-corner-all icon-middle"><span class="ts-item ui-icon text-icon" title="hour">H</span></span>
+                        <span class="icons ui-state-default ui-corner-all icon-middle"><span class="ts-item ui-icon text-icon" title="day">D</span></span>
+                        <span class="icons ui-state-default ui-corner-all icon-middle"><span class="ts-item ui-icon text-icon" title="week">W</span></span>
+                        <span class="icons ui-state-default ui-corner-all icon-middle"><span class="ts-item ui-icon text-icon" title="month">M</span></span>
+                        <span class="icons ui-state-default ui-corner-all icon-right"><span class="ts-item ui-icon text-icon" title="year">Y</span></span>
 
-                    <span class="icons ui-state-default ui-corner-all icon-left"><span class="ui-icon ui-icon-triangle-1-w"></span></span>
-                    <span class="icons ui-state-default ui-corner-all icon-middle"><span class="ui-icon ui-icon-triangle-1-e"></span></span>
-                    <span class="icons ui-state-default ui-corner-all icon-middle"><span class="ui-icon ui-icon-zoomin"></span></span>
-                    <span class="icons ui-state-default ui-corner-all icon-right"><span class="ui-icon ui-icon-zoomout"></span></span>
-
-                    <span class="icons ui-state-default ui-corner-all icon-left"><span class="ui-icon text-icon">H</span></span>
-                    <span class="icons ui-state-default ui-corner-all icon-middle"><span class="ui-icon text-icon">D</span></span>
-                    <span class="icons ui-state-default ui-corner-all icon-middle"><span class="ui-icon text-icon">W</span></span>
-                    <span class="icons ui-state-default ui-corner-all icon-middle"><span class="ui-icon text-icon">M</span></span>
-                    <span class="icons ui-state-default ui-corner-all icon-right"><span class="ui-icon text-icon">Y</span></span>
-
-                    <span class="icons ui-state-default ui-corner-all icon-left"><span class="ui-icon text-icon">All</span></span>
-                    <span class="icons ui-state-default ui-corner-all icon-right"><span class="ui-icon text-icon">None</span></span>
+                        <span class="icons ui-state-default ui-corner-all icon-left"><span class="ui-icon ui-icon-triangle-1-w"></span></span>
+                        <span class="icons ui-state-default ui-corner-all icon-middle"><span class="ui-icon ui-icon-triangle-1-e"></span></span>
+                        <span class="icons ui-state-default ui-corner-all icon-middle"><span class="ui-icon ui-icon-zoomin"></span></span>
+                        <span class="icons ui-state-default ui-corner-all icon-right"><span class="ui-icon ui-icon-zoomout"></span></span>
+                        
+                        <span class="icons ui-state-default ui-corner-all icon-left"><span id="select-all" class="ui-icon text-icon" title="Select All">All</span></span>
+                        <span class="icons ui-state-default ui-corner-all icon-right"><span id="select-none" class="ui-icon text-icon" title="Select None">None</span></span>
+                    </div>
+                    <div class="toolbar-item item-timespan" style="display:none;">
+                        <form id="rrdeditor-form" action="">
+                                <input type="date" name="date_from" class="text timespan-from" />
+                                <input type="date" name="date_to" class="text timespan-to" />
+                        </form>
+                        <span class="icons ui-state-default ui-corner-all"><span id="rrdeditor-submit" class="ui-icon ui-icon-check"></span></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -273,17 +253,6 @@
         </div>
         <div class="graph-main-container">
             <h2 class="hostname"></h2>
-            <div>
-                <strong>Select:</strong>
-                <a id="select-all" href="">All</a>, <a id="select-none" href="">None</a>
-                <ul id="timespan-menu">
-                    <li class="selected">hour</li>
-                    <li>day</li>
-                    <li>week</li>
-                    <li>month</li>
-                    <li class="last">year</li>
-                </ul>
-            </div>
             <ul class="graph-imgs-container"></ul>
         </div>
     </body>

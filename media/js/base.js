@@ -135,6 +135,10 @@ function build_url(original_url, new_params) {
     return url;
 }
 
+function hide_toolbar_items () {
+    $('.toolbar-item').fadeOut();
+}
+
 /**
  * default control container
  * 
@@ -400,7 +404,12 @@ $(document).ready(function () {
     $('#rrdeditor-submit').click(function () {
         $('#timespan-menu').data('start',$('.timespan-from').val());
         $('#timespan-menu').data('end', $('.timespan-to').val());
-        update_graphs();
+
+        var start_date = Date.parse($('.timespan-from').val());
+        var end_date = Date.parse($('.timespan-to').val());
+
+        update_all_graphs(start_date, end_date);
+
         return false;
     });
 
@@ -409,28 +418,6 @@ $(document).ready(function () {
         update_graphs();
 
         return false;
-    });
-
-    $("#timespan-menu li").live('click', function () {
-        var timespan = $(this).html();
-        
-        var end_date = Date.parse("now");
-        var start_date = get_timespan_start(timespan); 
-
-        update_all_graphs(start_date, end_date);
-
-        $("#timespan-menu li").each(function () {
-            $(this).removeClass("selected");
-        });
-
-        if (!$("li.graph-image").hasClass(timespan)) {
-            create_graph_list(timespan, $graph_json[timespan]);
-        }
-
-        $("li.graph-image").hide();
-        $("li.graph-image." + timespan).show();
-        $("#timespan-menu li:contains(" + timespan + ")").addClass("selected");
-        lazy_check();
     });
 
     $('#load-graphdefs').click(
@@ -480,5 +467,34 @@ $(document).ready(function () {
                 'width': '60px'
             });
         }
+    });
+
+
+    //action trigger when any toolbar menu option is clicked
+    $('.menu-options .ui-icon').click(function() {
+        hide_toolbar_items();
+        $('.'+$(this).attr('id')).fadeIn();
+    });
+
+    $('#toolbar-content .ui-icon-home').click(function() {
+        hide_toolbar_items();
+        $('.menu-options').fadeIn();
+    });
+
+    $('.ts-item').click(function() {
+        var timespan = $(this).attr('title');
+        
+        var end_date = Date.parse("now");
+        var start_date = get_timespan_start(timespan); 
+
+        update_all_graphs(start_date, end_date);
+
+        if (!$("li.graph-image").hasClass(timespan)) {
+            create_graph_list(timespan, $graph_json[timespan]);
+        }
+
+        $("li.graph-image").hide();
+        $("li.graph-image." + timespan).show();
+        lazy_check();
     });
 });
