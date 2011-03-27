@@ -410,9 +410,26 @@ $(document).ready(function () {
         var start_date = Date.parse($('.timespan-from').val());
         var end_date = Date.parse($('.timespan-to').val());
 
-        update_all_graphs(start_date, end_date);
+        if (!start_date || !end_date) {  
+            $('#error-msg').data('msg', 'One of the dates is invalid');
+            $('#error-msg').dialog("open");
+        } else {
+            update_all_graphs(start_date, end_date);
+        }
 
         return false;
+    });
+
+    $('#error-msg').dialog({
+        modal:true,
+        autoOpen:false,
+        resizable:false,
+        draggable:false,
+        title: "An error has ocurred",
+        open: function(event, ui) {
+            $('#error-msg .content').html($('#error-msg').data('msg'))
+        },
+        buttons:{Ok: function(){$(this).dialog( "close" );}}
     });
 
     $('.rrdeditor-reset').click(function () {
