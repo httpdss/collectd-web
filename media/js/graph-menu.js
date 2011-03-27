@@ -21,24 +21,14 @@ function print_date(in_date) {
     return out_date;
 }
 
-function get_milliseconds (in_date) {
-    var out_date = new Date.UTC(in_date.getFullYear(),
-            in_date.getMonth(),
-            in_date.getDay(),
-            in_date.getHours(),
-            in_date.getMinutes(),
-            in_date.getSeconds(),
-            in_date.getMilliseconds());
-    return out_date;
-}
-function get_exact_date (in_date) {
+function get_exact_date(in_date) {
     var out_date = Date.parseExact(unescape(in_date), "HH:mm MMM d yyyy");
     return out_date;
 }
 
-function get_date_distance (in_start, in_end) {
-   var start_millis = get_milliseconds(in_start);
-   var end_millis = get_milliseconds(in_end);
+function get_date_distance(in_start, in_end) {
+   var start_millis = in_start.getTime();
+   var end_millis = in_end.getTime();
    var millis = end_millis - start_millis;
    return millis;
 }
