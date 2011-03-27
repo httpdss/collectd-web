@@ -177,7 +177,7 @@
                         <h3>Hosts</h3>
                     </div>
                     <div id="hosts-container" class="ui-widget-content ui-corner-bottom ">
-                        <input title="Filter by host" type="text" class="title" id="host-filter"/>
+                        <input title="Filter by host" type="search" class="title" id="host-filter"/>
                         <ul></ul>
                     </div>
                 </div>
@@ -218,8 +218,8 @@
                     </div>
                     <div class="toolbar-item item-timespan" style="display:none;">
                         <form id="rrdeditor-form" action="">
-                                <input type="date" name="date_from" class="text timespan-from" />
-                                <input type="date" name="date_to" class="text timespan-to" />
+                                <input placeholder="Start" required type="datetime-local" name="date_from" class="text timespan-from" />
+                                <input placeholder="End" required type="datetime-local" name="date_to" class="text timespan-to" />
                         </form>
                         <span class="icons ui-state-default ui-corner-all"><span id="rrdeditor-submit" class="ui-icon ui-icon-check"></span></span>
                     </div>

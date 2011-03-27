@@ -231,26 +231,25 @@ a:focus {
 .icon-left, .icon-middle {
     margin-right:0;
     border-right:0 none #CCC !important;
--moz-border-radius-bottomright:  0 0;
--moz-border-radius-topright:  0 0;
-border-top-right-radius:         0 0;
-border-bottom-right-radius:         0 0;
+    -moz-border-radius-bottomright: 0 0;
+    -moz-border-radius-topright: 0 0;
+    border-top-right-radius: 0 0;
+    border-bottom-right-radius: 0 0;
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
     
 }
 
 .icon-right, .icon-middle {
     margin-left:0;
     border-left:0 none #CCC !important;
--moz-border-radius-bottomleft:  0 0;
--moz-border-radius-topleft:  0 0;
-border-top-left-radius:         0 0;
-border-bottom-left-radius:         0 0;
-}
+    -moz-border-radius-bottomleft: 0 0;
+    -moz-border-radius-topleft: 0 0;
+    border-top-left-radius: 0 0;
+    border-bottom-left-radius: 0 0;
+    -webkit-border-top-left-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
 
-.icon-left span.ui-icon, .icon-middle span.ui-icon {
-}
-
-.icon-right span.ui-icon, .icon-middle span.ui-icon {
 }
 
 .text-icon {
@@ -271,6 +270,7 @@ border-bottom-left-radius:         0 0;
     margin-top:2px;
     margin-bottom:0;
     height:14px;
+    width:270px;
 }
 .toolbar-item {
     float:right;
@@ -278,4 +278,8 @@ border-bottom-left-radius:         0 0;
 
 .toolbar-item.menu-options {
     float:left;
+}
+
+input[type="search"] {
+  -webkit-appearance: textfield;
 }
