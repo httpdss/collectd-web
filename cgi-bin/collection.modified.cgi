@@ -38,10 +38,13 @@ our $ValidTimespan    = {
     month => 31 * 86400,
     year  => 366 * 86400
 };
+
 our @RRDDefaultArgs = (
-    '-w', '450',             '-c', 'BACK#FF000000',
-    '-c', 'SHADEA#FF000000', '-c', 'SHADEB#FF000000'
-);
+'--rigid', '-w', '500', '-h', '160', '--alt-autoscale-max', '--lower-limit', '0',
+'--slope-mode', '--font', 'TITLE:10:', '--font', 'AXIS:8:', '--font', 'LEGEND:8:',
+'--font', 'UNIT:8:', '-c', 'BACK#FF000000',
+    '-c', 'SHADEA#FF000000', '-c', 'SHADEB#FF000000');
+
 our $Args = {};
 our $GraphDefs;
 our $MetaGraphDefs = {};
