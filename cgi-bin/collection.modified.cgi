@@ -43,7 +43,7 @@ our @RRDDefaultArgs = (
 '--rigid', '-w', '500', '-h', '160', '--alt-autoscale-max', '--lower-limit', '0',
 '--slope-mode', '--font', 'TITLE:10:', '--font', 'AXIS:8:', '--font', 'LEGEND:8:',
 '--font', 'UNIT:8:', '-c', 'BACK#FF000000',
-    '-c', 'SHADEA#FF000000', '-c', 'SHADEB#FF000000');
+    '-c', 'SHADEA#FF000000', '-c', 'SHADEB#FF000000', '-i');
 
 our $Args = {};
 our $GraphDefs;
