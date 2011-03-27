@@ -81,11 +81,13 @@ function get_gmt(offset) {
 
 function get_url_params(in_url) {
     var params = {};
-    var nurl = in_url.replace(/.*\?(.*?)/, "$1");
-    variables = nurl.split(";");
-    for (i = 0; i < variables.length; i++) {
-        separ = variables[i].split("=");
-        params[separ[0]] = separ[1];
+    if (in_url) {
+        var nurl = in_url.replace(/.*\?(.*?)/, "$1");
+        variables = nurl.split(";");
+        for (i = 0; i < variables.length; i++) {
+            separ = variables[i].split("=");
+            params[separ[0]] = separ[1];
+        }
     }
     Fb.log(params,"info");
     return params;

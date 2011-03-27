@@ -92,6 +92,35 @@ function zoom_graph(menu_element, direction) {
                                          }));
 }
 
+function move_selected_graphs (direction) {
+    var none_selected = true;
+   $('.selectable.selected').each(function(index) {
+       none_selected = false;
+       move_graph(this,direction); 
+   });
+
+   //if none of the graphs are selected, then move them all
+   if (none_selected) { 
+       $('.selectable').each(function(index) {
+           move_graph(this,direction); 
+       });
+   };
+}
+
+function zoom_selected_graphs (direction) {
+    var none_selected = true;
+   $('.selectable.selected').each(function(index) {
+       none_selected = false;
+       zoom_graph(this,direction); 
+   });
+
+   //if none of the graphs are selected, then zoom them all
+   if (none_selected) { 
+       $('.selectable').each(function(index) {
+           zoom_graph(this,direction); 
+       });
+   };
+}
 
 $(function() {
 
@@ -110,6 +139,23 @@ $(function() {
 	$('li.graph-image .ui-icon-zoomout').live('click', function() {
 		zoom_graph(this, true);
 	});
+
+	$('.item-pan-zoom .ui-icon-triangle-1-e').live('click', function() {
+		move_selected_graphs(false);
+	});
+
+	$('.item-pan-zoom .ui-icon-triangle-1-w').live('click', function() {
+		move_selected_graphs(true);
+	});
+
+	$('.item-pan-zoom .ui-icon-zoomin').live('click', function() {
+		zoom_selected_graphs(false);
+	});
+
+	$('.item-pan-zoom .ui-icon-zoomout').live('click', function() {
+		zoom_selected_graphs(true);
+	});
+
 
 	$('li.graph-image .ui-icon-close').live('click', function() {
 		$(this).closest('li.gc').remove();
