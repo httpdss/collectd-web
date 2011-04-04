@@ -45,8 +45,8 @@ function move_graph(menu_element, direction) {
 	var url = $(gc_img).attr('src');
 	var params = get_url_params(url);
 
-    var end = Date.parse("now");
-    var start = Date.parse("now").add(-1).hours();
+    var end = server_now();
+    var start = server_now().add(-1).hours();
 
 	if (params.start != null) { start = get_exact_date(params.start); }
     if (params.end != null) { end = get_exact_date(params.end); }
@@ -73,8 +73,8 @@ function zoom_graph(menu_element, direction) {
 
     var zoom_factor = 0.5;
 
-    var end = Date.parse("now");
-    var start = Date.parse("now").add(-1).hours();
+    var end = server_now();
+    var start = server_now().add(-1).hours();
 
 	if (params.start != null) { start = get_exact_date(params.start); }
     if (params.end != null) { end = get_exact_date(params.end); }

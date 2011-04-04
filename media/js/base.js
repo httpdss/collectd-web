@@ -39,6 +39,20 @@ Fb.log = function(obj, consoleMethod) {
        }
 }
 
+var server_tz = 0;
+
+/**
+ * Returns a current Date object, representing server time.
+ */
+function server_now() {
+    var d = new Date(),
+        local_time = d.getTime(),
+        local_offset = d.getTimezoneOffset() * 60000,
+        utc = local_time + local_offset,
+        server = utc + (3600000 * server_tz);
+    return new Date(server);
+}
+
 /*
  * checks to see if the number is negative
  *
@@ -95,7 +109,7 @@ function get_url_params(in_url) {
 
 
 function get_timespan_start (timespan) {
-    var out_date = Date.parse("now");
+    var out_date = server_now();
     switch (timespan) {
         case "hour":
             out_date.add(-1).hours();
@@ -196,7 +210,7 @@ function show_lazy_graph(elem) {
 }
 
 function create_graph_list(timespan, graphs) {
-    var end_date = Date.parse("now");
+    var end_date = server_now();
     var start_date = get_timespan_start(timespan);
 
     var $tpl = '';
@@ -310,10 +324,12 @@ $(document).ready(function () {
     $("#clock").jclock();
 
     $.getJSON('cgi-bin/time.cgi', function (data) {
+        server_tz = parseInt(data.tz);
         $("#clock-server").jclock({
             utc: true,
-            utcOffset: parseInt(data.tz)
+            utcOffset: server_tz
         });
+        
     });
 
     $("#clock-server-slider").slider({
@@ -503,7 +519,7 @@ $(document).ready(function () {
     $('.ts-item').click(function() {
         var timespan = $(this).attr('title');
         
-        var end_date = Date.parse("now");
+        var end_date = server_now();
         var start_date = get_timespan_start(timespan); 
 
         update_all_graphs(start_date, end_date);
