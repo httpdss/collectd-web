@@ -1004,6 +1004,20 @@ sub load_graph_definitions {
             'GPRINT:min:MIN:%6.2lf Min,', 'GPRINT:avg:AVERAGE:%6.2lf Avg,',
             'GPRINT:max:MAX:%6.2lf Max,', 'GPRINT:avg:LAST:%6.2lf Last'
         ],
+        connections => [
+            'DEF:min={file}:value:MIN',   'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',   "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",           "LINE1:avg#$FullBlue:Connections/s",
+            'GPRINT:min:MIN:%6.2lf Min,', 'GPRINT:avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:max:MAX:%6.2lf Max,', 'GPRINT:avg:LAST:%6.2lf Last'
+        ],
+        cache_result => [
+            'DEF:min={file}:value:MIN',   'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',   "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",           "LINE1:avg#$FullBlue:Requests/s",
+            'GPRINT:min:MIN:%6.2lf Min,', 'GPRINT:avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:max:MAX:%6.2lf Max,', 'GPRINT:avg:LAST:%6.2lf Last'
+        ],
         apache_scoreboard => [
             'DEF:min={file}:count:MIN',   'DEF:avg={file}:count:AVERAGE',
             'DEF:max={file}:count:MAX',   "AREA:max#$HalfBlue",
@@ -2556,21 +2570,27 @@ sub load_graph_definitions {
             'CDEF:out_avg_sum=PREV,UN,0,PREV,IF,out_avg_sample,+',
             'CDEF:inc_avg_sample=inc_avg_raw,UN,0,inc_avg_raw,IF,sample_len,*',
             'CDEF:inc_avg_sum=PREV,UN,0,PREV,IF,inc_avg_sample,+',
+            'VDEF:out_95=out_max_raw,95,PERCENT',
+            'VDEF:inc_95=inc_max_raw,95,PERCENT',
             "AREA:out_avg#$HalfGreen",
             "AREA:inc_avg#$HalfBlue",
             "AREA:overlap#$HalfBlueGreen",
+            "LINE2:out_95#$FullGreen",
+            "LINE2:inc_95#$FullBlue",
             "LINE1:out_avg#$FullGreen:Outgoing",
             'GPRINT:out_avg:AVERAGE:%5.1lf%s Avg,',
             'GPRINT:out_max:MAX:%5.1lf%s Max,',
             'GPRINT:out_avg:LAST:%5.1lf%s Last',
             'GPRINT:out_avg_sum:LAST:(ca. %5.1lf%sB Total)\l',
+            "LINE1:out_avg#$FullGreen:Outgoing",
+            'GPRINT:out_95:%5.1lf%s 95th Percentile\l',
             "LINE1:inc_avg#$FullBlue:Incoming",
-
-            #'GPRINT:inc_min:MIN:%5.1lf %s Min,',
             'GPRINT:inc_avg:AVERAGE:%5.1lf%s Avg,',
             'GPRINT:inc_max:MAX:%5.1lf%s Max,',
             'GPRINT:inc_avg:LAST:%5.1lf%s Last',
-            'GPRINT:inc_avg_sum:LAST:(ca. %5.1lf%sB Total)\l'
+            'GPRINT:inc_avg_sum:LAST:(ca. %5.1lf%sB Total)\l',
+            "LINE1:inc_avg#$FullBlue:Incoming",
+            'GPRINT:inc_95:%5.1lf%s 95th Percentile\l',
         ],
         cpufreq => [
             'DEF:cpufreq_avg={file}:value:AVERAGE',
