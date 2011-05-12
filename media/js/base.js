@@ -290,6 +290,13 @@ var load_url = function () {
     return false;
 }
 
+function ipad_position_fix () {
+    if(navigator.platform == 'iPad' || navigator.platform == 'iPhone' || navigator.platform == 'iPod')
+    {
+        $("#toolbar-container").css("position", "static");
+    }
+}
+
 $(document).ready(function () {
 
     $('#menu-tabs').tabs();
