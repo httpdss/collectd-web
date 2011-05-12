@@ -276,6 +276,7 @@ var load_url = function () {
             $graph_json = data
             create_graph_list("hour", data.hour);
             $('#graph-container').html(get_graph_main_container($selected_host));
+
             lazy_check();
         });
     }
@@ -291,9 +292,12 @@ var load_url = function () {
 }
 
 function ipad_position_fix () {
+    
     if(navigator.platform == 'iPad' || navigator.platform == 'iPhone' || navigator.platform == 'iPod')
     {
-        $("#toolbar-container").css("position", "static");
+        $( window ).scroll( function ( ) { 
+            $( "#toolbar-container" ).css( "top", ( $( window ).height() + $( document ).scrollTop() - 30 ) +"px" );  
+        } );
     }
 }
 
@@ -539,4 +543,6 @@ $(document).ready(function () {
         $("li.graph-image." + timespan).show();
         lazy_check();
     });
+
+    ipad_position_fix();
 });

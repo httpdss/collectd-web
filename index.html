@@ -3,6 +3,10 @@
     <head>
         <meta charset="UTF-8" />
         <title>Collectd-web</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="apple-touch-fullscreen" content="YES" />
+        <meta name="app-mobile-web-app-capable" content="yes" />
         <link type="image/png" href="media/images/shortcut-icon.png" rel="icon"/>
         <link rel="stylesheet" href="media/css/blueprint/screen.css" type="text/css" media="screen, projection">
         <link rel="stylesheet" href="media/css/blueprint/print.css" type="text/css" media="print">
@@ -15,7 +19,6 @@
         <script type="text/javascript" src="media/js/jquery-ui-1.8.custom.min.js"></script>
         <script type="text/javascript" src="media/js/jquery.jclock.js"></script>
         <script type="text/javascript" src="media/js/external/date.js"></script>
-        <script type="text/javascript" src="media/js/external/jquery.jixedbar.js"></script>
         <script type="text/javascript" src="media/js/jquery.validate.pack.js"></script>
         <script type="text/javascript" src="media/js/base.js"></script>
         <script type="text/javascript" src="media/js/graph-menu.js"></script>
@@ -26,18 +29,10 @@
             <div id="slide-menu-content" class="ui-widget-content column span-22 append-1 prepend-1">
                 <div id="menu-tabs">
                     <ul>
-                        <li>
-                            <a href="#graphdefs-tab">Graph Definitions</a>
-                        </li>
-                        <li>
-                            <a href="#tab2">Clocks</a>
-                        </li>
-                        <li>
-                            <a href="#options-tab">Options</a>
-                        </li>
-                        <li>
-                            <a href="#about-tab">About</a>
-                        </li>
+                        <li><a href="#graphdefs-tab">Graph Definitions</a> </li>
+                        <li><a href="#tab2">Clocks</a> </li>
+                        <li><a href="#options-tab">Options</a> </li>
+                        <li><a href="#about-tab">About</a> </li>
                     </ul>
                     <div id="graphdefs-tab">
                         <div class="container">
@@ -45,9 +40,9 @@
                                 <div class="span-10">
                                     <button class="button" id="load-graphdefs">Load definitions</button>
                                     <p>
-                                        <label for="graphdef-name">Name</label>
-                                        <br/>
-                                        <select style="font-size:120%;" name="graphdef-name" id="graphdef-name"></select>
+                                    <label for="graphdef-name">Name</label>
+                                    <br/>
+                                    <select style="font-size:120%;" name="graphdef-name" id="graphdef-name"></select>
                                     </p>
                                 </div>
                                 <div class="span-10 last">
@@ -70,8 +65,8 @@
                                     <div style="display:none;">
                                         <div id="clock-server-slider"></div>
                                         <p>
-                                            <strong>Offset:</strong>
-                                            <span id="clock-server-gmt">0</span>
+                                        <strong>Offset:</strong>
+                                        <span id="clock-server-gmt">0</span>
                                         </p>
                                         <form action="#" id="clock-server-add">
                                             <input id="clock-server-add-label" class="text" type="text" value="label" />
@@ -88,33 +83,33 @@
                                 <div class="span-10">
                                     <ul>
                                         <li class="ttip">
-                                            <div class="ttip-content">
-                                                Check this option to see the ruler. 
-                                                <br/>
-                                                This will enable you to compare different graphs at a given moment
-                                            </div>
-                                            <input value="Show ruler" type="checkbox" id="show-ruler-checkbox" />Show ruler
+                                        <div class="ttip-content">
+                                            Check this option to see the ruler. 
+                                            <br/>
+                                            This will enable you to compare different graphs at a given moment
+                                        </div>
+                                        <input value="Show ruler" type="checkbox" id="show-ruler-checkbox" />Show ruler
                                         </li>
                                         <li class="ttip">
-                                            <div class="ttip-content">
-                                                Set this option into an integer value.
-                                                <br/>
-                                                This will be used as the increment or decrement on moving timespans [FEATURE UNDER DEVELOPMENT]
-                                            </div>
-                                            <label for="graph-step">Graph step (in minutes) </label>
-                                            <input disabled value="10" name="graph-step" type="text" id="graph-step" class="text" />
+                                        <div class="ttip-content">
+                                            Set this option into an integer value.
+                                            <br/>
+                                            This will be used as the increment or decrement on moving timespans [FEATURE UNDER DEVELOPMENT]
+                                        </div>
+                                        <label for="graph-step">Graph step (in minutes) </label>
+                                        <input disabled value="10" name="graph-step" type="text" id="graph-step" class="text" />
                                         </li>
                                         <li class="ttip">
-                                            <div class="ttip-content">Set view options (list or grid) to customize your graphs display</div>
-                                            <label for="graph-view">View: </label>
-                                            <select name="graph-view" id="graph-view">
-                                                <option value="list" selected="selected">List</option>
-                                                <option value="grid">Grid</option>
-                                            </select>
+                                        <div class="ttip-content">Set view options (list or grid) to customize your graphs display</div>
+                                        <label for="graph-view">View: </label>
+                                        <select name="graph-view" id="graph-view">
+                                            <option value="list" selected="selected">List</option>
+                                            <option value="grid">Grid</option>
+                                        </select>
                                         </li>
                                         <li class="ttip">
-                                            <div class="ttip-content">Setting this option will cache images for 5 minutes and lazyload when necessary</div>
-                                            <input value="Enable graph caching" type="checkbox" id="graph-caching-checkbox" />Enable graph caching and lazyloading
+                                        <div class="ttip-content">Setting this option will cache images for 5 minutes and lazyload when necessary</div>
+                                        <input value="Enable graph caching" type="checkbox" id="graph-caching-checkbox" />Enable graph caching and lazyloading
                                         </li>
                                     </ul>
                                 </div>
@@ -134,20 +129,20 @@
                                 <div class="span-10 last">
                                     <ul>
                                         <li>
-                                            <strong>Author:</strong>
-                                            Kenneth Belitzky
+                                        <strong>Author:</strong>
+                                        Kenneth Belitzky
                                         </li>
                                         <li>
-                                            <strong>Contributors:</strong>
-                                            Thankfull to have too many contributions. See AUTHORS file
+                                        <strong>Contributors:</strong>
+                                        Thankfull to have too many contributions. See AUTHORS file
                                         </li>
                                         <li>
-                                            <strong>Homepage:</strong>
-                                            <a href="http://github.com/httpdss/collectd-web">http://github.com/httpdss/collectd-web</a>
+                                        <strong>Homepage:</strong>
+                                        <a href="http://github.com/httpdss/collectd-web">http://github.com/httpdss/collectd-web</a>
                                         </li>
                                         <li>
-                                            <strong>Version:</strong>
-                                            0.4.0
+                                        <strong>Version:</strong>
+                                        0.4.0
                                         </li>
                                     </ul>
                                 </div>
@@ -218,8 +213,8 @@
                     </div>
                     <div class="toolbar-item item-timespan" style="display:none;">
                         <form id="rrdeditor-form" action="">
-                                <input placeholder="Start" required type="datetime-local" name="date_from" class="text timespan-from" />
-                                <input placeholder="End" required type="datetime-local" name="date_to" class="text timespan-to" />
+                            <input placeholder="Start" required type="datetime-local" name="date_from" class="text timespan-from" />
+                            <input placeholder="End" required type="datetime-local" name="date_to" class="text timespan-to" />
                         </form>
                         <span class="icons ui-state-default ui-corner-all"><span id="rrdeditor-submit" class="ui-icon ui-icon-check"></span></span>
                     </div>
@@ -229,13 +224,13 @@
         <div id="output-dialog" class="no-bullets">
             <ul>
                 <li>
-                    <a href="&format=EPS" target="_blank" class="output-link">EPS</a>
+                <a href="&format=EPS" target="_blank" class="output-link">EPS</a>
                 </li>
                 <li>
-                    <a href="&format=PDF" target="_blank" class="output-link">PDF</a>
+                <a href="&format=PDF" target="_blank" class="output-link">PDF</a>
                 </li>
                 <li>
-                    <a href="&format=SVG" target="_blank" class="output-link">SVG</a>
+                <a href="&format=SVG" target="_blank" class="output-link">SVG</a>
                 </li>
             </ul>
         </div>

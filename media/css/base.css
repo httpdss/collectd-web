@@ -29,6 +29,10 @@
     margin-top: 20px;
 }
 
+#hosts li, #plugins li {
+    margin-bottom:8px;
+}
+
 .icons {
     cursor: pointer;
     float: left;
