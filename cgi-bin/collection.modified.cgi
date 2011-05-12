@@ -41,8 +41,8 @@ our $ValidTimespan    = {
 
 our @RRDDefaultArgs = (
 '--rigid', '-w', '500', '-h', '160', '--alt-autoscale-max', '--lower-limit', '0',
-'--slope-mode', '--font', 'TITLE:10:', '--font', 'AXIS:8:', '--font', 'LEGEND:8:',
-'--font', 'UNIT:8:', '-c', 'BACK#FF000000',
+'--slope-mode', '--font', 'TITLE:10:Monospace', '--font', 'AXIS:8:Monospace', '--font', 'LEGEND:8:Monospace',
+'--font', 'UNIT:8:Monospace', '-c', 'BACK#FF000000',
     '-c', 'SHADEA#FF000000', '-c', 'SHADEB#FF000000', '-i');
 
 our $Args = {};
@@ -1368,6 +1368,54 @@ sub load_graph_definitions {
             'GPRINT:qry_avg:LAST:%5.1lf%s Last',
             'GPRINT:qry_avg_sum:LAST:(ca. %5.1lf%sB Total)\l'
         ],
+
+        dns_octets => ['DEF:rsp_min_raw={file}:responses:MIN',
+        'DEF:rsp_avg_raw={file}:responses:AVERAGE',
+        'DEF:rsp_max_raw={file}:responses:MAX',
+        'DEF:qry_min_raw={file}:queries:MIN',
+        'DEF:qry_avg_raw={file}:queries:AVERAGE',
+        'DEF:qry_max_raw={file}:queries:MAX',
+        'CDEF:rsp_min=rsp_min_raw,8,*',
+        'CDEF:rsp_avg=rsp_avg_raw,8,*',
+        'CDEF:rsp_max=rsp_max_raw,8,*',
+        'CDEF:qry_min=qry_min_raw,8,*',
+        'CDEF:qry_avg=qry_avg_raw,8,*',
+        'CDEF:qry_max=qry_max_raw,8,*',
+        'CDEF:overlap=rsp_avg,qry_avg,GT,qry_avg,rsp_avg,IF',
+        'CDEF:mytime=rsp_avg_raw,TIME,TIME,IF',
+        'CDEF:sample_len_raw=mytime,PREV(mytime),-',
+        'CDEF:sample_len=sample_len_raw,UN,0,sample_len_raw,IF',
+        'CDEF:rsp_avg_sample=rsp_avg_raw,UN,0,rsp_avg_raw,IF,sample_len,*',
+        'CDEF:rsp_avg_sum=PREV,UN,0,PREV,IF,rsp_avg_sample,+',
+        'CDEF:qry_avg_sample=qry_avg_raw,UN,0,qry_avg_raw,IF,sample_len,*',
+        'CDEF:qry_avg_sum=PREV,UN,0,PREV,IF,qry_avg_sample,+',
+        "AREA:rsp_avg#$HalfGreen",
+        "AREA:qry_avg#$HalfBlue",
+        "AREA:overlap#$HalfBlueGreen",
+        "LINE1:rsp_avg#$FullGreen:Responses",
+        'GPRINT:rsp_avg:AVERAGE:%5.1lf%s Avg,',
+        'GPRINT:rsp_max:MAX:%5.1lf%s Max,',
+        'GPRINT:rsp_avg:LAST:%5.1lf%s Last',
+        'GPRINT:rsp_avg_sum:LAST:(ca. %5.1lf%sB Total)\l',
+        "LINE1:qry_avg#$FullBlue:Queries  ",
+        #'GPRINT:qry_min:MIN:%5.1lf %s Min,',
+        'GPRINT:qry_avg:AVERAGE:%5.1lf%s Avg,',
+        'GPRINT:qry_max:MAX:%5.1lf%s Max,',
+        'GPRINT:qry_avg:LAST:%5.1lf%s Last',
+        'GPRINT:qry_avg_sum:LAST:(ca. %5.1lf%sB Total)\l'
+        ],
+        dns_opcode => [
+        'DEF:avg={file}:value:AVERAGE',
+        'DEF:min={file}:value:MIN',
+        'DEF:max={file}:value:MAX',
+        "AREA:max#$HalfBlue",
+        "AREA:min#$Canvas",
+        "LINE1:avg#$FullBlue:Queries/s",
+        'GPRINT:min:MIN:%9.3lf Min,',
+        'GPRINT:avg:AVERAGE:%9.3lf Average,',
+        'GPRINT:max:MAX:%9.3lf Max,',
+        'GPRINT:avg:LAST:%9.3lf Last\l'
+        ],
         email_count => [
             '-v',                           'Mails',
             'DEF:avg={file}:value:AVERAGE', 'DEF:min={file}:value:MIN',
@@ -2009,8 +2057,8 @@ sub load_graph_definitions {
             "DEF:fsinfo_max={file}:fsinfo:MAX",
             "DEF:pathconf_max={file}:pathconf:MAX",
             "DEF:commit_max={file}:commit:MAX",
-"CDEF:other_avg=null_avg,readlink_avg,create_avg,mkdir_avg,symlink_avg,mknod_avg,remove_avg,rmdir_avg,rename_avg,link_avg,readdir_avg,readdirplus_avg,fsstat_avg,fsinfo_avg,pathconf_avg,+,+,+,+,+,+,+,+,+,+,+,+,+,+",
-"CDEF:other_max=null_max,readlink_max,create_max,mkdir_max,symlink_max,mknod_max,remove_max,rmdir_max,rename_max,link_max,readdir_max,readdirplus_max,fsstat_max,fsinfo_max,pathconf_max,+,+,+,+,+,+,+,+,+,+,+,+,+,+",
+            "CDEF:other_avg=null_avg,readlink_avg,create_avg,mkdir_avg,symlink_avg,mknod_avg,remove_avg,rmdir_avg,rename_avg,link_avg,readdir_avg,readdirplus_avg,fsstat_avg,fsinfo_avg,pathconf_avg,+,+,+,+,+,+,+,+,+,+,+,+,+,+",
+            "CDEF:other_max=null_max,readlink_max,create_max,mkdir_max,symlink_max,mknod_max,remove_max,rmdir_max,rename_max,link_max,readdir_max,readdirplus_max,fsstat_max,fsinfo_max,pathconf_max,+,+,+,+,+,+,+,+,+,+,+,+,+,+",
             "CDEF:stack_read=read_avg",
             "CDEF:stack_getattr=stack_read,getattr_avg,+",
             "CDEF:stack_access=stack_getattr,access_avg,+",
@@ -2134,76 +2182,97 @@ sub load_graph_definitions {
             'GPRINT:ping_max:MAX:%4.1lf ms Max,',
             'GPRINT:ping_avg:LAST:%4.1lf ms Last'
         ],
-        pg_blks => ['DEF:pg_blks_avg={file}:value:AVERAGE',
-        'DEF:pg_blks_min={file}:value:MIN',
-        'DEF:pg_blks_max={file}:value:MAX',
-        "AREA:pg_blks_max#$HalfBlue",
-        "AREA:pg_blks_min#$Canvas",
-        "LINE1:pg_blks_avg#$FullBlue:Blocks",
-        'GPRINT:pg_blks_min:MIN:%4.1lf%s Min,',
-        'GPRINT:pg_blks_avg:AVERAGE:%4.1lf%s Avg,',
-        'GPRINT:pg_blks_max:MAX:%4.1lf%s Max,',
-        'GPRINT:pg_blks_avg:LAST:%4.1lf%s Last'],
-        pg_db_size => ['DEF:pg_db_size_avg={file}:value:AVERAGE',
-        'DEF:pg_db_size_min={file}:value:MIN',
-        'DEF:pg_db_size_max={file}:value:MAX',
-        "AREA:pg_db_size_max#$HalfBlue",
-        "AREA:pg_db_size_min#$Canvas",
-        "LINE1:pg_db_size_avg#$FullBlue:Bytes",
-        'GPRINT:pg_db_size_min:MIN:%4.1lf%s Min,',
-        'GPRINT:pg_db_size_avg:AVERAGE:%4.1lf%s Avg,',
-        'GPRINT:pg_db_size_max:MAX:%4.1lf%s Max,',
-        'GPRINT:pg_db_size_avg:LAST:%4.1lf%s Last'],
-        pg_n_tup_c => ['DEF:pg_n_tup_avg={file}:value:AVERAGE',
-        'DEF:pg_n_tup_min={file}:value:MIN',
-        'DEF:pg_n_tup_max={file}:value:MAX',
-        "AREA:pg_n_tup_max#$HalfBlue",
-        "AREA:pg_n_tup_min#$Canvas",
-        "LINE1:pg_n_tup_avg#$FullBlue:Tuples",
-        'GPRINT:pg_n_tup_min:MIN:%4.1lf%s Min,',
-        'GPRINT:pg_n_tup_avg:AVERAGE:%4.1lf%s Avg,',
-        'GPRINT:pg_n_tup_max:MAX:%4.1lf%s Max,',
-        'GPRINT:pg_n_tup_avg:LAST:%4.1lf%s Last'],
-        pg_n_tup_g => ['DEF:pg_n_tup_avg={file}:value:AVERAGE',
-        'DEF:pg_n_tup_min={file}:value:MIN',
-        'DEF:pg_n_tup_max={file}:value:MAX',
-        "AREA:pg_n_tup_max#$HalfBlue",
-        "AREA:pg_n_tup_min#$Canvas",
-        "LINE1:pg_n_tup_avg#$FullBlue:Tuples",
-        'GPRINT:pg_n_tup_min:MIN:%4.1lf%s Min,',
-        'GPRINT:pg_n_tup_avg:AVERAGE:%4.1lf%s Avg,',
-        'GPRINT:pg_n_tup_max:MAX:%4.1lf%s Max,',
-        'GPRINT:pg_n_tup_avg:LAST:%4.1lf%s Last'],
-        pg_numbackends => ['DEF:pg_numbackends_avg={file}:value:AVERAGE',
-        'DEF:pg_numbackends_min={file}:value:MIN',
-        'DEF:pg_numbackends_max={file}:value:MAX',
-        "AREA:pg_numbackends_max#$HalfBlue",
-        "AREA:pg_numbackends_min#$Canvas",
-        "LINE1:pg_numbackends_avg#$FullBlue:Backends",
-        'GPRINT:pg_numbackends_min:MIN:%4.1lf%s Min,',
-        'GPRINT:pg_numbackends_avg:AVERAGE:%4.1lf%s Avg,',
-        'GPRINT:pg_numbackends_max:MAX:%4.1lf%s Max,',
-        'GPRINT:pg_numbackends_avg:LAST:%4.1lf%s Last'],
-        pg_scan => ['DEF:pg_scan_avg={file}:value:AVERAGE',
-        'DEF:pg_scan_min={file}:value:MIN',
-        'DEF:pg_scan_max={file}:value:MAX',
-        "AREA:pg_scan_max#$HalfBlue",
-        "AREA:pg_scan_min#$Canvas",
-        "LINE1:pg_scan_avg#$FullBlue:Scans",
-        'GPRINT:pg_scan_min:MIN:%4.1lf%s Min,',
-        'GPRINT:pg_scan_avg:AVERAGE:%4.1lf%s Avg,',
-        'GPRINT:pg_scan_max:MAX:%4.1lf%s Max,',
-        'GPRINT:pg_scan_avg:LAST:%4.1lf%s Last'],
-        pg_xact => ['DEF:pg_xact_avg={file}:value:AVERAGE',
-        'DEF:pg_xact_min={file}:value:MIN',
-        'DEF:pg_xact_max={file}:value:MAX',
-        "AREA:pg_xact_max#$HalfBlue",
-        "AREA:pg_xact_min#$Canvas",
-        "LINE1:pg_xact_avg#$FullBlue:Transactions",
-        'GPRINT:pg_xact_min:MIN:%4.1lf%s Min,',
-        'GPRINT:pg_xact_avg:AVERAGE:%4.1lf%s Avg,',
-        'GPRINT:pg_xact_max:MAX:%4.1lf%s Max,',
-        'GPRINT:pg_xact_avg:LAST:%4.1lf%s Last'],
+        ping_droprate => [
+            '-v',
+            'Percent',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfRed",
+            "AREA:min#$Canvas",
+            "LINE2:avg#$FullRed:Percent",
+            'GPRINT:min:MIN:%5.1lf%% Min,',
+            'GPRINT:avg:AVERAGE:%5.1lf%% Avg,',
+            'GPRINT:max:MAX:%5.1lf%% Max,',
+            'GPRINT:avg:LAST:%5.1lf%% Last\l'
+        ],
+        pg_blks => [
+            'DEF:pg_blks_avg={file}:value:AVERAGE',
+            'DEF:pg_blks_min={file}:value:MIN',
+            'DEF:pg_blks_max={file}:value:MAX',
+            "AREA:pg_blks_max#$HalfBlue",
+            "AREA:pg_blks_min#$Canvas",
+            "LINE1:pg_blks_avg#$FullBlue:Blocks",
+            'GPRINT:pg_blks_min:MIN:%4.1lf%s Min,',
+            'GPRINT:pg_blks_avg:AVERAGE:%4.1lf%s Avg,',
+            'GPRINT:pg_blks_max:MAX:%4.1lf%s Max,',
+            'GPRINT:pg_blks_avg:LAST:%4.1lf%s Last'],
+        pg_db_size => [
+            'DEF:pg_db_size_avg={file}:value:AVERAGE',
+            'DEF:pg_db_size_min={file}:value:MIN',
+            'DEF:pg_db_size_max={file}:value:MAX',
+            "AREA:pg_db_size_max#$HalfBlue",
+            "AREA:pg_db_size_min#$Canvas",
+            "LINE1:pg_db_size_avg#$FullBlue:Bytes",
+            'GPRINT:pg_db_size_min:MIN:%4.1lf%s Min,',
+            'GPRINT:pg_db_size_avg:AVERAGE:%4.1lf%s Avg,',
+            'GPRINT:pg_db_size_max:MAX:%4.1lf%s Max,',
+            'GPRINT:pg_db_size_avg:LAST:%4.1lf%s Last'],
+        pg_n_tup_c => [
+            'DEF:pg_n_tup_avg={file}:value:AVERAGE',
+            'DEF:pg_n_tup_min={file}:value:MIN',
+            'DEF:pg_n_tup_max={file}:value:MAX',
+            "AREA:pg_n_tup_max#$HalfBlue",
+            "AREA:pg_n_tup_min#$Canvas",
+            "LINE1:pg_n_tup_avg#$FullBlue:Tuples",
+            'GPRINT:pg_n_tup_min:MIN:%4.1lf%s Min,',
+            'GPRINT:pg_n_tup_avg:AVERAGE:%4.1lf%s Avg,',
+            'GPRINT:pg_n_tup_max:MAX:%4.1lf%s Max,',
+            'GPRINT:pg_n_tup_avg:LAST:%4.1lf%s Last'],
+        pg_n_tup_g => [
+            'DEF:pg_n_tup_avg={file}:value:AVERAGE',
+            'DEF:pg_n_tup_min={file}:value:MIN',
+            'DEF:pg_n_tup_max={file}:value:MAX',
+            "AREA:pg_n_tup_max#$HalfBlue",
+            "AREA:pg_n_tup_min#$Canvas",
+            "LINE1:pg_n_tup_avg#$FullBlue:Tuples",
+            'GPRINT:pg_n_tup_min:MIN:%4.1lf%s Min,',
+            'GPRINT:pg_n_tup_avg:AVERAGE:%4.1lf%s Avg,',
+            'GPRINT:pg_n_tup_max:MAX:%4.1lf%s Max,',
+            'GPRINT:pg_n_tup_avg:LAST:%4.1lf%s Last'],
+        pg_numbackends => [
+            'DEF:pg_numbackends_avg={file}:value:AVERAGE',
+            'DEF:pg_numbackends_min={file}:value:MIN',
+            'DEF:pg_numbackends_max={file}:value:MAX',
+            "AREA:pg_numbackends_max#$HalfBlue",
+            "AREA:pg_numbackends_min#$Canvas",
+            "LINE1:pg_numbackends_avg#$FullBlue:Backends",
+            'GPRINT:pg_numbackends_min:MIN:%4.1lf%s Min,',
+            'GPRINT:pg_numbackends_avg:AVERAGE:%4.1lf%s Avg,',
+            'GPRINT:pg_numbackends_max:MAX:%4.1lf%s Max,',
+            'GPRINT:pg_numbackends_avg:LAST:%4.1lf%s Last'],
+        pg_scan => [
+            'DEF:pg_scan_avg={file}:value:AVERAGE',
+            'DEF:pg_scan_min={file}:value:MIN',
+            'DEF:pg_scan_max={file}:value:MAX',
+            "AREA:pg_scan_max#$HalfBlue",
+            "AREA:pg_scan_min#$Canvas",
+            "LINE1:pg_scan_avg#$FullBlue:Scans",
+            'GPRINT:pg_scan_min:MIN:%4.1lf%s Min,',
+            'GPRINT:pg_scan_avg:AVERAGE:%4.1lf%s Avg,',
+            'GPRINT:pg_scan_max:MAX:%4.1lf%s Max,',
+            'GPRINT:pg_scan_avg:LAST:%4.1lf%s Last'],
+        pg_xact => [
+            'DEF:pg_xact_avg={file}:value:AVERAGE',
+            'DEF:pg_xact_min={file}:value:MIN',
+            'DEF:pg_xact_max={file}:value:MAX',
+            "AREA:pg_xact_max#$HalfBlue",
+            "AREA:pg_xact_min#$Canvas",
+            "LINE1:pg_xact_avg#$FullBlue:Transactions",
+            'GPRINT:pg_xact_min:MIN:%4.1lf%s Min,',
+            'GPRINT:pg_xact_avg:AVERAGE:%4.1lf%s Avg,',
+            'GPRINT:pg_xact_max:MAX:%4.1lf%s Max,',
+            'GPRINT:pg_xact_avg:LAST:%4.1lf%s Last'],
         power => [
             '-v',
             'Watt',
@@ -2237,9 +2306,9 @@ sub load_graph_definitions {
             "DEF:blocked_avg={file}:blocked:AVERAGE",
             "DEF:blocked_min={file}:blocked:MIN",
             "DEF:blocked_max={file}:blocked:MAX",
-'CDEF:paging_acc=sleeping_avg,running_avg,stopped_avg,zombies_avg,blocked_avg,paging_avg,+,+,+,+,+',
-'CDEF:blocked_acc=sleeping_avg,running_avg,stopped_avg,zombies_avg,blocked_avg,+,+,+,+',
-'CDEF:zombies_acc=sleeping_avg,running_avg,stopped_avg,zombies_avg,+,+,+',
+            'CDEF:paging_acc=sleeping_avg,running_avg,stopped_avg,zombies_avg,blocked_avg,paging_avg,+,+,+,+,+',
+            'CDEF:blocked_acc=sleeping_avg,running_avg,stopped_avg,zombies_avg,blocked_avg,+,+,+,+',
+            'CDEF:zombies_acc=sleeping_avg,running_avg,stopped_avg,zombies_avg,+,+,+',
             'CDEF:stopped_acc=sleeping_avg,running_avg,stopped_avg,+,+',
             'CDEF:running_acc=sleeping_avg,running_avg,+',
             'CDEF:sleeping_acc=sleeping_avg',
@@ -2898,9 +2967,13 @@ sub load_graph_definitions {
     };
     $GraphDefs->{'if_multicast'}        = $GraphDefs->{'ipt_packets'};
     $GraphDefs->{'if_tx_errors'}        = $GraphDefs->{'if_rx_errors'};
+    $GraphDefs->{'dns_qtype'}           = $GraphDefs->{'dns_opcode'};
+    $GraphDefs->{'dns_rcode'}           = $GraphDefs->{'dns_opcode'};
     $GraphDefs->{'vmpage_io-memory'}    = $GraphDefs->{'vmpage_io'};
     $GraphDefs->{'vmpage_io-swap'}      = $GraphDefs->{'vmpage_io'};
     $MetaGraphDefs->{'cpu'}             = \&meta_graph_cpu;
+    $MetaGraphDefs->{'dns_qtype'}       = \&meta_graph_dns;
+    $MetaGraphDefs->{'dns_rcode'}       = \&meta_graph_dns;
     $MetaGraphDefs->{'if_rx_errors'}    = \&meta_graph_if_rx_errors;
     $MetaGraphDefs->{'if_tx_errors'}    = \&meta_graph_if_rx_errors;
     $MetaGraphDefs->{'memory'}          = \&meta_graph_memory;
@@ -3059,6 +3132,57 @@ sub meta_graph_cpu {
     }    # for (@$type_instances)
     return ( meta_graph_generic_stack( $opts, $sources ) );
 }    # meta_graph_cpu
+
+sub meta_graph_dns
+{
+  confess ("Wrong number of arguments") if (@_ != 5);
+
+  my $host = shift;
+  my $plugin = shift;
+  my $plugin_instance = shift;
+  my $type = shift;
+  my $type_instances = shift;
+
+  my $opts = {};
+  my $sources = [];
+
+  $opts->{'title'} = "$host/$plugin"
+  . (defined ($plugin_instance) ? "-$plugin_instance" : '') . "/$type";
+
+  $opts->{'rrd_opts'} = ['-v', 'Queries/s'];
+
+  my @files = ();
+
+  @$type_instances = sort @$type_instances;
+
+  $opts->{'colors'} = _get_n_colors ($type_instances);
+
+  for (@$type_instances)
+  {
+    my $inst = $_;
+    my $file = '';
+    my $title = $opts->{'title'};
+
+    for (@DataDirs)
+    {
+      if (-e "$_/$title-$inst.rrd")
+      {
+	$file = "$_/$title-$inst.rrd";
+	last;
+      }
+    }
+    confess ("No file found for $title") if ($file eq '');
+
+    push (@$sources,
+      {
+	name => $inst,
+	file => $file
+      }
+    );
+  } # for (@$type_instances)
+
+  return (meta_graph_generic_stack ($opts, $sources));
+} # meta_graph_dns
 
 sub meta_graph_memory {
     confess("Wrong number of arguments") if ( @_ != 5 );
