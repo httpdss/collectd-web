@@ -978,9 +978,9 @@ sub load_graph_definitions {
     my $HalfBlueGreen = '89B3C9';
     $GraphDefs = {
         apache_bytes => [
-            'DEF:min_raw={file}:count:MIN',
-            'DEF:avg_raw={file}:count:AVERAGE',
-            'DEF:max_raw={file}:count:MAX',
+            'DEF:min_raw={file}:value:MIN',
+            'DEF:avg_raw={file}:value:AVERAGE',
+            'DEF:max_raw={file}:value:MAX',
             'CDEF:min=min_raw,8,*',
             'CDEF:avg=avg_raw,8,*',
             'CDEF:max=max_raw,8,*',
@@ -998,9 +998,9 @@ sub load_graph_definitions {
             'GPRINT:avg_sum:LAST:(ca. %5.1lf%sB Total)\l'
         ],
         apache_connections => [
-            'DEF:min={file}:count:MIN',
-            'DEF:avg={file}:count:AVERAGE',
-            'DEF:max={file}:count:MAX',
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Connections",
@@ -1010,9 +1010,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%6.2lf Last'
         ],
         apache_idle_workers => [
-            'DEF:min={file}:count:MIN',
-            'DEF:avg={file}:count:AVERAGE',
-            'DEF:max={file}:count:MAX',
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Idle Workers",
@@ -1022,9 +1022,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%6.2lf Last'
         ],
         apache_requests => [
-            'DEF:min={file}:count:MIN',   
-            'DEF:avg={file}:count:AVERAGE',
-            'DEF:max={file}:count:MAX',   
+            'DEF:min={file}:value:MIN',   
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',   
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",           
             "LINE1:avg#$FullBlue:Requests/s",
@@ -1066,9 +1066,9 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%6.2lf Max,', 'GPRINT:avg:LAST:%6.2lf Last'
         ],
         apache_scoreboard => [
-            'DEF:min={file}:count:MIN',   
-            'DEF:avg={file}:count:AVERAGE',
-            'DEF:max={file}:count:MAX',   
+            'DEF:min={file}:value:MIN',   
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',   
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Processes",
