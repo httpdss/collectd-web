@@ -2836,9 +2836,9 @@ sub load_graph_definitions {
         users => [
             '-v',
             'Users',
-            'DEF:users_avg={file}:users:AVERAGE',
-            'DEF:users_min={file}:users:MIN',
-            'DEF:users_max={file}:users:MAX',
+            'DEF:users_avg={file}:value:AVERAGE',
+            'DEF:users_min={file}:value:MIN',
+            'DEF:users_max={file}:value:MAX',
             "AREA:users_max#$HalfBlue",
             "AREA:users_min#$Canvas",
             "LINE1:users_avg#$FullBlue:Users",
