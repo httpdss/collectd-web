@@ -30,7 +30,7 @@ Give collectd-web a try! Execute the standalone web server and you are done:
 
 Links
 =====
- * http://kenny.belitzky.com/projects/collectd-web
+ * http://collectdweb.appspot.com
  * http://twitter.com/collectdweb
  * http://twitter.com/collectdweb_git (Commit tracker for collectd-web repository)
 
