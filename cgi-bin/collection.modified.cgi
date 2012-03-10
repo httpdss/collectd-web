@@ -39,8 +39,9 @@ our $ValidTimespan    = {
     year  => 366 * 86400
 };
 
+
 our @RRDDefaultArgs = (
-'--rigid', '-w', '500', '-h', '160', '--alt-autoscale-max', '--lower-limit', '0',
+'--rigid', '-w', '500', '-h', '160', '--alt-autoscale-max', '--alt-y-grid',
 '--slope-mode', '--font', 'TITLE:10:Monospace', '--font', 'AXIS:8:Monospace', '--font', 'LEGEND:8:Monospace',
 '--font', 'UNIT:8:Monospace', '-c', 'BACK#FF000000',
     '-c', 'SHADEA#FF000000', '-c', 'SHADEB#FF000000', '-i');
