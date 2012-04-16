@@ -1045,6 +1045,19 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%6.2lf Max,',
             'GPRINT:avg:LAST:%6.2lf Last'
         ],
+	conntrack => [
+	    '-v', 'Entries',
+	    'DEF:min={file}:entropy:MIN',   
+	    'DEF:avg={file}:entropy:AVERAGE',
+	    'DEF:max={file}:entropy:MAX',   
+	    "AREA:max#$HalfBlue",
+	    "AREA:min#$Canvas",           
+	    "LINE1:avg#$FullBlue:Count",
+	    'GPRINT:min:MIN:%6.2lf Min,', 
+	    'GPRINT:avg:AVERAGE:%6.2lf Avg,',
+	    'GPRINT:max:MAX:%6.2lf Max,',
+	    'GPRINT:avg:LAST:%6.2lf Last'
+	],
         cache_result => [
             'DEF:min={file}:value:MIN',   'DEF:avg={file}:value:AVERAGE',
             'DEF:max={file}:value:MAX',   "AREA:max#$HalfBlue",
