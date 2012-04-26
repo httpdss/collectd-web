@@ -178,7 +178,7 @@ function create_plugin_menu(host, plugins) {
     tpl += '<div id="plugin-container" class="ui-widget-content ui-corner-bottom  "><ul>';
     for (var p = 0; p < plugins.length; p++) {
         tpl += '<li><a href="cgi-bin/collection.modified.cgi?action=show_plugin;host=' + host + 
-            ';timespan=day;plugin=' + plugins[p] + '">' + plugins[p] + '</a></li>';
+            ';timespan=day;plugin=' + plugins[p] + '" onclick="window.scrollTo(0, 0)">' + plugins[p] + '</a></li>';
     }
     tpl += '</ul></div>';
     tpl += '</div>';
@@ -318,7 +318,7 @@ $(document).ready(function () {
 
     $.getJSON('cgi-bin/collection.modified.cgi?action=hostlist_json', function (data) {
         for (i = 0; i < data.length; i++) {
-            $("#hosts ul").append('<li><a href="cgi-bin/collection.modified.cgi?action=show_host;host=' + data[i] + '">' 
+            $("#hosts ul").append('<li><a href="cgi-bin/collection.modified.cgi?action=show_host;host=' + data[i] + '" onclick="window.scrollTo(0, document.body.scrollHeight)">' 
                 + data[i] + '</a></li>');
         }
     });
