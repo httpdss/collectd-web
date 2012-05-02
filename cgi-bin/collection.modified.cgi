@@ -3011,6 +3011,7 @@ sub load_graph_definitions {
     $GraphDefs->{'vmpage_io-memory'}    = $GraphDefs->{'vmpage_io'};
     $GraphDefs->{'vmpage_io-swap'}      = $GraphDefs->{'vmpage_io'};
     $MetaGraphDefs->{'cpu'}             = \&meta_graph_cpu;
+    $MetaGraphDefs->{'df_complex'}      = \&meta_graph_df_complex;
     $MetaGraphDefs->{'dns_qtype'}       = \&meta_graph_dns;
     $MetaGraphDefs->{'dns_rcode'}       = \&meta_graph_dns;
     $MetaGraphDefs->{'if_rx_errors'}    = \&meta_graph_if_rx_errors;
@@ -3171,6 +3172,55 @@ sub meta_graph_cpu {
     }    # for (@$type_instances)
     return ( meta_graph_generic_stack( $opts, $sources ) );
 }    # meta_graph_cpu
+
+sub meta_graph_df_complex {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;
+    my $opts            = {};
+    my $sources         = [];
+    $opts->{'title'} =
+        "$host/$plugin"
+        . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
+        . "/$type";
+    $opts->{'number_format'} = '%5.1lf%s';
+    $opts->{'rrd_opts'} = [ '-b', '1024', '-v', 'Bytes' ];
+    my @files = ();
+    $opts->{'colors'} = {
+        'free'      => '00e000',
+        'used'      => 'ff0000',
+        'reserved'  => '0000ff'
+    };
+
+    _custom_sort_arrayref( $type_instances, [qw(free used reserved)] );
+
+    for (@$type_instances) {
+        my $inst  = $_;
+        my $file  = '';
+        my $title = $opts->{'title'};
+        for (@DataDirs) {
+            if ( -e "$_/$title-$inst.rrd" ) {
+                $file = "$_/$title-$inst.rrd";
+                last;
+            }
+        }
+
+    confess ("No file found for $title") if ($file eq '');
+
+    push (@$sources,
+      {
+	name => $inst,
+	file => $file
+      }
+    );
+  } # for (@$type_instances)
+
+  return (meta_graph_generic_stack ($opts, $sources));
+} # meta_graph_df_complex
+
 
 sub meta_graph_dns
 {
