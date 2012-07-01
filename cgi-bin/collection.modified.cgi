@@ -1477,9 +1477,9 @@ sub load_graph_definitions {
         entropy => [
             '-v',
             'Bits',
-            'DEF:avg={file}:entropy:AVERAGE',
-            'DEF:min={file}:entropy:MIN',
-            'DEF:max={file}:entropy:MAX',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Bits",
@@ -1511,9 +1511,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%4.1lf Last\l'
         ],
         frequency_offset => [    # NTPd
-            'DEF:ppm_avg={file}:ppm:AVERAGE',
-            'DEF:ppm_min={file}:ppm:MIN',
-            'DEF:ppm_max={file}:ppm:MAX',
+            'DEF:ppm_avg={file}:value:AVERAGE',
+            'DEF:ppm_min={file}:value:MIN',
+            'DEF:ppm_max={file}:value:MAX',
             "AREA:ppm_max#$HalfBlue",
             "AREA:ppm_min#$Canvas",
             "LINE1:ppm_avg#$FullBlue:{inst}",
@@ -2754,9 +2754,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%5.1lf%s Last\l'
         ],
         time_offset => [    # NTPd
-            'DEF:s_avg={file}:seconds:AVERAGE',
-            'DEF:s_min={file}:seconds:MIN',
-            'DEF:s_max={file}:seconds:MAX',
+            'DEF:s_avg={file}:value:AVERAGE',
+            'DEF:s_min={file}:value:MIN',
+            'DEF:s_max={file}:value:MAX',
             "AREA:s_max#$HalfBlue",
             "AREA:s_min#$Canvas",
             "LINE1:s_avg#$FullBlue:{inst}",
