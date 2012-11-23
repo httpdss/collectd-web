@@ -978,9 +978,9 @@ sub load_graph_definitions {
     my $HalfBlueGreen = '89B3C9';
     $GraphDefs = {
         apache_bytes => [
-            'DEF:min_raw={file}:count:MIN',
-            'DEF:avg_raw={file}:count:AVERAGE',
-            'DEF:max_raw={file}:count:MAX',
+            'DEF:min_raw={file}:value:MIN',
+            'DEF:avg_raw={file}:value:AVERAGE',
+            'DEF:max_raw={file}:value:MAX',
             'CDEF:min=min_raw,8,*',
             'CDEF:avg=avg_raw,8,*',
             'CDEF:max=max_raw,8,*',
@@ -1106,9 +1106,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%5.1lf%sAh Last\l'
         ],
         contextswitch => [
-            'DEF:avg={file}:contextswitches:AVERAGE',
-            'DEF:min={file}:contextswitches:MIN',
-            'DEF:max={file}:contextswitches:MAX',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Switches/s",
@@ -1511,9 +1511,9 @@ sub load_graph_definitions {
         entropy => [
             '-v',
             'Bits',
-            'DEF:avg={file}:entropy:AVERAGE',
-            'DEF:min={file}:entropy:MIN',
-            'DEF:max={file}:entropy:MAX',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Bits",
@@ -2870,9 +2870,9 @@ sub load_graph_definitions {
         users => [
             '-v',
             'Users',
-            'DEF:users_avg={file}:users:AVERAGE',
-            'DEF:users_min={file}:users:MIN',
-            'DEF:users_max={file}:users:MAX',
+            'DEF:users_avg={file}:value:AVERAGE',
+            'DEF:users_min={file}:value:MIN',
+            'DEF:users_max={file}:value:MAX',
             "AREA:users_max#$HalfBlue",
             "AREA:users_min#$Canvas",
             "LINE1:users_avg#$FullBlue:Users",
