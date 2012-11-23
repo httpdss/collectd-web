@@ -998,9 +998,9 @@ sub load_graph_definitions {
             'GPRINT:avg_sum:LAST:(ca. %5.1lf%sB Total)\l'
         ],
         apache_connections => [
-            'DEF:min={file}:count:MIN',
-            'DEF:avg={file}:count:AVERAGE',
-            'DEF:max={file}:count:MAX',
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Connections",
@@ -1010,9 +1010,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%6.2lf Last'
         ],
         apache_idle_workers => [
-            'DEF:min={file}:count:MIN',
-            'DEF:avg={file}:count:AVERAGE',
-            'DEF:max={file}:count:MAX',
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Idle Workers",
@@ -1022,9 +1022,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%6.2lf Last'
         ],
         apache_requests => [
-            'DEF:min={file}:count:MIN',   
-            'DEF:avg={file}:count:AVERAGE',
-            'DEF:max={file}:count:MAX',   
+            'DEF:min={file}:value:MIN',   
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',   
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",           
             "LINE1:avg#$FullBlue:Requests/s",
@@ -1066,9 +1066,9 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%6.2lf Max,', 'GPRINT:avg:LAST:%6.2lf Last'
         ],
         apache_scoreboard => [
-            'DEF:min={file}:count:MIN',   
-            'DEF:avg={file}:count:AVERAGE',
-            'DEF:max={file}:count:MAX',   
+            'DEF:min={file}:value:MIN',   
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',   
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Processes",
