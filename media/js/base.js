@@ -1,16 +1,16 @@
 // Collectd-web - base.js
 // Copyright (C) 2009-2010  Kenneth Belitzky
-// 
+//
 // This program is free software; you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
 // Foundation; either version 2 of the License, or (at your option) any later
 // version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but WITHOUT
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 // FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
 // details.
-// 
+//
 // You should have received a copy of the GNU General Public License along with
 // this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
@@ -37,7 +37,7 @@ Fb.log = function(obj, consoleMethod) {
                        console.log(obj);
                }
        }
-}
+};
 
 var server_tz = 0;
 
@@ -70,7 +70,7 @@ function is_neg(string) {
 
 /**
  * Get the id of the container for the selected element
- * 
+ *
  * @param {Object}
  *            elem
  */
@@ -83,14 +83,14 @@ var graph_def_values = [];
 
 function get_gmt(offset) {
     off = '';
-    if (offset == 0) {
+    if (offset === 0) {
         off = '';
     } else if (offset > 0) {
-        off = '+' + offset
+        off = '+' + offset;
     } else {
-        off = offset
+        off = offset;
     }
-    return offset
+    return offset;
 }
 
 function get_url_params(in_url) {
@@ -143,7 +143,7 @@ function build_url(original_url, new_params) {
     $.extend(params, new_params);
     var url = original_url.split('?')[0] + '?';
     for (key in params) {
-        if (params[key] != '' || params[key] == 0) {
+        if (params[key] !== '' || params[key] === 0) {
         url += key + '=' + params[key] + ';';
         }
     }
@@ -157,7 +157,7 @@ function hide_toolbar_items () {
 
 /**
  * default control container
- * 
+ *
  * @param {Object}
  *            txt
  */
@@ -177,7 +177,7 @@ function create_plugin_menu(host, plugins) {
     var tpl = '<div><div class="ui-widget-header ui-corner-top"><h3>Available Plugins</h3></div>';
     tpl += '<div id="plugin-container" class="ui-widget-content ui-corner-bottom  "><ul>';
     for (var p = 0; p < plugins.length; p++) {
-        tpl += '<li><a href="cgi-bin/collection.modified.cgi?action=show_plugin;host=' + host + 
+        tpl += '<li><a href="cgi-bin/collection.modified.cgi?action=show_plugin;host=' + host +
             ';timespan=day;plugin=' + plugins[p] + '">' + plugins[p] + '</a></li>';
     }
     tpl += '</ul></div>';
@@ -191,8 +191,8 @@ function get_graph_menu() {
 
 function update_all_graphs(start, end) {
     $('.gc-img').each(function () {
-        var $this = $(this)
-        var new_url = build_url($this.attr('src'), {
+        var $this = $(this),
+            new_url = build_url($this.attr('src'), {
             'start': print_date(start),
             'end': print_date(end)
         });
@@ -201,12 +201,12 @@ function update_all_graphs(start, end) {
 }
 
 function get_graph_main_container(host) {
-    $('.graph-main-container .hostname').html(host)
-    return $('.graph-main-container').html()
+    $('.graph-main-container .hostname').html(host);
+    return $('.graph-main-container').html();
 }
 
 function show_lazy_graph(elem) {
-    $(elem).attr('src', $(elem).attr('title'))
+    $(elem).attr('src', $(elem).attr('title'));
 }
 
 function create_graph_list(timespan, graphs) {
@@ -238,7 +238,7 @@ function lazy_check() {
         $('.toload.gc-img').each(function () {
             window_top = $(window).height() + $(window).scrollTop();
             var elem_top = $(this).offset().top;
-            if ((window_top > elem_top) && (elem_top != 0)) {
+            if ((window_top > elem_top) && (elem_top !== 0)) {
                 show_lazy_graph(this);
                 $(this).removeClass('toload');
             }
@@ -249,7 +249,7 @@ function lazy_check() {
 
 /**
  * check which container anchor is clicked and load the apropiate container
- * 
+ *
  * @param {Object}
  *            url
  */
@@ -273,7 +273,7 @@ var load_url = function () {
         $selected_plugin = $(this).html();
         $(".graph-imgs-container").html('');
         $.getJSON('cgi-bin/collection.modified.cgi?action=graphs_json;plugin=' + $selected_plugin + ';host=' + $selected_host, function (data) {
-            $graph_json = data
+            $graph_json = data;
             create_graph_list("hour", data.hour);
             $('#graph-container').html(get_graph_main_container($selected_host));
 
@@ -289,14 +289,14 @@ var load_url = function () {
     $(this).addClass('selected');
 
     return false;
-}
+};
 
 function ipad_position_fix () {
-    
+
     if(navigator.platform == 'iPad' || navigator.platform == 'iPhone' || navigator.platform == 'iPod')
     {
-        $( window ).scroll( function ( ) { 
-            $( "#toolbar-container" ).css( "top", ( $( window ).height() + $( document ).scrollTop() - 30 ) +"px" );  
+        $( window ).scroll( function ( ) {
+            $( "#toolbar-container" ).css( "top", ( $( window ).height() + $( document ).scrollTop() - 30 ) +"px" );
         } );
     }
 }
@@ -318,15 +318,14 @@ $(document).ready(function () {
 
     $.getJSON('cgi-bin/collection.modified.cgi?action=hostlist_json', function (data) {
         for (i = 0; i < data.length; i++) {
-            $("#hosts ul").append('<li><a href="cgi-bin/collection.modified.cgi?action=show_host;host=' + data[i] + '">' 
-                + data[i] + '</a></li>');
+            $("#hosts ul").append('<li><a href="cgi-bin/collection.modified.cgi?action=show_host;host=' + data[i] + '">' + data[i] + '</a></li>');
         }
     });
 
     $('.ttip').hover(function () {
                         var text = $(this).find('div.ttip-content').html();
                         $('#help-box').html(text).fadeIn();
-                    }, 
+                    },
                      function () {
                         $('#help-box').html('').hide();
                     });
@@ -335,12 +334,12 @@ $(document).ready(function () {
     $("#clock").jclock();
 
     $.getJSON('cgi-bin/time.cgi', function (data) {
-        server_tz = parseInt(data.tz);
+        server_tz = parseInt(data.tz, 10);
         $("#clock-server").jclock({
             utc: true,
             utcOffset: server_tz
         });
-        
+
     });
 
     $("#clock-server-slider").slider({
@@ -353,7 +352,7 @@ $(document).ready(function () {
     });
 
     $('#clock-server-add').submit(function () {
-        var offset = parseInt($('#clock-server-gmt').html());
+        var offset = parseInt($('#clock-server-gmt').html(), 10);
         var new_span = $(document.createElement("span"));
         var new_li = $(document.createElement("li"));
         new_span.jclock({
@@ -411,7 +410,7 @@ $(document).ready(function () {
     $("#host-filter").live('keyup', function () {
         var searchText = $(this).val();
         $("#hosts li").hide();
-        if (searchText == "") {
+        if (searchText === "") {
             $("#hosts li").show();
         } else {
             $("#hosts li:contains(" + searchText + ")").show();
@@ -437,7 +436,7 @@ $(document).ready(function () {
         var start_date = Date.parse($('.timespan-from').val());
         var end_date = Date.parse($('.timespan-to').val());
 
-        if (!start_date || !end_date) {  
+        if (!start_date || !end_date) {
             $('#error-msg').data('msg', 'One of the dates is invalid');
             $('#error-msg').dialog("open");
         } else {
@@ -454,13 +453,13 @@ $(document).ready(function () {
         draggable:false,
         title: "An error has ocurred",
         open: function(event, ui) {
-            $('#error-msg .content').html($('#error-msg').data('msg'))
+            $('#error-msg .content').html($('#error-msg').data('msg'));
         },
         buttons:{Ok: function(){$(this).dialog( "close" );}}
     });
 
     $('.rrdeditor-reset').click(function () {
-        //FIXME need to reset values 
+        //FIXME need to reset values
         update_graphs();
 
         return false;
@@ -469,7 +468,7 @@ $(document).ready(function () {
     $('#load-graphdefs').click(
     function () {
         $.getJSON('cgi-bin/graphdefs.cgi', function (data) {
-            graph_def_values = data.graph_defs
+            graph_def_values = data.graph_defs;
             for (var def in graph_def_values) {
                 $('#graphdef-name').append('<option value="' + def + '">' + def + '</option>');
             }
@@ -529,9 +528,9 @@ $(document).ready(function () {
 
     $('.ts-item').click(function() {
         var timespan = $(this).attr('title');
-        
+
         var end_date = server_now();
-        var start_date = get_timespan_start(timespan); 
+        var start_date = get_timespan_start(timespan);
 
         update_all_graphs(start_date, end_date);
 
