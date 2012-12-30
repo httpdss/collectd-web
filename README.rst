@@ -42,7 +42,6 @@ Links
  * https://plus.google.com/111037505131782971511/posts
  * https://twitter.com/collectdweb_git (Commit tracker for collectd-web repository)
 
-
 License
 =======
 Collectd-web is licensed under the GNU General Public License (GPL), version 2
