@@ -142,6 +142,12 @@ function build_url(original_url, new_params) {
     params = get_url_params(original_url);
     $.extend(params, new_params);
     var url = original_url.split('?')[0] + '?';
+
+    // The backend returns absolute URLs
+    if (url.charAt(0) == '/') {
+        url = url.substring(1, url.length);
+    }
+
     for (key in params) {
         if (params[key] != '' || params[key] == 0) {
         url += key + '=' + params[key] + ';';
