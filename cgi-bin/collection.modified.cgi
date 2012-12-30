@@ -978,9 +978,9 @@ sub load_graph_definitions {
     my $HalfBlueGreen = '89B3C9';
     $GraphDefs = {
         apache_bytes => [
-            'DEF:min_raw={file}:count:MIN',
-            'DEF:avg_raw={file}:count:AVERAGE',
-            'DEF:max_raw={file}:count:MAX',
+            'DEF:min_raw={file}:value:MIN',
+            'DEF:avg_raw={file}:value:AVERAGE',
+            'DEF:max_raw={file}:value:MAX',
             'CDEF:min=min_raw,8,*',
             'CDEF:avg=avg_raw,8,*',
             'CDEF:max=max_raw,8,*',
@@ -998,9 +998,9 @@ sub load_graph_definitions {
             'GPRINT:avg_sum:LAST:(ca. %5.1lf%sB Total)\l'
         ],
         apache_connections => [
-            'DEF:min={file}:count:MIN',
-            'DEF:avg={file}:count:AVERAGE',
-            'DEF:max={file}:count:MAX',
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Connections",
@@ -1010,9 +1010,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%6.2lf Last'
         ],
         apache_idle_workers => [
-            'DEF:min={file}:count:MIN',
-            'DEF:avg={file}:count:AVERAGE',
-            'DEF:max={file}:count:MAX',
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Idle Workers",
@@ -1022,9 +1022,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%6.2lf Last'
         ],
         apache_requests => [
-            'DEF:min={file}:count:MIN',   
-            'DEF:avg={file}:count:AVERAGE',
-            'DEF:max={file}:count:MAX',   
+            'DEF:min={file}:value:MIN',   
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',   
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",           
             "LINE1:avg#$FullBlue:Requests/s",
@@ -1066,9 +1066,9 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%6.2lf Max,', 'GPRINT:avg:LAST:%6.2lf Last'
         ],
         apache_scoreboard => [
-            'DEF:min={file}:count:MIN',   
-            'DEF:avg={file}:count:AVERAGE',
-            'DEF:max={file}:count:MAX',   
+            'DEF:min={file}:value:MIN',   
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',   
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Processes",
@@ -1511,9 +1511,9 @@ sub load_graph_definitions {
         entropy => [
             '-v',
             'Bits',
-            'DEF:avg={file}:entropy:AVERAGE',
-            'DEF:min={file}:entropy:MIN',
-            'DEF:max={file}:entropy:MAX',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Bits",
@@ -1545,9 +1545,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%4.1lf Last\l'
         ],
         frequency_offset => [    # NTPd
-            'DEF:ppm_avg={file}:ppm:AVERAGE',
-            'DEF:ppm_min={file}:ppm:MIN',
-            'DEF:ppm_max={file}:ppm:MAX',
+            'DEF:ppm_avg={file}:value:AVERAGE',
+            'DEF:ppm_min={file}:value:MIN',
+            'DEF:ppm_max={file}:value:MAX',
             "AREA:ppm_max#$HalfBlue",
             "AREA:ppm_min#$Canvas",
             "LINE1:ppm_avg#$FullBlue:{inst}",
@@ -2788,9 +2788,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%5.1lf%s Last\l'
         ],
         time_offset => [    # NTPd
-            'DEF:s_avg={file}:seconds:AVERAGE',
-            'DEF:s_min={file}:seconds:MIN',
-            'DEF:s_max={file}:seconds:MAX',
+            'DEF:s_avg={file}:value:AVERAGE',
+            'DEF:s_min={file}:value:MIN',
+            'DEF:s_max={file}:value:MAX',
             "AREA:s_max#$HalfBlue",
             "AREA:s_min#$Canvas",
             "LINE1:s_avg#$FullBlue:{inst}",
@@ -2870,9 +2870,9 @@ sub load_graph_definitions {
         users => [
             '-v',
             'Users',
-            'DEF:users_avg={file}:users:AVERAGE',
-            'DEF:users_min={file}:users:MIN',
-            'DEF:users_max={file}:users:MAX',
+            'DEF:users_avg={file}:value:AVERAGE',
+            'DEF:users_min={file}:value:MIN',
+            'DEF:users_max={file}:value:MAX',
             "AREA:users_max#$HalfBlue",
             "AREA:users_min#$Canvas",
             "LINE1:users_avg#$FullBlue:Users",
