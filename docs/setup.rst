@@ -1,9 +1,0 @@
-============
-Installation 
-============
-
-Requirements
-============
-
-How-To
-======
