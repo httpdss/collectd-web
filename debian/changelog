@@ -1,0 +1,5 @@
+collectd-web (0.4.0+20121230+git966416d) unstable; urgency=low
+
+  * First debianize.
+
+ -- Zhang Cheng <stephenpcg@gmail.com>  Wed, 20 Mar 2013 13:32:42 +0800
