@@ -72,7 +72,7 @@ span.ui-icon {
     outline: 0; 
     margin:2px 4px 2px 0; 
     padding: .4em 1em; 
-    text-decoration:none !important;
+    text-decoration:none !important; 
     cursor:pointer; 
     position: relative; 
     text-align: center; 
@@ -181,7 +181,7 @@ li.gc .gc-menu {
     right: 10px;
     top: 10px;
     filter: alpha(opacity = 90);
-    -moz-opacity: 0.9;
+    -moz-opacity: 0.9top-Collectainer
     -khtml-opacity: 0.9;
     opacity: 0.9;
     height: 120px;

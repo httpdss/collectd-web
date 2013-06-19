@@ -21,12 +21,6 @@ Create /etc/collectd/collection.conf with the content:
 
  datadir: "/etc/collectd/collectd-web/"
 
-For Debian-based linux distribution
------------------------------------
-
-Install the following dependencies
-
-	apt-get install librrds-perl libjson-perl libhtml-parser-perl
 
 Using the webserver
 ===================
@@ -36,11 +30,9 @@ Give collectd-web a try! Execute the standalone web server and you are done:
 
 Links
 =====
- * http://collectdweb.appspot.com
- * https://twitter.com/collectdweb
- * https://www.facebook.com/collectdweb
- * https://plus.google.com/111037505131782971511/posts
- * https://twitter.com/collectdweb_git (Commit tracker for collectd-web repository)
+ * http://kenny.belitzky.com/projects/collectd-web
+ * http://twitter.com/collectdweb
+ * http://twitter.com/collectdweb_git (Commit tracker for collectd-web repository)
 
 License
 =======
