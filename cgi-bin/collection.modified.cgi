@@ -3249,6 +3249,9 @@ sub load_graph_definitions {
     $MetaGraphDefs->{'tcp_connections'} = \&meta_graph_tcp_connections;
     $MetaGraphDefs->{'vmpage_number'}   = \&meta_graph_vmpage_number;
     $MetaGraphDefs->{'vmpage_action'}   = \&meta_graph_vmpage_action;
+# nm-4Sept13 filecount
+    $MetaGraphDefs->{'files'}           = \&meta_graph_filecount;
+    $MetaGraphDefs->{'bytes'}           = \&meta_graph_filecount;
 }    # load_graph_definitions
 
 sub meta_graph_generic_stack {
@@ -3496,6 +3499,45 @@ sub meta_graph_dns
 
   return (meta_graph_generic_stack ($opts, $sources));
 } # meta_graph_dns
+
+sub meta_graph_filecount {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;    # not used
+
+    my $opts    = {};
+    my $sources = [];
+
+    $opts->{'title'} = "$host/$plugin" . ( defined($plugin_instance) ? "-$plugin_instance" : '' ) . "/$type";
+
+    $opts->{'rrd_opts'} = [ '-v', ucfirst($type) ];
+
+    my @files = ();
+
+    @$type_instances = sort @$type_instances;
+
+    # default the colour
+    $opts->{'colors'}{$type} ||= '0000FF';
+
+    my $title = $opts->{'title'};
+    my $file;
+    for (@DataDirs) {
+        $file = "$_/$title.rrd";
+        last if ( -e $file );
+    }
+
+    if ( -e $file ) {
+        push( @$sources, { name => $type, file => $file } );
+    }
+    else {
+        confess("No file found for $title") if ( $file eq '' );
+    }
+    return ( meta_graph_generic_stack( $opts, $sources ) );
+}    # meta_graph_filecount
 
 sub meta_graph_memory {
     confess("Wrong number of arguments") if ( @_ != 5 );
