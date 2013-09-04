@@ -3277,9 +3277,6 @@ sub load_graph_definitions {
     $MetaGraphDefs->{'tcp_connections'} = \&meta_graph_tcp_connections;
     $MetaGraphDefs->{'vmpage_number'}   = \&meta_graph_vmpage_number;
     $MetaGraphDefs->{'vmpage_action'}   = \&meta_graph_vmpage_action;
-# nm-4Sept13 filecount
-    $MetaGraphDefs->{'files'}           = \&meta_graph_filecount;
-    $MetaGraphDefs->{'bytes'}           = \&meta_graph_filecount;
 }    # load_graph_definitions
 
 sub meta_graph_generic_stack {
@@ -3499,7 +3496,7 @@ sub meta_graph_dns
 
   @$type_instances = sort @$type_instances;
 
-  $opts->{'colors'} = _get_n_colors ($type_instances);
+  ##$opts->{'colors'} = _get_n_colors ($type_instances);
 
   for (@$type_instances)
   {
