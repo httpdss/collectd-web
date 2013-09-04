@@ -3222,12 +3222,12 @@ sub load_graph_definitions {
             'DEF:avg={file}:value:AVERAGE',
             'DEF:min={file}:value:MIN',
             'DEF:max={file}:value:MAX',
-            "AREA:avg#$HalfBlue:Files",
+            "AREA:avg#$HalfBlue",
             "LINE1:avg#$FullBlue:Files",
             'GPRINT:min:MIN:%9.3lf Min,',
             'GPRINT:avg:AVERAGE:%9.3lf Average,',
             'GPRINT:max:MAX:%9.3lf Max,',
-            'GPRINT:avg:LAST:%9.3lf Last\l'
+            'GPRINT:avg:LAST:%9.3lf Last'
         ],
         bytes => [
             '-b',
@@ -3237,12 +3237,12 @@ sub load_graph_definitions {
             'DEF:avg={file}:value:AVERAGE',
             'DEF:min={file}:value:MIN',
             'DEF:max={file}:value:MAX',
-            "AREA:avg#$HalfRed:Bytes",
+            "AREA:avg#$HalfRed",
             "LINE1:avg#$FullRed:Bytes",
             'GPRINT:min:MIN:%9.3lf Min,',
             'GPRINT:avg:AVERAGE:%9.3lf Average,',
             'GPRINT:max:MAX:%9.3lf Max,',
-            'GPRINT:avg:LAST:%9.3lf Last\l'
+            'GPRINT:avg:LAST:%9.3lf Last'
         ],
 # nm-4Sept13 filecount - END
     };
