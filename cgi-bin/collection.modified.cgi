@@ -1962,6 +1962,19 @@ sub load_graph_definitions {
             'GPRINT:used_max:MAX:%5.1lf%s Max,',
             'GPRINT:used_avg:LAST:%5.1lf%s Last'
         ],
+        md_disks => [
+            '-v',
+            'Disks',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullBlue:Disks",
+            'GPRINT:min:MIN:%2.0lf disks Min,',
+            'GPRINT:max:MAX:%2.0lf disks Max,',
+            'GPRINT:avg:LAST:%2.0lf disks Last\l'
+        ],
         mysql_commands => [
             '-v',
             'Issues/s',
@@ -3241,6 +3254,7 @@ sub load_graph_definitions {
     $MetaGraphDefs->{'if_rx_errors'}    = \&meta_graph_if_rx_errors;
     $MetaGraphDefs->{'if_tx_errors'}    = \&meta_graph_if_rx_errors;
     $MetaGraphDefs->{'memory'}          = \&meta_graph_memory;
+    $MetaGraphDefs->{'md_disks'}        = \&meta_graph_md_disks;
     $MetaGraphDefs->{'nfs_procedure'}   = \&meta_graph_nfs_procedure;
     $MetaGraphDefs->{'ps_state'}        = \&meta_graph_ps_state;
     $MetaGraphDefs->{'swap'}            = \&meta_graph_swap;
@@ -3542,6 +3556,52 @@ sub meta_graph_memory {
     }    # for (@$type_instances)
     return ( meta_graph_generic_stack( $opts, $sources ) );
 }    # meta_graph_cpu
+
+sub meta_graph_md_disks {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;
+    my $opts            = {};
+    my $sources         = [];
+    $opts->{'title'} =
+        "$host/$plugin"
+      . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
+      . "/$type";
+    $opts->{'number_format'} = '%2.0lf';
+    $opts->{'rrd_opts'} = ['-v', 'Disks'];
+    my @files = ();
+    $opts->{'colors'} = {
+        'active'   => '00e000',
+        'spare'   => '0000ff',
+        'missing' => 'ffb000',
+        'failed'     => 'ff0000'
+    };
+    _custom_sort_arrayref( $type_instances, [qw(active spare missing failed)] );
+
+    for (@$type_instances) {
+        my $inst  = $_;
+        my $file  = '';
+        my $title = $opts->{'title'};
+        for (@DataDirs) {
+            if ( -e "$_/$title-$inst.rrd" ) {
+                $file = "$_/$title-$inst.rrd";
+                last;
+            }
+        }
+        confess("No file found for $title") if ( $file eq '' );
+        push(
+            @$sources,
+            {
+                name => $inst,
+                file => $file
+            }
+        );
+    }    # for (@$type_instances)
+    return ( meta_graph_generic_stack( $opts, $sources ) );
+}    # meta_graph_md_disks
 
 sub meta_graph_if_rx_errors {
     confess("Wrong number of arguments") if ( @_ != 5 );
