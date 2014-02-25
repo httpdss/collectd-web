@@ -2304,9 +2304,9 @@ sub load_graph_definitions {
         ],
 # jaf-18aug11 END
         ping => [
-            'DEF:ping_avg={file}:ping:AVERAGE',
-            'DEF:ping_min={file}:ping:MIN',
-            'DEF:ping_max={file}:ping:MAX',
+            'DEF:ping_avg={file}:value:AVERAGE',
+            'DEF:ping_min={file}:value:MIN',
+            'DEF:ping_max={file}:value:MAX',
             "AREA:ping_max#$HalfBlue",
             "AREA:ping_min#$Canvas",
             "LINE1:ping_avg#$FullBlue:Ping",
