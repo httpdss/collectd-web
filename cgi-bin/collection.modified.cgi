@@ -3264,6 +3264,7 @@ sub load_graph_definitions {
     $GraphDefs->{'operations'}          = $GraphDefs->{'total_operations'};
     $MetaGraphDefs->{'cpu'}             = \&meta_graph_cpu;
     $MetaGraphDefs->{'df_complex'}      = \&meta_graph_df_complex;
+    $MetaGraphDefs->{'df_inodes'}       = \&meta_graph_df_complex;
     $MetaGraphDefs->{'dns_qtype'}       = \&meta_graph_dns;
     $MetaGraphDefs->{'dns_rcode'}       = \&meta_graph_dns;
     $MetaGraphDefs->{'if_rx_errors'}    = \&meta_graph_if_rx_errors;
