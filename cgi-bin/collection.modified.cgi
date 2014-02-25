@@ -906,7 +906,8 @@ sub main {
                                 -Cache_Control=>'maxage=3600',
                                 -Pragma=>'public');
         } else {
-            print STDOUT header( -Content_Type => $ContentType);
+            print STDOUT header( -Content_Type => $ContentType,
+                                 -Cache_Control=>'no-cache, no-store, must-revalidate');
         }
 
 
@@ -931,7 +932,8 @@ sub main {
                                 -Cache_Control=>'maxage=3600',
                                 -Pragma=>'public' );
         } else {
-            print STDOUT header( -Content_Type => $ContentType);
+            print STDOUT header( -Content_Type => $ContentType,
+                                 -Cache_Control=>'no-cache, no-store, must-revalidate');
         }
         action_show_graph(
             $Args->{'host'},            $Args->{'plugin'},
