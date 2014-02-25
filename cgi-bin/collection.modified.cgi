@@ -3223,8 +3223,51 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%6.2lf Last'
         ],
 # jaf-18aug11 END
-
-
+# nm-4Sept13 filecount
+        files => [
+            '-v',
+            'File Count',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:avg#$HalfBlue",
+            "LINE1:avg#$FullBlue:Files",
+            'GPRINT:min:MIN:%9.3lf Min,',
+            'GPRINT:avg:AVERAGE:%9.3lf Average,',
+            'GPRINT:max:MAX:%9.3lf Max,',
+            'GPRINT:avg:LAST:%9.3lf Last'
+        ],
+        bytes => [
+            '-b',
+            '1024',
+            '-v',
+            'Bytes',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:avg#$HalfRed",
+            "LINE1:avg#$FullRed:Bytes",
+            'GPRINT:min:MIN:%9.3lf Min,',
+            'GPRINT:avg:AVERAGE:%9.3lf Average,',
+            'GPRINT:max:MAX:%9.3lf Max,',
+            'GPRINT:avg:LAST:%9.3lf Last'
+        ],
+# nm-4Sept13 filecount - END
+# nm-4Sept13 contextswitch
+        contextswitch => [
+            '-v',
+            'Context Switches /s',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:avg#$HalfBlue",
+            "LINE1:avg#$FullBlue:Switches/s",
+            'GPRINT:min:MIN:%9.3lf Min,',
+            'GPRINT:avg:AVERAGE:%9.3lf Average,',
+            'GPRINT:max:MAX:%9.3lf Max,',
+            'GPRINT:avg:LAST:%9.3lf Last'
+        ],
+# nm-4Sept13 contextswitch - END
     };
     $GraphDefs->{'if_multicast'}        = $GraphDefs->{'ipt_packets'};
     $GraphDefs->{'if_tx_errors'}        = $GraphDefs->{'if_rx_errors'};
@@ -3486,7 +3529,7 @@ sub meta_graph_dns
 
   @$type_instances = sort @$type_instances;
 
-  $opts->{'colors'} = _get_n_colors ($type_instances);
+  ##$opts->{'colors'} = _get_n_colors ($type_instances);
 
   for (@$type_instances)
   {
