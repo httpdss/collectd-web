@@ -39,6 +39,12 @@ our $ValidTimespan    = {
     year  => 366 * 86400
 };
 
+# FIXEDish: This isn't working when talking to a daemon.
+# The path given to rrd* needs to be relative to that of the -b option of
+# rrdcached, so we hacked up a few things to allow for that.
+# 2014-02-04
+# bpkroth
+#$ENV{'RRDCACHED_ADDRESS'} = undef;
 
 our @RRDDefaultArgs = (
 '--rigid', '-w', '500', '-h', '160', '--alt-autoscale-max', '--alt-y-grid',
@@ -814,8 +820,10 @@ sub action_show_graph {
     for ( my $i = 0 ; $i < @DataDirs ; $i++ ) {
         my $file = $DataDirs[$i] . "/$title.rrd";
         next if ( !-f $file );
-        $file =~ s/:/\\:/g;
-        s/{file}/$file/ for (@rrd_args);
+	# Workaround some RRDCACHED_FLUSH absolute path issues.
+        $title =~ s/:/\\:/g;
+        s/{file}/$title.rrd/ for (@rrd_args);
+	chdir($DataDirs[$i]);
     if (defined($Args->{'end'})) {
         RRDs::graph(
             '-',
@@ -3296,6 +3304,16 @@ sub meta_graph_generic_stack {
             $max_inst_name = length($inst_name);
         }
         confess("No such file: $file") if ( !-e $file );
+
+	# Workaround some RRDCACHED_FLUSH absolute path issues.
+	for (@DataDirs) {
+	    if ($file =~ qr|^$_/(.*)$|) {
+		$file = $1;
+		chdir($_);
+		last;
+	    }
+	}
+
         push( @cmd,
             qq#DEF:${inst_name}_min=$file:value:MIN#,
             qq#DEF:${inst_name}_avg=$file:value:AVERAGE#,
