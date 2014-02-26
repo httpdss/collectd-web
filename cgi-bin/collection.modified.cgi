@@ -3262,6 +3262,10 @@ sub load_graph_definitions {
     $GraphDefs->{'vmpage_io-memory'}    = $GraphDefs->{'vmpage_io'};
     $GraphDefs->{'vmpage_io-swap'}      = $GraphDefs->{'vmpage_io'};
     $GraphDefs->{'operations'}          = $GraphDefs->{'total_operations'};
+    $GraphDefs->{'ps_code'}             = $GraphDefs->{'ps_rss'};
+    $GraphDefs->{'ps_data'}             = $GraphDefs->{'ps_rss'};
+    $GraphDefs->{'ps_stacksize'}        = $GraphDefs->{'ps_rss'};
+    $GraphDefs->{'ps_vm'}               = $GraphDefs->{'ps_rss'};
     $MetaGraphDefs->{'cpu'}             = \&meta_graph_cpu;
     $MetaGraphDefs->{'df_complex'}      = \&meta_graph_df_complex;
     $MetaGraphDefs->{'df_inodes'}       = \&meta_graph_df_complex;
