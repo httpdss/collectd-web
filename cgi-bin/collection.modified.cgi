@@ -3241,6 +3241,19 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%6.2lf Max,',
             'GPRINT:avg:LAST:%6.2lf Last'
         ],
+        duration => [
+            '-v', 'Seconds',
+            'DEF:duration_avg={file}:seconds:AVERAGE',
+            'DEF:duration_min={file}:seconds:MIN',
+            'DEF:duration_max={file}:seconds:MAX',
+            "AREA:duration_max#$HalfBlue",
+            "AREA:duration_min#$Canvas",
+            "LINE1:duration_avg#$FullBlue:Duration",
+            'GPRINT:duration_min:MIN:%5.1lf%s Min,',
+            'GPRINT:duration_avg:AVERAGE:%5.1lf%s Avg,',
+            'GPRINT:duration_max:MAX:%5.1lf%s Max,',
+            'GPRINT:duration_avg:LAST:%5.1lf%s Last\l'
+        ],
 # jaf-18aug11 END
 
 
