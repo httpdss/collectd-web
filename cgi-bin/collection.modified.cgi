@@ -3291,6 +3291,7 @@ sub load_graph_definitions {
     $GraphDefs->{'ps_data'}             = $GraphDefs->{'ps_rss'};
     $GraphDefs->{'ps_stacksize'}        = $GraphDefs->{'ps_rss'};
     $GraphDefs->{'ps_vm'}               = $GraphDefs->{'ps_rss'};
+    $GraphDefs->{'bytes'}               = $GraphDefs->{'apache_bytes'};
     $MetaGraphDefs->{'cpu'}             = \&meta_graph_cpu;
     $MetaGraphDefs->{'df_complex'}      = \&meta_graph_df_complex;
     $MetaGraphDefs->{'df_inodes'}       = \&meta_graph_df_complex;
