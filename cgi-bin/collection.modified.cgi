@@ -1028,13 +1028,15 @@ sub load_graph_definitions {
             'DEF:min={file}:value:MIN',
             'DEF:avg={file}:value:AVERAGE',
             'DEF:max={file}:value:MAX',
+            'VDEF:total=avg,TOTAL',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Requests/s",
             'GPRINT:min:MIN:%6.2lf Min,',
             'GPRINT:avg:AVERAGE:%6.2lf Avg,',
             'GPRINT:max:MAX:%6.2lf Max,',
-            'GPRINT:avg:LAST:%6.2lf Last'
+            'GPRINT:avg:LAST:%6.2lf Last,',
+            'GPRINT:total:(ca. %6.0lf Total)',
         ],
         connections => [
             'DEF:min={file}:value:MIN',
