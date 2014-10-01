@@ -1610,6 +1610,20 @@ sub load_graph_definitions {
             'GPRINT:temp_max:MAX:%6.2lf Max,',
             'GPRINT:temp_avg:LAST:%6.2lf Last\l'
         ],
+        nova_services => [
+            '-v',
+            'Services',
+            'DEF:temp_avg={file}:value:AVERAGE',
+            'DEF:temp_min={file}:value:MIN',
+            'DEF:temp_max={file}:value:MAX',
+            "AREA:temp_max#$HalfBlue",
+            "AREA:temp_min#$Canvas",
+            "LINE1:temp_avg#$FullBlue:Exec value",
+            'GPRINT:temp_min:MIN:%4.0lf Min,',
+            'GPRINT:temp_avg:AVERAGE:%4.0lf Avg,',
+            'GPRINT:temp_max:MAX:%4.0lf Max,',
+            'GPRINT:temp_avg:LAST:%4.0lf Last\l'
+        ],
         hddtemp => [
             'DEF:temp_avg={file}:value:AVERAGE',
             'DEF:temp_min={file}:value:MIN',
