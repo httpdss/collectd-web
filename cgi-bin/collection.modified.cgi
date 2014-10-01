@@ -3311,6 +3311,9 @@ sub load_graph_definitions {
     $MetaGraphDefs->{'tcp_connections'} = \&meta_graph_tcp_connections;
     $MetaGraphDefs->{'vmpage_number'}   = \&meta_graph_vmpage_number;
     $MetaGraphDefs->{'vmpage_action'}   = \&meta_graph_vmpage_action;
+    $MetaGraphDefs->{'nova_instance_states'} = \&meta_graph_nova_instance_states;
+    $MetaGraphDefs->{'glance_image_states'} = \&meta_graph_glance_image_states;
+    $MetaGraphDefs->{'cinder_volume_states'} = \&meta_graph_cinder_volume_states;
 }    # load_graph_definitions
 
 sub meta_graph_generic_stack {
@@ -3650,6 +3653,147 @@ sub meta_graph_md_disks {
     }    # for (@$type_instances)
     return ( meta_graph_generic_stack( $opts, $sources ) );
 }    # meta_graph_md_disks
+
+
+sub meta_graph_nova_instance_states {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;
+    my $opts            = {};
+    my $sources         = [];
+    $opts->{'title'} = "Nova VM Instances";
+    $opts->{'file'} =
+        "$host/$plugin"
+      . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
+      . "/$type";
+    $opts->{'number_format'} = '%2.0lf';
+    $opts->{'rrd_opts'} = ['-v', 'Instances'];
+    my @files = ();
+    $opts->{'colors'} = {
+        'active'   => '00e000',
+        'stopped'  => '0000ff',
+        'building' => 'ffb000',
+        'error'    => 'ff0000',
+        'deleted'  => 'ff99cc'
+    };
+    _custom_sort_arrayref( $type_instances, [qw(deleted error stopped building active)] );
+
+    for (@$type_instances) {
+        my $inst  = $_;
+        my $file  = '';
+        my $title = $opts->{'file'};
+        for (@DataDirs) {
+            if ( -e "$_/$title-$inst.rrd" ) {
+                $file = "$_/$title-$inst.rrd";
+                last;
+            }
+        }
+        confess("No file found for $title") if ( $file eq '' );
+        push(
+            @$sources,
+            {
+                name => $inst,
+                file => $file
+            }
+        );
+    }    # for (@$type_instances)
+    return ( meta_graph_generic_stack( $opts, $sources ) );
+}
+
+sub meta_graph_glance_image_states {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;
+    my $opts            = {};
+    my $sources         = [];
+    $opts->{'title'} = "Glance Images";
+    $opts->{'file'} =
+        "$host/$plugin"
+      . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
+      . "/$type";
+    $opts->{'number_format'} = '%2.0lf';
+    $opts->{'rrd_opts'} = ['-v', 'Images'];
+    my @files = ();
+    $opts->{'colors'} = {
+        'active'  => '00e000',
+        'deleted' => 'ff99cc'
+    };
+    _custom_sort_arrayref( $type_instances, [qw(deleted active)] );
+
+    for (@$type_instances) {
+        my $inst  = $_;
+        my $file  = '';
+        my $title = $opts->{'file'};
+        for (@DataDirs) {
+            if ( -e "$_/$title-$inst.rrd" ) {
+                $file = "$_/$title-$inst.rrd";
+                last;
+            }
+        }
+        confess("No file found for $title") if ( $file eq '' );
+        push(
+            @$sources,
+            {
+                name => $inst,
+                file => $file
+            }
+        );
+    }    # for (@$type_instances)
+    return ( meta_graph_generic_stack( $opts, $sources ) );
+}
+
+sub meta_graph_cinder_volume_states {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;
+    my $opts            = {};
+    my $sources         = [];
+    $opts->{'title'} = "Cinder Volumes";
+    $opts->{'file'} =
+        "$host/$plugin"
+      . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
+      . "/$type";
+    $opts->{'number_format'} = '%2.0lf';
+    $opts->{'rrd_opts'} = ['-v', 'Volumes'];
+    my @files = ();
+    $opts->{'colors'} = {
+        'available-detached' => '6666ff',
+        'available-attached' => '33ff33',
+        'deleted-detached'   => 'ff99cc'
+    };
+    _custom_sort_arrayref( $type_instances, [qw(deleted-detached available-detached available-attached)] );
+
+    for (@$type_instances) {
+        my $inst  = $_;
+        my $file  = '';
+        my $title = $opts->{'file'};
+        for (@DataDirs) {
+            if ( -e "$_/$title-$inst.rrd" ) {
+                $file = "$_/$title-$inst.rrd";
+                last;
+            }
+        }
+        confess("No file found for $title") if ( $file eq '' );
+        push(
+            @$sources,
+            {
+                name => $inst,
+                file => $file
+            }
+        );
+    }    # for (@$type_instances)
+    return ( meta_graph_generic_stack( $opts, $sources ) );
+}
+
 
 sub meta_graph_if_rx_errors {
     confess("Wrong number of arguments") if ( @_ != 5 );
