@@ -1052,9 +1052,9 @@ sub load_graph_definitions {
         ],
         conntrack => [
             '-v', 'Entries',
-            'DEF:min={file}:entropy:MIN',
-            'DEF:avg={file}:entropy:AVERAGE',
-            'DEF:max={file}:entropy:MAX',
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Count",
