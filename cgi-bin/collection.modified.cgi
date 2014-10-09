@@ -3693,7 +3693,7 @@ sub meta_graph_nova_instance_states {
         'stopped'  => '0000ff',
         'building' => 'ffb000',
         'error'    => 'ff0000',
-        'deleted'  => 'ff99cc'
+        #'deleted'  => 'ff99cc'
     };
     _custom_sort_arrayref( $type_instances, [qw(deleted error stopped building active)] );
 
@@ -3706,6 +3706,9 @@ sub meta_graph_nova_instance_states {
                 $file = "$_/$title-$inst.rrd";
                 last;
             }
+        }
+        if ( $inst eq 'deleted' ) {
+            next;
         }
         confess("No file found for $title") if ( $file eq '' );
         push(
