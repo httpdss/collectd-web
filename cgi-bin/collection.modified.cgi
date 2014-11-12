@@ -3328,6 +3328,7 @@ sub load_graph_definitions {
     $MetaGraphDefs->{'nova_instance_states'} = \&meta_graph_nova_instance_states;
     $MetaGraphDefs->{'nova_compute_disk'} = \&meta_graph_nova_compute_disk;
     $MetaGraphDefs->{'nova_compute_ram'} = \&meta_graph_nova_compute_ram;
+    $MetaGraphDefs->{'nova_float_ipv4_tenant'} = \&meta_graph_nova_float_ipv4_tenant;
     $MetaGraphDefs->{'glance_image_states'} = \&meta_graph_glance_image_states;
     $MetaGraphDefs->{'cinder_volume_states'} = \&meta_graph_cinder_volume_states;
 }    # load_graph_definitions
@@ -3900,6 +3901,51 @@ sub meta_graph_nova_compute_ram {
         # FIXME: total should be a line. In the meanwhile, skip it altogether
         if ( $inst eq 'total' ) {
             next;
+        }
+        confess("No file found for $title") if ( $file eq '' );
+        push(
+            @$sources,
+            {
+                name => $inst,
+                file => $file
+            }
+        );
+    }    # for (@$type_instances)
+    return ( meta_graph_generic_stack( $opts, $sources ) );
+}
+
+sub meta_graph_nova_float_ipv4_tenant {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;
+    my $opts            = {};
+    my $sources         = [];
+    $opts->{'title'} = "Floating IPv4 by Tenant";
+    $opts->{'file'} =
+        "$host/$plugin"
+      . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
+      . "/$type";
+    $opts->{'rrd_opts'} = ['-v', 'Addresses'];
+    $opts->{'number_format'} = '%2.0lf';
+    my @files = ();
+    $opts->{'colors'} = {
+        'free' => '00e000',
+        'used' => '0000ff',
+    };
+    _custom_sort_arrayref( $type_instances, [qw(free used)] );
+
+    for (@$type_instances) {
+        my $inst  = $_;
+        my $file  = '';
+        my $title = $opts->{'file'};
+        for (@DataDirs) {
+            if ( -e "$_/$title-$inst.rrd" ) {
+                $file = "$_/$title-$inst.rrd";
+                last;
+            }
         }
         confess("No file found for $title") if ( $file eq '' );
         push(
