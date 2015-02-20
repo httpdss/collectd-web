@@ -3130,6 +3130,14 @@ sub load_graph_definitions {
             'GPRINT:rt_max:MAX:%4.1lf ms Max,',
             'GPRINT:rt_avg:LAST:%4.1lf ms Last'
         ],
+        response_code => [
+            '-v', 'Response Code', '-l', '0',
+            'DEF:rc_max={file}:value:MAX',
+	    'CDEF:is_200=rc_max,200,EQ',
+	    'CDEF:is_other=rc_max,200,NE',
+	    "AREA:is_200#$FullGreen:'200 OK':STACK",
+	    "AREA:is_other#$FullRed:'Different':STACK",
+        ],
 # jaf-18aug11 additional memcache graphs
         memcached_items => [
             'DEF:min={file}:value:MIN',
