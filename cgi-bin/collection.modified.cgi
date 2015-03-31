@@ -19,6 +19,7 @@
 
 use strict;
 use warnings;
+use Config;
 use Carp           (qw(cluck confess));
 use CGI            (':cgi');
 use CGI::Carp      ('fatalsToBrowser');
@@ -27,7 +28,10 @@ use URI::Escape    ('uri_escape');
 use RRDs           ();
 use Data::Dumper   ();
 use JSON ('to_json');
-our $Config   = "/etc/collectd/collection.conf";
+our $config_file   = "/etc/collectd.conf";
+if ($Config{osname} eq q{freebsd}){
+  $config_file = "/usr/local/etc/collectd.conf";
+}
 our @DataDirs = ();
 our $LibDir;
 our $make_transparent = 1;
@@ -68,7 +72,7 @@ exit( main() );
 
 sub read_config {
     my $fh;
-    open( $fh, "< $Config" ) or confess("open ($Config): $!");
+    open( $fh, "< $config_file" ) or confess("open ($config_file): $!");
     while ( my $line = <$fh> ) {
         chomp($line);
         next if ( !$line );
