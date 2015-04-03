@@ -3124,9 +3124,11 @@ sub load_graph_definitions {
             'DEF:rt_avg={file}:value:AVERAGE',
             'DEF:rt_min={file}:value:MIN',
             'DEF:rt_max={file}:value:MAX',
+	    'CDEF:na=rt_max,UN,INF,UNKN,IF',
             "AREA:rt_max#$HalfBlue",
             "AREA:rt_min#$Canvas",
             "LINE1:rt_avg#$FullBlue:Response Time",
+	    "AREA:na#$HalfRed:Timeout",
             'GPRINT:rt_min:MIN:%4.1lf ms Min,',
             'GPRINT:rt_avg:AVERAGE:%4.1lf ms Avg,',
             'GPRINT:rt_max:MAX:%4.1lf ms Max,',
@@ -3137,8 +3139,10 @@ sub load_graph_definitions {
             'DEF:rc_max={file}:value:MAX',
 	    'CDEF:is_200=rc_max,200,EQ',
 	    'CDEF:is_other=rc_max,200,NE',
+	    'CDEF:na=rc_max,UN,INF,UNKN,IF',
 	    "AREA:is_200#$FullGreen:'200 OK':STACK",
 	    "AREA:is_other#$FullRed:'Different':STACK",
+	    "AREA:na#$HalfRed:Timeout",
         ],
 # jaf-18aug11 additional memcache graphs
         memcached_items => [
