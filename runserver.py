@@ -3,6 +3,13 @@
 import CGIHTTPServer
 import BaseHTTPServer
 from optparse import OptionParser
+import signal
+import sys
+
+def signal_handler(signum, frame):
+    sys.exit()
+
+signal.signal(signal.SIGTERM, signal_handler)
 
 class Handler(CGIHTTPServer.CGIHTTPRequestHandler):
     cgi_directories = ["/cgi-bin"]
