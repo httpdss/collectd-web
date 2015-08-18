@@ -27,7 +27,7 @@ use URI::Escape    ('uri_escape');
 use RRDs           ();
 use Data::Dumper   ();
 use JSON ('to_json');
-our $Config   = "/etc/collectd/collection.conf";
+our $Config   = "/etc/collection.conf";
 our @DataDirs = ();
 our $LibDir;
 our $make_transparent = 1;
@@ -351,8 +351,7 @@ sub list_hosts_json {
     $| = 1;
     print STDOUT header(
         -Content_Type => 'application/json',
-        -Charset      => 'utf-8',
-        -Expires      => '+1h'
+        -Charset      => 'utf-8'
     );
     print STDOUT to_json( $host_ref, { pretty => 1, indent => 2 } );
     return (1);
@@ -452,8 +451,8 @@ sub action_show_host_json
     $| = 1;
 
     print STDOUT header (-Content_Type => 'application/json',
-    -Charset => 'utf-8',
-    -Expires => '+1h');
+    -Charset => 'utf-8'
+    );
     print STDOUT to_json ([sort (keys %$all_plugins)],
     { pretty => 1, indent => 2 }) . "\n";
     return (1);
@@ -731,8 +730,7 @@ sub action_show_plugin_json {
     $| = 1;
 
     print STDOUT header (-Content_Type => 'application/json',
-    -Charset => 'utf-8',
-    -Expires => '+1h');
+    -Charset => 'utf-8');
     print STDOUT to_json ({hour => [@plugin_list_hour],
                            day =>  [@plugin_list_day] ,
                            week => [@plugin_list_week],
@@ -910,7 +908,6 @@ sub main {
         $| = 1;
         if(defined ($Args->{'enable-caching'})){
             print STDOUT header(-Content_Type => $ContentType,
-                                -Expires=>'+1h',
                                 -Cache_Control=>'maxage=3600',
                                 -Pragma=>'public');
         } else {
@@ -935,7 +932,6 @@ sub main {
         $| = 1;
         if(defined ($Args->{'enable-caching'})){
             print STDOUT header(-Content_Type => $ContentType,
-                                -Expires=>'+1h',
                                 -Cache_Control=>'maxage=3600',
                                 -Pragma=>'public' );
         } else {
