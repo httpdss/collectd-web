@@ -1610,6 +1610,20 @@ sub load_graph_definitions {
             'GPRINT:temp_max:MAX:%3.2lf%s Max,',
             'GPRINT:temp_avg:LAST:%3.2lf%s Last\l'
         ],
+        count => [
+            '-v',
+            'Exec value',
+            'DEF:temp_avg={file}:value:AVERAGE',
+            'DEF:temp_min={file}:value:MIN',
+            'DEF:temp_max={file}:value:MAX',
+            "AREA:temp_max#$HalfBlue",
+            "AREA:temp_min#$Canvas",
+            "LINE1:temp_avg#$FullBlue:Count",
+            'GPRINT:temp_min:MIN:%3.2lf%s Min,',
+            'GPRINT:temp_avg:AVERAGE:%3.2lf%s Avg,',
+            'GPRINT:temp_max:MAX:%3.2lf%s Max,',
+            'GPRINT:temp_avg:LAST:%3.2lf%s Last\l'
+        ],
         hddtemp => [
             'DEF:temp_avg={file}:value:AVERAGE',
             'DEF:temp_min={file}:value:MIN',
