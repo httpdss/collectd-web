@@ -2721,6 +2721,20 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%4.1lf Max,',
             'GPRINT:avg:LAST:%4.1lf Last\l'
         ],
+        records => [
+            '-v',
+            'Records',
+            'DEF:temp_avg={file}:value:AVERAGE',
+            'DEF:temp_min={file}:value:MIN',
+            'DEF:temp_max={file}:value:MAX',
+            "AREA:temp_max#$HalfBlue",
+            "AREA:temp_min#$Canvas",
+            "LINE1:temp_avg#$FullBlue:Records",
+            'GPRINT:temp_min:MIN:%6.2lf Min,',
+            'GPRINT:temp_avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:temp_max:MAX:%6.2lf Max,',
+            'GPRINT:temp_avg:LAST:%6.2lf Last\l'
+        ],
         qtype => [
             'DEF:avg={file}:value:AVERAGE',
             'DEF:min={file}:value:MIN',
