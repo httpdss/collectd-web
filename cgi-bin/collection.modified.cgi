@@ -1605,10 +1605,10 @@ sub load_graph_definitions {
             "AREA:temp_max#$HalfBlue",
             "AREA:temp_min#$Canvas",
             "LINE1:temp_avg#$FullBlue:Exec value",
-            'GPRINT:temp_min:MIN:%6.2lf Min,',
-            'GPRINT:temp_avg:AVERAGE:%6.2lf Avg,',
-            'GPRINT:temp_max:MAX:%6.2lf Max,',
-            'GPRINT:temp_avg:LAST:%6.2lf Last\l'
+            'GPRINT:temp_min:MIN:%3.2lf%s Min,',
+            'GPRINT:temp_avg:AVERAGE:%3.2lf%s Avg,',
+            'GPRINT:temp_max:MAX:%3.2lf%s Max,',
+            'GPRINT:temp_avg:LAST:%3.2lf%s Last\l'
         ],
         hddtemp => [
             'DEF:temp_avg={file}:value:AVERAGE',
@@ -2730,10 +2730,10 @@ sub load_graph_definitions {
             "AREA:temp_max#$HalfBlue",
             "AREA:temp_min#$Canvas",
             "LINE1:temp_avg#$FullBlue:Records",
-            'GPRINT:temp_min:MIN:%6.2lf Min,',
-            'GPRINT:temp_avg:AVERAGE:%6.2lf Avg,',
-            'GPRINT:temp_max:MAX:%6.2lf Max,',
-            'GPRINT:temp_avg:LAST:%6.2lf Last\l'
+            'GPRINT:temp_min:MIN:%.3lf%s Min,',
+            'GPRINT:temp_avg:AVERAGE:%.3lf%s Avg,',
+            'GPRINT:temp_max:MAX:%.3lf%s Max,',
+            'GPRINT:temp_avg:LAST:%.3lf%s Last\l'
         ],
         qtype => [
             'DEF:avg={file}:value:AVERAGE',
@@ -3257,10 +3257,10 @@ sub load_graph_definitions {
             'DEF:max={file}:value:MAX',
             "AREA:avg#$HalfRed",
             "LINE1:avg#$FullRed:Bytes",
-            'GPRINT:min:MIN:%9.3lf Min,',
-            'GPRINT:avg:AVERAGE:%9.3lf Average,',
-            'GPRINT:max:MAX:%9.3lf Max,',
-            'GPRINT:avg:LAST:%9.3lf Last'
+            'GPRINT:min:MIN:%3.3lf%s Min,',
+            'GPRINT:avg:AVERAGE:%3.3lf%s Average,',
+            'GPRINT:max:MAX:%3.3lf%s Max,',
+            'GPRINT:avg:LAST:%3.3lf%s Last'
         ],
 # nm-4Sept13 filecount - END
 # nm-4Sept13 contextswitch
