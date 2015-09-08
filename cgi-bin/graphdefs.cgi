@@ -929,6 +929,18 @@ sub load_graph_definitions
         'GPRINT:queries_max:MAX:%5.0lf Max,',
         'GPRINT:queries_avg:LAST:%5.0lf Last\l'
         ],
+        mysql_select => ['-v', 'Selects/s',
+        "DEF:val_avg={file}:value:AVERAGE",
+        "DEF:val_min={file}:value:MIN",
+        "DEF:val_max={file}:value:MAX",
+        "AREA:val_max#$HalfBlue",
+        "AREA:val_min#$Canvas",
+        "LINE1:val_avg#$FullBlue:Selects/s",
+        'GPRINT:val_min:MIN:%5.2lf Min,',
+        'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+        'GPRINT:val_max:MAX:%5.2lf Max,',
+        'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
         mysql_threads => ['-v', 'Threads',
         "DEF:running_min={file}:running:MIN",
         "DEF:running_avg={file}:running:AVERAGE",
