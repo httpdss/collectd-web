@@ -1,7 +1,13 @@
 #!/usr/bin/env python
 
-import CGIHTTPServer
-import BaseHTTPServer
+try:
+    import CGIHTTPServer
+    import BaseHTTPServer
+except ImportError:
+    # py3
+    import http.server as CGIHTTPServer
+    import http.server as BaseHTTPServer
+
 from optparse import OptionParser
 
 class Handler(CGIHTTPServer.CGIHTTPRequestHandler):
