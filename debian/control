@@ -7,13 +7,14 @@ Standards-Version: 3.9.2
 
 Package: collectd-web
 Architecture: all
-Depends: collectd, 
+Depends: collectd,
          librrds-perl,
          libjson-perl,
+         libhtml-parser-perl,
          ${misc:Depends}
 Recommends: fcgiwrap, nginx | httpd
 Description: Collectd-web is a web-based front-end for RRD data collected by collectd
- Collectd-web is a web-based front-end for RRD data collected by collectd. 
+ Collectd-web is a web-based front-end for RRD data collected by collectd.
  It is based on contrib/collection.cgi, a demo CGI script included in collectd.
  .
  The main objective of this is to develop an easy to use and customizable web
