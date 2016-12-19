@@ -19,6 +19,7 @@
 
 use strict;
 use warnings;
+no warnings qw(deprecated);
 use Config;
 use Carp           (qw(cluck confess));
 use CGI            (':cgi');
