@@ -91,7 +91,7 @@ sub read_config {
             $value = 0 + $2;
         }
         else {
-            print STDERR "Cannot parse line: $line\n";
+            # print STDERR "Cannot parse line: $line\n";
             next;
         }
         if ( $key eq 'datadir' ) {
