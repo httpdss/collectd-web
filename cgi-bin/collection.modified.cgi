@@ -102,6 +102,10 @@ sub read_config {
             $value =~ s#/*$##;
             $LibDir = $value;
         }
+        elsif ( $key eq 'uriprefix' ) {
+            $value =~ s#/*$##;
+            $ENV{'SCRIPT_NAME'} = $value . $ENV{'SCRIPT_NAME'};
+        }
         else {
             print STDERR "Unknown key: $key\n";
         }
