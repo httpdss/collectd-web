@@ -1351,6 +1351,25 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%4.1lf Max,',
             'GPRINT:avg:LAST:%4.1lf Last\l'
         ],
+        pkg => [
+            '-v',
+            'FreeBSD PKG-NG',
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
+            'CDEF:mytime=avg,TIME,TIME,IF',
+            'CDEF:sample_len_raw=mytime,PREV(mytime),-',
+            'CDEF:sample_len=sample_len_raw,UN,0,sample_len_raw,IF',
+            'CDEF:avg_sample=avg,UN,0,avg,IF,sample_len,*',
+            'CDEF:avg_sum=PREV,UN,0,PREV,IF,avg_sample,+',
+            "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullBlue:PKGs ",
+            'GPRINT:avg:AVERAGE:%5.1lf%s Avg,',
+            'GPRINT:max:MAX:%5.1lf%s Max,',
+            'GPRINT:avg:LAST:%5.1lf%s Last',
+            'GPRINT:avg_sum:LAST:(ca. %5.1lf%s Total)\l'
+        ],
         derive => [
             '-v',
             'Derive',
@@ -3505,6 +3524,7 @@ sub load_graph_definitions {
     $MetaGraphDefs->{'if_tx_errors'}    = \&meta_graph_if_rx_errors;
     $MetaGraphDefs->{'memory'}          = \&meta_graph_memory;
     $MetaGraphDefs->{'nfs_procedure'}   = \&meta_graph_nfs_procedure;
+    $MetaGraphDefs->{'pkg'}             = \&meta_graph_pkg;
     $MetaGraphDefs->{'ps_state'}        = \&meta_graph_ps_state;
     $MetaGraphDefs->{'swap'}            = \&meta_graph_swap;
     $MetaGraphDefs->{'mysql_commands'}  = \&meta_graph_mysql_commands;
@@ -3930,6 +3950,53 @@ sub meta_graph_nfs_procedure {
     }    # for (@$type_instances)
     return ( meta_graph_generic_stack( $opts, $sources ) );
 }    # meta_graph_nfs_procedure
+
+sub meta_graph_pkg {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;
+    my $opts            = {};
+    my $sources         = [];
+    $opts->{'title'} =
+        "$host/$plugin"
+      . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
+      . "/$type";
+    $opts->{'rrd_opts'} = [ '-v', 'PKGs' ];
+    my @files = ();
+    $opts->{'colors'} = {
+        'queued'    => 'ffffff',
+        'skipped'   => 'ffe000',
+        'built'     => '00e000',
+        'failed'    => 'ff0000',
+        'ignored'   => 'ff00ff'
+    };
+    _custom_sort_arrayref( $type_instances,
+        [qw(queued skipped built failed ignored)] );
+
+    for (@$type_instances) {
+        my $inst  = $_;
+        my $file  = '';
+        my $title = $opts->{'title'};
+        for (@DataDirs) {
+            if ( -e "$_/$title-$inst.rrd" ) {
+                $file = "$_/$title-$inst.rrd";
+                last;
+            }
+        }
+        confess("No file found for $title") if ( $file eq '' );
+        push(
+            @$sources,
+            {
+                name => $inst,
+                file => $file
+            }
+        );
+    }    # for (@$type_instances)
+    return ( meta_graph_generic_stack( $opts, $sources ) );
+}    # meta_graph_pkg
 
 sub meta_graph_ps_state {
     confess("Wrong number of arguments") if ( @_ != 5 );
