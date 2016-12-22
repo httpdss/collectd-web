@@ -3544,6 +3544,8 @@ sub meta_graph_generic_stack {
     $opts->{'title'}    ||= 'Unknown title';
     $opts->{'rrd_opts'} ||= [];
     $opts->{'colors'}   ||= {};
+    $opts->{'ds'}       ||= 'rate';
+
     my $start_time;
     my $end_time;
     my @cmd;
@@ -3593,8 +3595,16 @@ sub meta_graph_generic_stack {
             qq#DEF:${inst_name}_min=$file:value:MIN#,
             qq#DEF:${inst_name}_avg=$file:value:AVERAGE#,
             qq#DEF:${inst_name}_max=$file:value:MAX#,
-            qq#CDEF:${inst_name}_nnl=${inst_name}_avg,UN,0,${inst_name}_avg,IF#
         );
+        if ( $opts->{'ds'} eq 'rate' ) {
+            push( @cmd,
+                qq#CDEF:${inst_name}_nnl=${inst_name}_avg,UN,0,${inst_name}_avg,IF#
+            );
+        } else {
+            push( @cmd,
+                qq#CDEF:${inst_name}_nnl=${inst_name}_avg,UN,0,${inst_name}_avg,IF,STEPWIDTH,*#
+            );
+        }
     }
     {
         my $inst_data = $sources->[ @$sources - 1 ];
@@ -3628,11 +3638,22 @@ sub meta_graph_generic_stack {
         push( @cmd,
             qq(AREA:${inst_name}_stk#$area_color),
             qq(LINE1:${inst_name}_stk#$line_color:$legend),
-            qq(GPRINT:${inst_name}_min:MIN:$number_format Min,),
-            qq(GPRINT:${inst_name}_avg:AVERAGE:$number_format Avg,),
-            qq(GPRINT:${inst_name}_max:MAX:$number_format Max,),
-            qq(GPRINT:${inst_name}_avg:LAST:$number_format Last\\l),
         );
+        if ( $opts->{'ds'} eq 'rate' ) {
+            push( @cmd,
+                qq(GPRINT:${inst_name}_min:MIN:$number_format Min,),
+                qq(GPRINT:${inst_name}_avg:AVERAGE:$number_format Avg,),
+                qq(GPRINT:${inst_name}_max:MAX:$number_format Max,),
+                qq(GPRINT:${inst_name}_avg:LAST:$number_format Last\\l),
+            );
+        } else {
+            push( @cmd,
+                qq(GPRINT:${inst_name}_nnl:MIN:$number_format Min,),
+                qq(GPRINT:${inst_name}_nnl:AVERAGE:$number_format Avg,),
+                qq(GPRINT:${inst_name}_nnl:MAX:$number_format Max,),
+                qq(GPRINT:${inst_name}_nnl:LAST:$number_format Last\\l),
+            );
+        }
     }
     RRDs::graph(@cmd);
     if ( my $errmsg = RRDs::error() ) {
