@@ -206,7 +206,9 @@ sub _get_menu_buttons {
 sub _get_param_host {
     my %all_hosts = map { $_ => 1 } ( _find_hosts() );
     my @selected_hosts = ();
-    for ( param('host') ) {
+    my $p = param('host');
+    my @hosts = ref $p eq 'ARRAY' ? @$p : ($p);
+    for ( @hosts ) {
         if ( defined( $all_hosts{$_} ) ) {
             push( @selected_hosts, "$_" );
         }
@@ -629,12 +631,14 @@ sub action_show_plugin_json {
     my @plugin_list_week =  ();
     my @plugin_list_month = ();
     my @plugin_list_year =  ();
+    my $p = param('plugin');
+    my @plugins = ref $p eq 'ARRAY' ? @$p : ($p);
 
     for ( my $i = 0 ; $i < @hosts ; $i++ ) {
         $plugins_per_host->{ $hosts[$i] } = _find_files_for_host( $hosts[$i] );
         _files_union( $all_plugins, $plugins_per_host->{ $hosts[$i] } );
     }
-    for ( param('plugin') ) {
+    for ( @plugins ) {
         if ( defined( $all_plugins->{$_} ) ) {
             $selected_plugins->{$_} = 1;
         }
