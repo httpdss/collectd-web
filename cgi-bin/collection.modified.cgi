@@ -3986,6 +3986,7 @@ sub meta_graph_pkg {
       . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
       . "/$type";
     $opts->{'rrd_opts'} = [ '-v', 'PKGs' ];
+    $opts->{'ds'} = 'values';
     my @files = ();
     $opts->{'colors'} = {
         'skipped'   => 'ffe000',
