@@ -3967,14 +3967,13 @@ sub meta_graph_pkg {
     $opts->{'rrd_opts'} = [ '-v', 'PKGs' ];
     my @files = ();
     $opts->{'colors'} = {
-        'queued'    => 'ffffff',
         'skipped'   => 'ffe000',
         'built'     => '00e000',
         'failed'    => 'ff0000',
         'ignored'   => 'ff00ff'
     };
     _custom_sort_arrayref( $type_instances,
-        [qw(queued skipped built failed ignored)] );
+        [qw(skipped built failed ignored)] );
 
     for (@$type_instances) {
         my $inst  = $_;
@@ -3986,6 +3985,7 @@ sub meta_graph_pkg {
                 last;
             }
         }
+        next if ( $inst eq 'queued' );
         confess("No file found for $title") if ( $file eq '' );
         push(
             @$sources,
