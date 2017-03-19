@@ -29,7 +29,7 @@ use URI::Escape    ('uri_escape');
 use RRDs           ();
 use Data::Dumper   ();
 use JSON ('to_json');
-our $config_file   = "/etc/collectd.conf";
+our $config_file   = "/etc/collectd/collection.conf";
 if ($Config{osname} eq q{freebsd}){
   $config_file = "/usr/local/etc/collectd.conf";
 }
