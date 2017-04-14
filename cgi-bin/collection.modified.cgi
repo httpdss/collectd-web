@@ -29,7 +29,7 @@ use URI::Escape    ('uri_escape');
 use RRDs           ();
 use Data::Dumper   ();
 use JSON ('to_json');
-our $config_file   = "/etc/collectd.conf";
+our $config_file   = "/etc/collectd/collection.conf";
 if ($Config{osname} eq q{freebsd}){
   $config_file = "/usr/local/etc/collectd.conf";
 }
@@ -1760,9 +1760,9 @@ sub load_graph_definitions {
         frequency => [
             '-v',
             'Hertz',
-            'DEF:avg={file}:frequency:AVERAGE',
-            'DEF:min={file}:frequency:MIN',
-            'DEF:max={file}:frequency:MAX',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Frequency [Hz]",
@@ -3233,9 +3233,9 @@ sub load_graph_definitions {
         timeleft => [
             '-v',
             'Minutes',
-            'DEF:avg={file}:timeleft:AVERAGE',
-            'DEF:min={file}:timeleft:MIN',
-            'DEF:max={file}:timeleft:MAX',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Time left [min]",
