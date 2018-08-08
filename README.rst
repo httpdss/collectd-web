@@ -3,10 +3,14 @@ Docker Support
 ==============
 
 Added simple docker support.
-* mkdir data 
-* add your collectd data
-* docker-compose build
-* docker-compose up
+  
+  mkdir data 
+  
+  add your collectd data
+  
+  docker-compose build
+  
+  docker-compose up
 
 
 ============
