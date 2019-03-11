@@ -986,6 +986,41 @@ sub load_graph_definitions {
     my $HalfMagenta   = 'DFB7F7';
     my $HalfBlueGreen = '89B3C9';
     $GraphDefs = {
+
+	################## CUSTOM FOR WINDHAGER ########################
+	sollist => [
+		'-v', 'Temperatur', '-l', '0',
+		'DEF:soll_min={file}:soll:MIN',
+		'DEF:soll_ave={file}:soll:AVERAGE',
+		'DEF:soll_max={file}:soll:MAX',
+		'DEF:ist_min={file}:ist:MIN',
+		'DEF:ist_ave={file}:ist:AVERAGE',
+		'DEF:ist_max={file}:ist:MAX',
+		"LINE1:soll_ave#$FullRed:Soll",
+		'GPRINT:soll_min:MIN:%3.1lf%sB Min,',
+		'GPRINT:soll_ave:AVERAGE:%3.1lf%sB Avg,',
+		'GPRINT:soll_max:MAX:%3.1lf%sB Max,',
+		'GPRINT:soll_ave:LAST:%3.1lf%sB Last\l',
+		"LINE1:ist_ave#$FullGreen:Ist",
+		'GPRINT:ist_min:MIN:%3.1lf%sB Min, ',
+		'GPRINT:ist_ave:AVERAGE:%3.1lf%sB Avg, ',
+		'GPRINT:ist_max:MAX:%3.1lf%sB Max, ',
+		'GPRINT:ist_ave:LAST:%3.1lf%sB Last\l'
+	],
+	pumpen => [
+		'DEF:fbh_avg={file}:fbh:AVERAGE',
+		'DEF:warmwasser={file}:warmwasser:AVERAGE',
+		'DEF:zirkulation={file}:zirkulation:AVERAGE',
+		"LINE1:fbh_avg#$FullRed:FBH",
+		'GPRINT:fbh_avg:LAST:%1lf%sB FBH Last\l',
+		"LINE1:warmwasser#$FullGreen:Warmwasser",
+		'GPRINT:warmwasser:LAST:%1lf%sB Warmwasser Last\l',
+		"LINE1:zirkulation#$FullBlue:Zirkulation",
+		'GPRINT:zirkulation:LAST:%1lf%sB Zirkulation Last\l',
+	],
+     ################## END CUSTOM FOR WINDHAGER ########################
+
+
         apache_bytes => [
             'DEF:min_raw={file}:value:MIN',
             'DEF:avg_raw={file}:value:AVERAGE',
@@ -2848,9 +2883,9 @@ sub load_graph_definitions {
         timeleft => [
             '-v',
             'Minutes',
-            'DEF:avg={file}:timeleft:AVERAGE',
-            'DEF:min={file}:timeleft:MIN',
-            'DEF:max={file}:timeleft:MAX',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Time left [min]",
