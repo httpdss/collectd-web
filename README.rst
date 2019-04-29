@@ -26,7 +26,7 @@ For Debian-based linux distribution
 
 Install the following dependencies
 
-	apt-get install librrds-perl libjson-perl libhtml-parser-perl
+	apt-get install librrds-perl libjson-perl libhtml-parser-perl libcgi-pm-perl
 
 Using the webserver
 ===================
