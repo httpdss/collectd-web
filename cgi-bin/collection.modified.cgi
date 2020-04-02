@@ -3107,6 +3107,18 @@ sub load_graph_definitions {
             'GPRINT:rt_max:MAX:%4.1lf ms Max,',
             'GPRINT:rt_avg:LAST:%4.1lf ms Last'
         ],
+        response_code => [
+            '-v', 'HTTP Status', '-l', '0',
+            'DEF:rt_avg={file}:value:AVERAGE',
+            'DEF:rt_min={file}:value:MIN',
+            'DEF:rt_max={file}:value:MAX',
+            "AREA:rt_max#$HalfBlue",
+            "AREA:rt_min#$Canvas",
+            "LINE1:rt_avg#$FullBlue:Response Code",
+            'GPRINT:rt_min:MIN:%3.0lf Min,',
+            'GPRINT:rt_max:MAX:%3.0lf Max,',
+            'GPRINT:rt_avg:LAST:%3.0lf Last'
+        ],
 # jaf-18aug11 additional memcache graphs
         memcached_items => [
             'DEF:min={file}:value:MIN',
