@@ -30,7 +30,7 @@ use JSON ('to_json');
 our $Config   = "/etc/collectd/collection.conf";
 our @DataDirs = ();
 our $LibDir;
-out $ContextRoot;
+my $ContextRoot;
 our $make_transparent = 1;
 our $ValidTimespan    = {
     hour  => 3600,
