@@ -2329,6 +2329,20 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%5.1lf%% Max,',
             'GPRINT:avg:LAST:%5.1lf%% Last\l'
         ],
+        ping_stddev => [
+            '-v',
+            'ms',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfGreen",
+            "AREA:min#$Canvas",
+            "LINE2:avg#$FullGreen:Standard Deviation",
+            'GPRINT:min:MIN:%5.1lf ms Min,',
+            'GPRINT:avg:AVERAGE:%5.1lf ms Avg,',
+            'GPRINT:max:MAX:%5.1lf ms Max,',
+            'GPRINT:avg:LAST:%5.1lf ms Last\l'
+        ],
         pg_blks => [
             'DEF:pg_blks_avg={file}:value:AVERAGE',
             'DEF:pg_blks_min={file}:value:MIN',
@@ -3280,6 +3294,50 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%9.3lf Last'
         ],
 # nm-4Sept13 contextswitch - END
+        haproxy_time => [
+            '-v',
+            'ms',
+            '-l',
+            '0',
+            'DEF:mean_avg={file}:mean:AVERAGE',
+            'DEF:mean_min={file}:mean:MIN',
+            'DEF:mean_max={file}:mean:MAX',
+            'DEF:95tile_avg={file}:95tile:AVERAGE',
+            'DEF:95tile_min={file}:95tile:MIN',
+            'DEF:95tile_max={file}:95tile:MAX',
+            'DEF:99tile_avg={file}:99tile:AVERAGE',
+            'DEF:99tile_min={file}:99tile:MIN',
+            'DEF:99tile_max={file}:99tile:MAX',
+            "LINE1:mean_avg#$FullBlue:Mean",
+            'GPRINT:mean_min:MIN:%6.2lf Min,',
+            'GPRINT:mean_avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:mean_max:MAX:%6.2lf Max,',
+            'GPRINT:mean_avg:LAST:%6.2lf Last\l',
+            "LINE1:95tile_avg#$FullGreen:95 percentile",
+            'GPRINT:95tile_min:MIN:%6.2lf Min,',
+            'GPRINT:95tile_avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:95tile_max:MAX:%6.2lf Max,',
+            'GPRINT:95tile_avg:LAST:%6.2lf Last\l',
+            "LINE1:99tile_avg#$FullRed:99 percentile",
+            'GPRINT:99tile_min:MIN:%6.2lf Min,',
+            'GPRINT:99tile_avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:99tile_max:MAX:%6.2lf Max,',
+            'GPRINT:99tile_avg:LAST:%6.2lf Last\l'
+        ],
+        haproxy_connections => [
+            '-v',
+            '#conns / interval',
+            'DEF:temp_avg={file}:value:AVERAGE',
+            'DEF:temp_min={file}:value:MIN',
+            'DEF:temp_max={file}:value:MAX',
+            "AREA:temp_max#$HalfBlue",
+            "AREA:temp_min#$Canvas",
+            "LINE1:temp_avg#$FullBlue:Connections count",
+            'GPRINT:temp_min:MIN:%6.2lf Min,',
+            'GPRINT:temp_avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:temp_max:MAX:%6.2lf Max,',
+            'GPRINT:temp_avg:LAST:%6.2lf Last\l'
+        ],
     };
     $GraphDefs->{'if_multicast'}        = $GraphDefs->{'ipt_packets'};
     $GraphDefs->{'if_tx_errors'}        = $GraphDefs->{'if_rx_errors'};
