@@ -14,12 +14,12 @@ You must have a path containing each host's files in a separate
 sub-directory, named according to the host.
 
 For example,
- /etc/collectd/collectd-web/localhost/
+ /var/db/collectd/localhost/
 
-In this case, your datadir will be '/etc/collectd/collectd-web/'.
-Create /etc/collectd/collection.conf with the content:
+In this case, your datadir will be '/var/db/collectd/'.
+Add in /etc/collectd.conf (for linux boxes) or in /usr/local/etc/collectd.conf (freebsd boxes) the following variable:
 
- datadir: "/etc/collectd/collectd-web/"
+ datadir: "/var/db/collectd/"
 
 For Debian-based linux distribution
 -----------------------------------
@@ -28,11 +28,18 @@ Install the following dependencies
 
 	apt-get install librrds-perl libjson-perl libhtml-parser-perl libcgi-session-perl libcgi-pm-perl
 
+For FreeBSD
+-----------
+
+Install the collectd issuing:
+
+        pkg install collectd
+
 Using the webserver
 ===================
 Give collectd-web a try! Execute the standalone web server and you are done:
 
-	python runserver.py
+	python runserver.py 0.0.0.0 8000
 
 Links
 =====
