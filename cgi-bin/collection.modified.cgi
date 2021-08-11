@@ -3688,6 +3688,86 @@ sub load_graph_definitions {
             "AREA:is_other#$FullRed:'Different':STACK",
             "AREA:na#$HalfRed:Timeout",
         ],
+# yaccs-17Jun13 cbuzilla
+        namelookup_time => [
+            '-v', 'Seconds', '-l', '0',
+            'DEF:rt_avg={file}:value:AVERAGE',
+            'DEF:rt_min={file}:value:MIN',
+            'DEF:rt_max={file}:value:MAX',
+            "AREA:rt_max#$HalfBlue",
+            "AREA:rt_min#$Canvas",
+            "LINE1:rt_avg#$FullBlue:name lookup Time",
+            'GPRINT:rt_min:MIN:%4.1lf ms Min,',
+            'GPRINT:rt_avg:AVERAGE:%4.1lf ms Avg,',
+            'GPRINT:rt_max:MAX:%4.1lf ms Max,',
+            'GPRINT:rt_avg:LAST:%4.1lf ms Last'
+        ],
+        pretransfer_time => [
+            '-v', 'Seconds', '-l', '0',
+            'DEF:rt_avg={file}:value:AVERAGE',
+            'DEF:rt_min={file}:value:MIN',
+            'DEF:rt_max={file}:value:MAX',
+            "AREA:rt_max#$HalfBlue",
+            "AREA:rt_min#$Canvas",
+            "LINE1:rt_avg#$FullBlue:pretransfer Time",
+            'GPRINT:rt_min:MIN:%4.1lf ms Min,',
+            'GPRINT:rt_avg:AVERAGE:%4.1lf ms Avg,',
+            'GPRINT:rt_max:MAX:%4.1lf ms Max,',
+            'GPRINT:rt_avg:LAST:%4.1lf ms Last'
+        ],
+        starttransfer_time => [
+            '-v', 'Seconds', '-l', '0',
+            'DEF:rt_avg={file}:value:AVERAGE',
+            'DEF:rt_min={file}:value:MIN',
+            'DEF:rt_max={file}:value:MAX',
+            "AREA:rt_max#$HalfBlue",
+            "AREA:rt_min#$Canvas",
+            "LINE1:rt_avg#$FullBlue:starttransfer Time",
+            'GPRINT:rt_min:MIN:%4.1lf ms Min,',
+            'GPRINT:rt_avg:AVERAGE:%4.1lf ms Avg,',
+            'GPRINT:rt_max:MAX:%4.1lf ms Max,',
+            'GPRINT:rt_avg:LAST:%4.1lf ms Last'
+        ],
+        connect_time => [
+            '-v', 'Seconds', '-l', '0',
+            'DEF:rt_avg={file}:value:AVERAGE',
+            'DEF:rt_min={file}:value:MIN',
+            'DEF:rt_max={file}:value:MAX',
+            "AREA:rt_max#$HalfBlue",
+            "AREA:rt_min#$Canvas",
+            "LINE1:rt_avg#$FullBlue:connect Time",
+            'GPRINT:rt_min:MIN:%4.1lf ms Min,',
+            'GPRINT:rt_avg:AVERAGE:%4.1lf ms Avg,',
+            'GPRINT:rt_max:MAX:%4.1lf ms Max,',
+            'GPRINT:rt_avg:LAST:%4.1lf ms Last'
+        ],
+        total_time => [
+            '-v', 'Seconds', '-l', '0',
+            'DEF:rt_avg={file}:value:AVERAGE',
+            'DEF:rt_min={file}:value:MIN',
+            'DEF:rt_max={file}:value:MAX',
+            "AREA:rt_max#$HalfBlue",
+            "AREA:rt_min#$Canvas",
+            "LINE1:rt_avg#$FullBlue:total Time",
+            'GPRINT:rt_min:MIN:%4.1lf ms Min,',
+            'GPRINT:rt_avg:AVERAGE:%4.1lf ms Avg,',
+            'GPRINT:rt_max:MAX:%4.1lf ms Max,',
+            'GPRINT:rt_avg:LAST:%4.1lf ms Last'
+        ],
+        bugs => [
+            '-v', 'pieces', '-l', '0',
+            'DEF:rt_avg={file}:value:AVERAGE',
+            'DEF:rt_min={file}:value:MIN',
+            'DEF:rt_max={file}:value:MAX',
+            "AREA:rt_max#$HalfBlue",
+            "AREA:rt_min#$Canvas",
+            "LINE1:rt_avg#$FullBlue:bugs",
+            'GPRINT:rt_min:MIN:%4.1lf ms Min,',
+            'GPRINT:rt_avg:AVERAGE:%4.1lf ms Avg,',
+            'GPRINT:rt_max:MAX:%4.1lf ms Max,',
+            'GPRINT:rt_avg:LAST:%4.1lf ms Last'
+        ],
+# yaccs-17Jun13 cbuzilla END
 # jaf-18aug11 additional memcache graphs
         memcached_items => [
             'DEF:min={file}:value:MIN',
