@@ -2329,6 +2329,7 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%5.1lf%% Max,',
             'GPRINT:avg:LAST:%5.1lf%% Last\l'
         ],
+# gd-11Jan21 ping stddev + custom haproxy
         ping_stddev => [
             '-v',
             'ms',
@@ -2343,6 +2344,7 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%5.1lf ms Max,',
             'GPRINT:avg:LAST:%5.1lf ms Last\l'
         ],
+# gd-11Jan21 ping stddev + custom haproxy END
         pg_blks => [
             'DEF:pg_blks_avg={file}:value:AVERAGE',
             'DEF:pg_blks_min={file}:value:MIN',
@@ -3294,6 +3296,7 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%9.3lf Last'
         ],
 # nm-4Sept13 contextswitch - END
+# gd-11Jan21 ping stddev + custom haproxy
         haproxy_time => [
             '-v',
             'ms',
@@ -3338,6 +3341,51 @@ sub load_graph_definitions {
             'GPRINT:temp_max:MAX:%6.2lf Max,',
             'GPRINT:temp_avg:LAST:%6.2lf Last\l'
         ],
+
+# gd-11Jan21 ping stddev + custom haproxy END
+# mbr-2Nov20 radsniff BEGIN
+       radius_count => [ '-l', 0,
+              '--vertical-label', 'PPS',
+               'DEF:received={file}:received:AVERAGE',
+               'DEF:linked={file}:linked:AVERAGE',
+               'DEF:unlinked={file}:unlinked:AVERAGE',
+               'DEF:reused={file}:reused:AVERAGE',
+               'AREA:received#DD44CC:received',
+               'AREA:linked#66BBCC:linked',
+               'STACK:unlinked#7FFF00:unlinked',
+               'STACK:reused#FF8C00:reused'
+       ],
+       radius_latency => [ '-l', 0,
+               '--vertical-label', 'Latency (ms)',
+               'DEF:high={file}:high:MAX',
+               'DEF:low={file}:low:MIN',
+               'DEF:avg={file}:avg:AVERAGE',
+               'CDEF:trend1800=avg,1800,TRENDNAN',
+               'CDEF:trend86400=avg,86400,TRENDNAN',
+               'LINE:high#66BBCC:high',
+               'LINE:low#DD44CC:low',
+               'LINE:avg#7FFF00:avg',
+               'LINE:trend1800#718D00:avg_30m',
+               'LINE:trend86400#946A00:avg_day'
+       ],
+       radius_rtx => [ '-l', 0,
+               '--vertical-label', 'Requests completed per second',
+               'DEF:none={file}:none:AVERAGE',
+               'DEF:1={file}:1:AVERAGE',
+               'DEF:2={file}:2:AVERAGE',
+               'DEF:3={file}:3:AVERAGE',
+               'DEF:4={file}:4:AVERAGE',
+               'DEF:more={file}:more:AVERAGE',
+               'DEF:lost={file}:lost:AVERAGE',
+               'AREA:none#2AD400:none',
+               'STACK:1#4DB000:1',
+               'STACK:2#718D00:2',
+               'STACK:3#946A00:3',
+               'STACK:4#B84600:4',
+               'STACK:more#DB2300:more',
+               'STACK:lost#FF0000:lost'
+       ],
+# mbr-2Nov20 radsniff END
     };
     $GraphDefs->{'if_multicast'}        = $GraphDefs->{'ipt_packets'};
     $GraphDefs->{'if_tx_errors'}        = $GraphDefs->{'if_rx_errors'};
