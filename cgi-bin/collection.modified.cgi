@@ -2776,13 +2776,16 @@ sub load_graph_definitions {
             'DEF:avg={file}:value:AVERAGE',
             'DEF:min={file}:value:MIN',
             'DEF:max={file}:value:MAX',
-            "AREA:max#$HalfRed",
-            "AREA:min#$Canvas",
-            "LINE2:avg#$FullRed:Percent",
-            'GPRINT:min:MIN:%5.1lf%% Min,',
-            'GPRINT:avg:AVERAGE:%5.1lf%% Avg,',
-            'GPRINT:max:MAX:%5.1lf%% Max,',
-            'GPRINT:avg:LAST:%5.1lf%% Last\l'
+            'CDEF:pavg=100,avg,*',
+            'CDEF:pmin=100,avg,*',
+            'CDEF:pmax=100,avg,*',
+            "AREA:pmax#$HalfRed",
+            "AREA:pmin#$Canvas",
+            "LINE2:pavg#$FullRed:Percent",
+            'GPRINT:pmin:MIN:%5.1lf%% Min,',
+            'GPRINT:pavg:AVERAGE:%5.1lf%% Avg,',
+            'GPRINT:pmax:MAX:%5.1lf%% Max,',
+            'GPRINT:pavg:LAST:%5.1lf%% Last\l'
         ],
 # gd-11Jan21 ping stddev + custom haproxy
         ping_stddev => [

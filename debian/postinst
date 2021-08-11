@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+echo "Please install fcgiwrap and nginx, then copy or link the conf file:"
+echo "  ln -s /usr/share/collectd-web/examples/collectd-web.nginx.conf /etc/nginx/conf.d/"
+echo "then reload nginx to enable collectd-web."
+
+#DEBHELPER#
+
+exit 0
