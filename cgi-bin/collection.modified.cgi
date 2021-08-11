@@ -1390,6 +1390,20 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%4.1lf Max,',
             'GPRINT:avg:LAST:%4.1lf Last\l'
         ],
+        http_requests => [
+            '-v',
+            'Count',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfRed",
+            "AREA:min#$Canvas",
+            "LINE1:max#$FullRed:Count ",
+            'GPRINT:min:MIN:%4.1lf Min,',
+            'GPRINT:avg:AVERAGE:%4.1lf Avg,',
+            'GPRINT:max:MAX:%4.1lf Max,',
+            'GPRINT:avg:LAST:%4.1lf Last\l'
+        ],
         pkg => [
             '-v',
             'FreeBSD PKG-NG',
@@ -1862,6 +1876,47 @@ sub load_graph_definitions {
             'GPRINT:temp_max:MAX:%6.2lf Max,',
             'GPRINT:temp_avg:LAST:%6.2lf Last\l'
         ],
+        listen_queue => [
+            '-v',
+            'Exec value',
+            'DEF:temp_avg={file}:value:AVERAGE',
+            'DEF:temp_min={file}:value:MIN',
+            'DEF:temp_max={file}:value:MAX',
+            "AREA:temp_max#$HalfBlue",
+            "AREA:temp_min#$Canvas",
+            "LINE1:temp_avg#$FullBlue:Exec value",
+            'GPRINT:temp_min:MIN:%6.2lf Min,',
+            'GPRINT:temp_avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:temp_max:MAX:%6.2lf Max,',
+            'GPRINT:temp_avg:LAST:%6.2lf Last\l'
+        ],
+        active_processes => [
+            '-v',
+            'Exec value',
+            'DEF:temp_avg={file}:value:AVERAGE',
+            'DEF:temp_min={file}:value:MIN',
+            'DEF:temp_max={file}:value:MAX',
+            "AREA:temp_max#$HalfBlue",
+            "AREA:temp_min#$Canvas",
+            "LINE1:temp_avg#$FullBlue:Exec value",
+            'GPRINT:temp_min:MIN:%6.2lf Min,',
+            'GPRINT:temp_avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:temp_max:MAX:%6.2lf Max,',
+            'GPRINT:temp_avg:LAST:%6.2lf Last\l'
+        ],
+       total_processes => [
+            '-v',           'Exec value',
+            'DEF:temp_avg={file}:value:AVERAGE',
+            'DEF:temp_min={file}:value:MIN',
+            'DEF:temp_max={file}:value:MAX',
+            "AREA:temp_max#$HalfBlue",
+            "AREA:temp_min#$Canvas",
+            "LINE1:temp_avg#$FullBlue:Exec value",
+            'GPRINT:temp_min:MIN:%6.2lf Min,',
+            'GPRINT:temp_avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:temp_max:MAX:%6.2lf Max,',
+            'GPRINT:temp_avg:LAST:%6.2lf Last\l'
+         ],
         nova_services => [
             '-v',
             'Services',
