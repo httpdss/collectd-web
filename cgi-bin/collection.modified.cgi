@@ -927,7 +927,8 @@ sub main {
                                 -Cache_Control=>'maxage=3600',
                                 -Pragma=>'public');
         } else {
-            print STDOUT header( -Content_Type => $ContentType);
+            print STDOUT header( -Content_Type => $ContentType,
+                                 -Cache_Control=>'no-cache, no-store, must-revalidate');
         }
 
 
@@ -952,7 +953,8 @@ sub main {
                                 -Cache_Control=>'maxage=3600',
                                 -Pragma=>'public' );
         } else {
-            print STDOUT header( -Content_Type => $ContentType);
+            print STDOUT header( -Content_Type => $ContentType,
+                                 -Cache_Control=>'no-cache, no-store, must-revalidate');
         }
         action_show_graph(
             $Args->{'host'},            $Args->{'plugin'},
@@ -1082,13 +1084,15 @@ sub load_graph_definitions {
             'DEF:min={file}:value:MIN',
             'DEF:avg={file}:value:AVERAGE',
             'DEF:max={file}:value:MAX',
+            'VDEF:total=avg,TOTAL',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Requests/s",
             'GPRINT:min:MIN:%6.2lf Min,',
             'GPRINT:avg:AVERAGE:%6.2lf Avg,',
             'GPRINT:max:MAX:%6.2lf Max,',
-            'GPRINT:avg:LAST:%6.2lf Last'
+            'GPRINT:avg:LAST:%6.2lf Last,',
+            'GPRINT:total:(ca. %6.0lf Total)',
         ],
         connections => [
             'DEF:min={file}:value:MIN',
@@ -1299,9 +1303,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%5.1lf%sAh Last\l'
         ],
         contextswitch => [
-            'DEF:avg={file}:contextswitches:AVERAGE',
-            'DEF:min={file}:contextswitches:MIN',
-            'DEF:max={file}:contextswitches:MAX',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Switches/s",
@@ -1848,13 +1852,29 @@ sub load_graph_definitions {
             'DEF:temp_avg={file}:value:AVERAGE',
             'DEF:temp_min={file}:value:MIN',
             'DEF:temp_max={file}:value:MAX',
+            'CDEF:na=temp_avg,UN,INF,UNKN,IF',
             "AREA:temp_max#$HalfBlue",
             "AREA:temp_min#$Canvas",
             "LINE1:temp_avg#$FullBlue:Exec value",
+            "AREA:na#$HalfRed:Not Available",
             'GPRINT:temp_min:MIN:%6.2lf Min,',
             'GPRINT:temp_avg:AVERAGE:%6.2lf Avg,',
             'GPRINT:temp_max:MAX:%6.2lf Max,',
             'GPRINT:temp_avg:LAST:%6.2lf Last\l'
+        ],
+        nova_services => [
+            '-v',
+            'Services',
+            'DEF:temp_avg={file}:value:AVERAGE',
+            'DEF:temp_min={file}:value:MIN',
+            'DEF:temp_max={file}:value:MAX',
+            "AREA:temp_max#$HalfBlue",
+            "AREA:temp_min#$Canvas",
+            "LINE1:temp_avg#$FullBlue:Exec value",
+            'GPRINT:temp_min:MIN:%4.0lf Min,',
+            'GPRINT:temp_avg:AVERAGE:%4.0lf Avg,',
+            'GPRINT:temp_max:MAX:%4.0lf Max,',
+            'GPRINT:temp_avg:LAST:%4.0lf Last\l'
         ],
         hddtemp => [
             'DEF:temp_avg={file}:value:AVERAGE',
@@ -2527,6 +2547,21 @@ sub load_graph_definitions {
             'GPRINT:created_max:MAX:%5.0lf Max,',
             'GPRINT:created_avg:LAST:%5.0lf Last\l'
         ],
+        #  jktjkt-3Apr15
+        md_disks => [
+            '-v',
+            'Disks',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullBlue:Disks",
+            'GPRINT:min:MIN:%2.0lf disks Min,',
+            'GPRINT:max:MAX:%2.0lf disks Max,',
+            'GPRINT:avg:LAST:%2.0lf disks Last\l'
+        ],
+        #  jktjkt-3Apr15 END
         nfs_procedure => [
             '-v',                           'Issues/s',
             'DEF:avg={file}:value:AVERAGE', 'DEF:min={file}:value:MIN',
@@ -3559,25 +3594,25 @@ sub load_graph_definitions {
             'DEF:rt_avg={file}:value:AVERAGE',
             'DEF:rt_min={file}:value:MIN',
             'DEF:rt_max={file}:value:MAX',
+	    'CDEF:na=rt_max,UN,INF,UNKN,IF',
             "AREA:rt_max#$HalfBlue",
             "AREA:rt_min#$Canvas",
             "LINE1:rt_avg#$FullBlue:Response Time",
+	    "AREA:na#$HalfRed:Timeout",
             'GPRINT:rt_min:MIN:%4.1lf ms Min,',
             'GPRINT:rt_avg:AVERAGE:%4.1lf ms Avg,',
             'GPRINT:rt_max:MAX:%4.1lf ms Max,',
             'GPRINT:rt_avg:LAST:%4.1lf ms Last'
         ],
         response_code => [
-            '-v', 'HTTP Status', '-l', '0',
-            'DEF:rt_avg={file}:value:AVERAGE',
-            'DEF:rt_min={file}:value:MIN',
-            'DEF:rt_max={file}:value:MAX',
-            "AREA:rt_max#$HalfBlue",
-            "AREA:rt_min#$Canvas",
-            "LINE1:rt_avg#$FullBlue:Response Code",
-            'GPRINT:rt_min:MIN:%3.0lf Min,',
-            'GPRINT:rt_max:MAX:%3.0lf Max,',
-            'GPRINT:rt_avg:LAST:%3.0lf Last'
+            '-v', 'Response Code', '-l', '0',
+            'DEF:rc_max={file}:value:MAX',
+            'CDEF:is_200=rc_max,200,EQ',
+            'CDEF:is_other=rc_max,200,NE',
+            'CDEF:na=rc_max,UN,INF,UNKN,IF',
+            "AREA:is_200#$FullGreen:'200 OK':STACK",
+            "AREA:is_other#$FullRed:'Different':STACK",
+            "AREA:na#$HalfRed:Timeout",
         ],
 # jaf-18aug11 additional memcache graphs
         memcached_items => [
@@ -3689,6 +3724,43 @@ sub load_graph_definitions {
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Sessions/s",
+            'GPRINT:min:MIN:%6.2lf Min,',
+            'GPRINT:avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:max:MAX:%6.2lf Max,',
+            'GPRINT:avg:LAST:%6.2lf Last'
+        ],
+        queue_length => [
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullBlue:Items",
+            'GPRINT:min:MIN:%6.2lf Min,',
+            'GPRINT:avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:max:MAX:%6.2lf Max,',
+            'GPRINT:avg:LAST:%6.2lf Last'
+        ],
+        duration => [
+            '-v', 'Seconds',
+            'DEF:duration_avg={file}:seconds:AVERAGE',
+            'DEF:duration_min={file}:seconds:MIN',
+            'DEF:duration_max={file}:seconds:MAX',
+            "AREA:duration_max#$HalfBlue",
+            "AREA:duration_min#$Canvas",
+            "LINE1:duration_avg#$FullBlue:Duration",
+            'GPRINT:duration_min:MIN:%5.1lf%s Min,',
+            'GPRINT:duration_avg:AVERAGE:%5.1lf%s Avg,',
+            'GPRINT:duration_max:MAX:%5.1lf%s Max,',
+            'GPRINT:duration_avg:LAST:%5.1lf%s Last\l'
+        ],
+        objects => [
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullBlue:Objects",
             'GPRINT:min:MIN:%6.2lf Min,',
             'GPRINT:avg:AVERAGE:%6.2lf Avg,',
             'GPRINT:max:MAX:%6.2lf Max,',
@@ -3847,13 +3919,21 @@ sub load_graph_definitions {
 # jaf-18aug11 END
     $GraphDefs->{'vmpage_io-memory'}    = $GraphDefs->{'vmpage_io'};
     $GraphDefs->{'vmpage_io-swap'}      = $GraphDefs->{'vmpage_io'};
+    $GraphDefs->{'operations'}          = $GraphDefs->{'total_operations'};
+    $GraphDefs->{'ps_code'}             = $GraphDefs->{'ps_rss'};
+    $GraphDefs->{'ps_data'}             = $GraphDefs->{'ps_rss'};
+    $GraphDefs->{'ps_stacksize'}        = $GraphDefs->{'ps_rss'};
+    $GraphDefs->{'ps_vm'}               = $GraphDefs->{'ps_rss'};
+    $GraphDefs->{'bytes'}               = $GraphDefs->{'apache_bytes'};
     $MetaGraphDefs->{'cpu'}             = \&meta_graph_cpu;
     $MetaGraphDefs->{'df_complex'}      = \&meta_graph_df_complex;
+    $MetaGraphDefs->{'df_inodes'}       = \&meta_graph_df_complex;
     $MetaGraphDefs->{'dns_qtype'}       = \&meta_graph_dns;
     $MetaGraphDefs->{'dns_rcode'}       = \&meta_graph_dns;
     $MetaGraphDefs->{'if_rx_errors'}    = \&meta_graph_if_rx_errors;
     $MetaGraphDefs->{'if_tx_errors'}    = \&meta_graph_if_rx_errors;
     $MetaGraphDefs->{'memory'}          = \&meta_graph_memory;
+    $MetaGraphDefs->{'md_disks'}        = \&meta_graph_md_disks;
     $MetaGraphDefs->{'nfs_procedure'}   = \&meta_graph_nfs_procedure;
     $MetaGraphDefs->{'pkg'}             = \&meta_graph_pkg;
     $MetaGraphDefs->{'ps_state'}        = \&meta_graph_ps_state;
@@ -3863,6 +3943,12 @@ sub load_graph_definitions {
     $MetaGraphDefs->{'tcp_connections'} = \&meta_graph_tcp_connections;
     $MetaGraphDefs->{'vmpage_number'}   = \&meta_graph_vmpage_number;
     $MetaGraphDefs->{'vmpage_action'}   = \&meta_graph_vmpage_action;
+    $MetaGraphDefs->{'nova_instance_states'} = \&meta_graph_nova_instance_states;
+    $MetaGraphDefs->{'nova_compute_disk'} = \&meta_graph_nova_compute_disk;
+    $MetaGraphDefs->{'nova_compute_ram'} = \&meta_graph_nova_compute_ram;
+    $MetaGraphDefs->{'nova_float_ipv4_tenant'} = \&meta_graph_nova_float_ipv4_tenant;
+    $MetaGraphDefs->{'glance_image_states'} = \&meta_graph_glance_image_states;
+    $MetaGraphDefs->{'cinder_volume_states'} = \&meta_graph_cinder_volume_states;
 }    # load_graph_definitions
 
 sub meta_graph_generic_stack {
@@ -4187,6 +4273,340 @@ sub meta_graph_memory {
     }    # for (@$type_instances)
     return ( meta_graph_generic_stack( $opts, $sources ) );
 }    # meta_graph_cpu
+
+sub meta_graph_md_disks {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;
+    my $opts            = {};
+    my $sources         = [];
+    $opts->{'title'} =
+        "$host/$plugin"
+      . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
+      . "/$type";
+    $opts->{'number_format'} = '%2.0lf';
+    $opts->{'rrd_opts'} = ['-v', 'Disks'];
+    my @files = ();
+    $opts->{'colors'} = {
+        'active'   => '00e000',
+        'spare'   => '0000ff',
+        'missing' => 'ffb000',
+        'failed'     => 'ff0000'
+    };
+    _custom_sort_arrayref( $type_instances, [qw(active spare missing failed)] );
+
+    for (@$type_instances) {
+        my $inst  = $_;
+        my $file  = '';
+        my $title = $opts->{'title'};
+        for (@DataDirs) {
+            if ( -e "$_/$title-$inst.rrd" ) {
+                $file = "$_/$title-$inst.rrd";
+                last;
+            }
+        }
+        confess("No file found for $title") if ( $file eq '' );
+        push(
+            @$sources,
+            {
+                name => $inst,
+                file => $file
+            }
+        );
+    }    # for (@$type_instances)
+    return ( meta_graph_generic_stack( $opts, $sources ) );
+}    # meta_graph_md_disks
+
+
+sub meta_graph_nova_instance_states {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;
+    my $opts            = {};
+    my $sources         = [];
+    $opts->{'title'} = "Nova VM Instances";
+    $opts->{'file'} =
+        "$host/$plugin"
+      . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
+      . "/$type";
+    $opts->{'number_format'} = '%2.0lf';
+    $opts->{'rrd_opts'} = ['-v', 'Instances'];
+    my @files = ();
+    $opts->{'colors'} = {
+        'active'   => '00e000',
+        'stopped'  => '0000ff',
+        'building' => 'ffb000',
+        'error'    => 'ff0000',
+        #'deleted'  => 'ff99cc'
+    };
+    _custom_sort_arrayref( $type_instances, [qw(deleted error stopped building active)] );
+
+    for (@$type_instances) {
+        my $inst  = $_;
+        my $file  = '';
+        my $title = $opts->{'file'};
+        for (@DataDirs) {
+            if ( -e "$_/$title-$inst.rrd" ) {
+                $file = "$_/$title-$inst.rrd";
+                last;
+            }
+        }
+        if ( $inst eq 'deleted' ) {
+            next;
+        }
+        confess("No file found for $title") if ( $file eq '' );
+        push(
+            @$sources,
+            {
+                name => $inst,
+                file => $file
+            }
+        );
+    }    # for (@$type_instances)
+    return ( meta_graph_generic_stack( $opts, $sources ) );
+}
+
+sub meta_graph_glance_image_states {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;
+    my $opts            = {};
+    my $sources         = [];
+    $opts->{'title'} = "Glance Images";
+    $opts->{'file'} =
+        "$host/$plugin"
+      . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
+      . "/$type";
+    $opts->{'number_format'} = '%2.0lf';
+    $opts->{'rrd_opts'} = ['-v', 'Images'];
+    my @files = ();
+    $opts->{'colors'} = {
+        'active'  => '00e000',
+        'deleted' => 'ff99cc'
+    };
+    _custom_sort_arrayref( $type_instances, [qw(deleted active)] );
+
+    for (@$type_instances) {
+        my $inst  = $_;
+        my $file  = '';
+        my $title = $opts->{'file'};
+        for (@DataDirs) {
+            if ( -e "$_/$title-$inst.rrd" ) {
+                $file = "$_/$title-$inst.rrd";
+                last;
+            }
+        }
+        confess("No file found for $title") if ( $file eq '' );
+        push(
+            @$sources,
+            {
+                name => $inst,
+                file => $file
+            }
+        );
+    }    # for (@$type_instances)
+    return ( meta_graph_generic_stack( $opts, $sources ) );
+}
+
+sub meta_graph_cinder_volume_states {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;
+    my $opts            = {};
+    my $sources         = [];
+    $opts->{'title'} = "Cinder Volumes";
+    $opts->{'file'} =
+        "$host/$plugin"
+      . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
+      . "/$type";
+    $opts->{'number_format'} = '%2.0lf';
+    $opts->{'rrd_opts'} = ['-v', 'Volumes'];
+    my @files = ();
+    $opts->{'colors'} = {
+        'available-detached' => '6666ff',
+        'available-attached' => '33ff33',
+        'deleted-detached'   => 'ff99cc'
+    };
+    _custom_sort_arrayref( $type_instances, [qw(deleted-detached available-detached available-attached)] );
+
+    for (@$type_instances) {
+        my $inst  = $_;
+        my $file  = '';
+        my $title = $opts->{'file'};
+        for (@DataDirs) {
+            if ( -e "$_/$title-$inst.rrd" ) {
+                $file = "$_/$title-$inst.rrd";
+                last;
+            }
+        }
+        confess("No file found for $title") if ( $file eq '' );
+        push(
+            @$sources,
+            {
+                name => $inst,
+                file => $file
+            }
+        );
+    }    # for (@$type_instances)
+    return ( meta_graph_generic_stack( $opts, $sources ) );
+}
+
+sub meta_graph_nova_compute_disk {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;
+    my $opts            = {};
+    my $sources         = [];
+    $opts->{'title'} = "Nova Local Disks";
+    $opts->{'file'} =
+        "$host/$plugin"
+      . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
+      . "/$type";
+    # FIXME: preformatting so that this is in Bytes
+    $opts->{'rrd_opts'} = [ '-b', 1024, '-v', 'GB'];
+    $opts->{'number_format'} = '%5.1lf%s';
+    my @files = ();
+    $opts->{'colors'} = {
+        'free' => '00e000',
+        'used' => '0000ff',
+    };
+    _custom_sort_arrayref( $type_instances, [qw(free used)] );
+
+    for (@$type_instances) {
+        my $inst  = $_;
+        my $file  = '';
+        my $title = $opts->{'file'};
+        for (@DataDirs) {
+            if ( -e "$_/$title-$inst.rrd" ) {
+                $file = "$_/$title-$inst.rrd";
+                last;
+            }
+        }
+        # FIXME: total should be a line. In the meanwhile, skip it altogether
+        if ( $inst eq 'total' ) {
+            next;
+        }
+        confess("No file found for $title") if ( $file eq '' );
+        push(
+            @$sources,
+            {
+                name => $inst,
+                file => $file
+            }
+        );
+    }    # for (@$type_instances)
+    return ( meta_graph_generic_stack( $opts, $sources ) );
+}
+
+sub meta_graph_nova_compute_ram {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;
+    my $opts            = {};
+    my $sources         = [];
+    $opts->{'title'} = "Nova Memory";
+    $opts->{'file'} =
+        "$host/$plugin"
+      . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
+      . "/$type";
+    # FIXME: preformatting so that this is in Bytes
+    $opts->{'rrd_opts'} = [ '-b', 1024, '-v', 'MB'];
+    $opts->{'number_format'} = '%5.1lf%s';
+    my @files = ();
+    $opts->{'colors'} = {
+        'free' => '00e000',
+        'used' => '0000ff',
+    };
+    _custom_sort_arrayref( $type_instances, [qw(free used)] );
+
+    for (@$type_instances) {
+        my $inst  = $_;
+        my $file  = '';
+        my $title = $opts->{'file'};
+        for (@DataDirs) {
+            if ( -e "$_/$title-$inst.rrd" ) {
+                $file = "$_/$title-$inst.rrd";
+                last;
+            }
+        }
+        # FIXME: total should be a line. In the meanwhile, skip it altogether
+        if ( $inst eq 'total' ) {
+            next;
+        }
+        confess("No file found for $title") if ( $file eq '' );
+        push(
+            @$sources,
+            {
+                name => $inst,
+                file => $file
+            }
+        );
+    }    # for (@$type_instances)
+    return ( meta_graph_generic_stack( $opts, $sources ) );
+}
+
+sub meta_graph_nova_float_ipv4_tenant {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;
+    my $opts            = {};
+    my $sources         = [];
+    $opts->{'title'} = "Floating IPv4 by Tenant";
+    $opts->{'file'} =
+        "$host/$plugin"
+      . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
+      . "/$type";
+    $opts->{'rrd_opts'} = ['-v', 'Addresses'];
+    $opts->{'number_format'} = '%2.0lf';
+    my @files = ();
+    $opts->{'colors'} = {
+        'free' => '00e000',
+        'used' => '0000ff',
+    };
+    _custom_sort_arrayref( $type_instances, [qw(free used)] );
+
+    for (@$type_instances) {
+        my $inst  = $_;
+        my $file  = '';
+        my $title = $opts->{'file'};
+        for (@DataDirs) {
+            if ( -e "$_/$title-$inst.rrd" ) {
+                $file = "$_/$title-$inst.rrd";
+                last;
+            }
+        }
+        confess("No file found for $title") if ( $file eq '' );
+        push(
+            @$sources,
+            {
+                name => $inst,
+                file => $file
+            }
+        );
+    }    # for (@$type_instances)
+    return ( meta_graph_generic_stack( $opts, $sources ) );
+}
 
 sub meta_graph_if_rx_errors {
     confess("Wrong number of arguments") if ( @_ != 5 );
