@@ -1094,6 +1094,20 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%6.2lf Last,',
             'GPRINT:total:(ca. %6.0lf Total)',
         ],
+        requests => [
+            '-v',
+            'Requests',
+            'DEF:temp_avg={file}:value:AVERAGE',
+            'DEF:temp_min={file}:value:MIN',
+            'DEF:temp_max={file}:value:MAX',
+            "AREA:temp_max#$HalfBlue",
+            "AREA:temp_min#$Canvas",
+            "LINE1:temp_avg#$FullBlue:Requests",
+            'GPRINT:temp_min:MIN:%6.2lf Min,',
+            'GPRINT:temp_avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:temp_max:MAX:%6.2lf Max,',
+            'GPRINT:temp_avg:LAST:%6.2lf Last\l'
+        ],
         connections => [
             'DEF:min={file}:value:MIN',
             'DEF:avg={file}:value:AVERAGE',
