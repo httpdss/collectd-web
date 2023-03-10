@@ -2636,6 +2636,28 @@ sub load_graph_definitions {
             'GPRINT:inc_max:MAX:%6.2lf Max,',
             'GPRINT:inc_avg:LAST:%6.2lf Last\l'
         ],
+        spectrum => [
+            '-v', 'Value',
+            '--lower-limit', '0',
+            'DEF:all_min={file}:all:MIN',
+            'DEF:all_avg={file}:all:AVERAGE',
+            'DEF:all_max={file}:all:MAX',
+            'DEF:ir_min={file}:ir:MIN',
+            'DEF:ir_avg={file}:ir:AVERAGE',
+            'DEF:ir_max={file}:ir:MAX',
+            "AREA:all_avg#$HalfGreen",
+            "AREA:ir_avg#$HalfRed",
+            "LINE1:all_avg#$FullGreen:All",
+            'GPRINT:all_min:MIN:%6.2lf Min,',
+            'GPRINT:all_avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:all_max:MAX:%6.2lf Max,',
+            'GPRINT:all_avg:LAST:%6.2lf Last\n',
+            "LINE1:ir_avg#$FullRed:IR ",
+            'GPRINT:ir_min:MIN:%6.2lf Min,',
+            'GPRINT:ir_avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:ir_max:MAX:%6.2lf Max,',
+            'GPRINT:ir_avg:LAST:%6.2lf Last\l'
+        ],
         uptime => [
             '-v',
             'Days',
