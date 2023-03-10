@@ -274,7 +274,7 @@ var load_url = function () {
         $(".graph-imgs-container").html('');
         $.getJSON('cgi-bin/collection.modified.cgi?action=graphs_json;plugin=' + $selected_plugin + ';host=' + $selected_host, function (data) {
             $graph_json = data;
-            create_graph_list("hour", data.hour);
+            create_graph_list("day", data.day);
             $('#graph-container').html(get_graph_main_container($selected_host));
 
             lazy_check();
