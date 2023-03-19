@@ -1289,6 +1289,27 @@ sub load_graph_definitions {
             'GPRINT:total_max_ms:MAX:%5.1lf%s Max,',
             'GPRINT:total_avg_ms:LAST:%5.1lf%s Last'
         ],
+        disk_io_time => [
+            '-v', 'IO-Time in Sec',
+            'DEF:_iot_avg={file}:io_time:AVERAGE',
+            'DEF:_iot_min={file}:io_time:MIN',
+            'DEF:_iot_max={file}:io_time:MAX',
+            'DEF:wiot_avg={file}:weighted_io_time:AVERAGE',
+            'DEF:wiot_min={file}:weighted_io_time:MIN',
+            'DEF:wiot_max={file}:weighted_io_time:MAX',
+            "AREA:wiot_max#$HalfCyan",
+            "AREA:wiot_min#$Canvas",
+            "LINE1:_iot_avg#$FullBlue:         IO Time",
+            'GPRINT:_iot_min:MIN:%5.0lf%ss Min,',
+            'GPRINT:_iot_avg:AVERAGE:%5.0lf%ss Avg,',
+            'GPRINT:_iot_max:MAX:%5.0lf%ss Max,',
+            'GPRINT:_iot_avg:LAST:%5.0lf%ss Last\l',
+            "LINE1:wiot_avg#$FullCyan:Weighted IO Time",
+            'GPRINT:wiot_min:MIN:%5.0lf%ss Min,',
+            'GPRINT:wiot_avg:AVERAGE:%5.0lf%ss Avg,',
+            'GPRINT:wiot_max:MAX:%5.0lf%ss Max,',
+            'GPRINT:wiot_avg:LAST:%5.0lf%ss Last\l',
+        ],
         disk_octets => [
             '-v',
             'Bytes/s',
@@ -2282,6 +2303,19 @@ sub load_graph_definitions {
             'GPRINT:rbyte_avg:AVERAGE:%5.1lf%s Avg,',
             'GPRINT:rbyte_max:MAX:%5.1lf%s Max,',
             'GPRINT:rbyte_avg:LAST:%5.1lf%s Last\l'
+        ],
+        pending_operations => [
+            '-v', 'Pending Requests',
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfRed",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullRed:Requests",
+            'GPRINT:min:MIN:%5.2lf Min,',
+            'GPRINT:avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:max:MAX:%5.2lf Max,',
+            'GPRINT:avg:LAST:%5.2lf Last'
         ],
 # jaf-18aug11 Changed to work with memcache... which was calling for it. But
 # if it worked with something else its now broken.
