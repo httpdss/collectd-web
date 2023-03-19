@@ -1890,17 +1890,17 @@ sub load_graph_definitions {
             'GPRINT:s_min:MIN:%4.2lf Min,',
             'GPRINT:s_avg:AVERAGE:%4.2lf Avg,',
             'GPRINT:s_max:MAX:%4.2lf Max,',
-            'GPRINT:s_avg:LAST:%4.2lf Last\n',
+            'GPRINT:s_avg:LAST:%4.2lf Last\l',
             "LINE1:m_avg#$FullBlue: 5m average",
             'GPRINT:m_min:MIN:%4.2lf Min,',
             'GPRINT:m_avg:AVERAGE:%4.2lf Avg,',
             'GPRINT:m_max:MAX:%4.2lf Max,',
-            'GPRINT:m_avg:LAST:%4.2lf Last\n',
+            'GPRINT:m_avg:LAST:%4.2lf Last\l',
             "LINE1:l_avg#$FullRed:15m average",
             'GPRINT:l_min:MIN:%4.2lf Min,',
             'GPRINT:l_avg:AVERAGE:%4.2lf Avg,',
             'GPRINT:l_max:MAX:%4.2lf Max,',
-            'GPRINT:l_avg:LAST:%4.2lf Last'
+            'GPRINT:l_avg:LAST:%4.2lf Last\l'
         ],
         load_percent => [
             'DEF:avg={file}:percent:AVERAGE',
