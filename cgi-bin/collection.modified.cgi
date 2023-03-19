@@ -3244,6 +3244,19 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%6.2lf Max,',
             'GPRINT:avg:LAST:%6.2lf Last'
         ],
+        total_time_in_ms => [
+            '-v', 'ms/s',
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullBlue:ms/s",
+            'GPRINT:min:MIN:%4.1lf Min,',
+            'GPRINT:avg:AVERAGE:%4.1lf Avg,',
+            'GPRINT:max:MAX:%4.1lf Max,',
+            'GPRINT:avg:LAST:%4.1lf Last'
+        ],
 # jaf-18aug11 END
 # nm-4Sept13 filecount
         files => [
