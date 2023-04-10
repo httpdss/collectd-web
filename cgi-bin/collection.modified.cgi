@@ -32,11 +32,12 @@ our @DataDirs = ();
 our $LibDir;
 our $make_transparent = 1;
 our $ValidTimespan    = {
-    hour  => 3600,
-    day   => 86400,
-    week  => 7 * 86400,
-    month => 31 * 86400,
-    year  => 366 * 86400
+    hour    => 3600,
+    day     => 86400,
+    week    => 7 * 86400,
+    month   => 31 * 86400,
+    year    => 366 * 86400,
+    decade  => 10 * 366 * 86400
 };
 
 # FIXEDish: This isn't working when talking to a daemon.
@@ -129,7 +130,7 @@ sub validate_args {
     {
         delete( $Args->{'type_instance'} );
     }
-    if (defined( $Args->{'timespan'} ) && ( $Args->{'timespan'} =~ m/^(hour|day|week|month|year)$/ ) )
+    if (defined( $Args->{'timespan'} ) && ( $Args->{'timespan'} =~ m/^(hour|day|week|month|year|decade)$/ ) )
     {
         $Args->{'timespan'} = $1;
     }
@@ -542,6 +543,8 @@ sub action_show_plugin {
                               $host_graph_url . ';timespan=month';
                             my $host_graph_url_year =
                               $host_graph_url . ';timespan=year';
+                            my $host_graph_url_decade =
+                              $host_graph_url . ';timespan=decade';
                             my $menu_buttons = _get_menu_buttons();
                             print qq(<ul>);
                             print qq(<li class="gc hour">$menu_buttons<img src="$host_graph_url_hour" /></li>);
@@ -549,6 +552,7 @@ sub action_show_plugin {
                             print qq(<li class="gc week">$menu_buttons<img src="$host_graph_url_week" /></li>);
                             print qq(<li class="gc month">$menu_buttons<img src="$host_graph_url_month" /></li>);
                             print qq(<li class="gc year">$menu_buttons<img src="$host_graph_url_year" /></li>);
+                            print qq(<li class="gc decade">$menu_buttons<img src="$host_graph_url_decade" /></li>);
                             print qq(</ul>);
                         }
                         print "</li>\n";
@@ -586,6 +590,7 @@ sub action_show_plugin {
                             my $host_graph_url_week = $host_graph_url . ';timespan=week';
                             my $host_graph_url_month = $host_graph_url . ';timespan=month';
                             my $host_graph_url_year = $host_graph_url . ';timespan=year';
+                            my $host_graph_url_decade = $host_graph_url . ';timespan=decade';
                             my $menu_buttons = _get_menu_buttons();
                             print qq(<ul>);
                             print qq(<li class="gc hour">$menu_buttons<img src="$host_graph_url_hour" /></li>);
@@ -593,6 +598,7 @@ sub action_show_plugin {
                             print qq(<li class="gc week">$menu_buttons<img src="$host_graph_url_week" /></li>);
                             print qq(<li class="gc month">$menu_buttons<img src="$host_graph_url_month" /></li>);
                             print qq(<li class="gc year">$menu_buttons<img src="$host_graph_url_year" /></li>);
+                            print qq(<li class="gc decade">$menu_buttons<img src="$host_graph_url_decade" /></li>);
                             print qq(</ul>);
                         }
                         print "</li>\n";
@@ -620,6 +626,7 @@ sub action_show_plugin_json {
     my @plugin_list_week =  ();
     my @plugin_list_month = ();
     my @plugin_list_year =  ();
+    my @plugin_list_decade = ();
 
     for ( my $i = 0 ; $i < @hosts ; $i++ ) {
         $plugins_per_host->{ $hosts[$i] } = _find_files_for_host( $hosts[$i] );
@@ -677,11 +684,13 @@ sub action_show_plugin_json {
                             my $host_graph_url_week = $host_graph_url . ';timespan=week';
                             my $host_graph_url_month = $host_graph_url . ';timespan=month';
                             my $host_graph_url_year = $host_graph_url . ';timespan=year';
+                            my $host_graph_url_decade = $host_graph_url . ';timespan=decade';
                             push( @plugin_list_hour, $host_graph_url_hour);
                             push( @plugin_list_day, $host_graph_url_day);
                             push( @plugin_list_week, $host_graph_url_week);
                             push( @plugin_list_month, $host_graph_url_month);
                             push( @plugin_list_year, $host_graph_url_year);
+                            push( @plugin_list_decade, $host_graph_url_decade);
                         }
                     }    # for (my $k = 0; $k < @hosts; $k++)
                     $files_printed++;
@@ -714,11 +723,13 @@ sub action_show_plugin_json {
                             my $host_graph_url_week = $host_graph_url . ';timespan=week';
                             my $host_graph_url_month = $host_graph_url . ';timespan=month';
                             my $host_graph_url_year = $host_graph_url . ';timespan=year';
+                            my $host_graph_url_decade = $host_graph_url . ';timespan=decade';
                             push( @plugin_list_hour, $host_graph_url_hour);
                             push( @plugin_list_day, $host_graph_url_day);
                             push( @plugin_list_week, $host_graph_url_week);
                             push( @plugin_list_month, $host_graph_url_month);
                             push( @plugin_list_year, $host_graph_url_year);
+                            push( @plugin_list_decade, $host_graph_url_decade);
                         }
                     }    # for (my $k = 0; $k < @hosts; $k++)
                     $files_printed++;
@@ -737,7 +748,8 @@ sub action_show_plugin_json {
                            day =>  [@plugin_list_day] ,
                            week => [@plugin_list_week],
                            month => [@plugin_list_month],
-                           year => [@plugin_list_year]},
+                           year => [@plugin_list_year],
+                           decade => [@plugin_list_decade]},
     { pretty => 1, indent => 2 }) . "\n";
     return (1);
 }    # action_show_plugin_json
@@ -768,7 +780,7 @@ sub action_show_type {
     $url_prefix .= ";type_instance=$type_instance_url"
       if ( defined($type_instance) );
 
-    for (qw(hour day week month year)) {
+    for (qw(hour day week month year decade)) {
         my $timespan = $_;
         print qq#  <div><img src="$url_prefix;timespan=$timespan" /></div>\n#;
     }
@@ -787,7 +799,8 @@ sub action_show_graph {
         day   => -86400,
         week  => 7 * -86400,
         month => 31 * -86400,
-        year  => 366 * -86400
+        year  => 366 * -86400,
+        decade => 10 * 366 * -86400
     );
 
     my $start_time;

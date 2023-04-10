@@ -126,6 +126,9 @@ function get_timespan_start (timespan) {
         case "year":
             out_date.add(-1).years();
             break;
+        case "decade":
+            out_date.add(-10).years();
+            break;
     }
     return out_date;
 }
