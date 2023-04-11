@@ -40,9 +40,7 @@ function get_date_distance(in_start, in_end) {
  * the graph to the right and negative values to the left
  * @return
  */
-function move_graph(menu_element, direction) {
-    var gc_img = $(menu_element).closest('li.gc').find('.gc-img');
-    var url = $(gc_img).attr('src');
+function build_move_graph_url(url, direction) {
     var params = get_url_params(url);
 
     var end = server_now();
@@ -61,14 +59,17 @@ function move_graph(menu_element, direction) {
         end.add(date_distance).milliseconds();
     }
 
-    $(gc_img).attr('src', build_url(url, {'start':print_date(start),
-                                          'end':print_date(end)
-                                         }));
+    return build_url(url, {'start':print_date(start), 'end':print_date(end)});
 }
 
-function zoom_graph(menu_element, direction) {
+function move_graph(menu_element, direction) {
     var gc_img = $(menu_element).closest('li.gc').find('.gc-img');
+
     var url = $(gc_img).attr('src');
+    if (url != null) $(gc_img).attr('src', build_move_graph_url(url, direction));
+}
+
+function build_zoom_graph_url(url, direction) {
     var params = get_url_params(url);
 
     var zoom_factor = 0.5;
@@ -87,9 +88,14 @@ function zoom_graph(menu_element, direction) {
         start.add(date_distance).milliseconds();
     }
 
-    $(gc_img).attr('src', build_url(url, {'start':print_date(start),
-                                          'end':print_date(end)
-                                         }));
+    return build_url(url, {'start':print_date(start), 'end':print_date(end)});
+}
+
+function zoom_graph(menu_element, direction) {
+    var gc_img = $(menu_element).closest('li.gc').find('.gc-img');
+
+    var url = $(gc_img).attr('src');
+    if (url != null) $(gc_img).attr('src', build_zoom_graph_url(url, direction));
 }
 
 function move_selected_graphs (direction) {
