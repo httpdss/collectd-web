@@ -17,12 +17,12 @@
 
 
 function print_date(in_date) {
-    var out_date = in_date.toString("HH:mm MMM d yyyy");
+    var out_date = in_date.toString("HH:mm MMM dd yyyy");
     return out_date;
 }
 
 function get_exact_date(in_date) {
-    var out_date = Date.parseExact(unescape(in_date), "HH:mm MMM d yyyy");
+    var out_date = Date.parseExact(unescape(in_date), "HH:mm MMM dd yyyy");
     return out_date;
 }
 
@@ -41,15 +41,15 @@ function get_date_distance(in_start, in_end) {
  * @return
  */
 function move_graph(menu_element, direction) {
-  var gc_img = $(menu_element).closest('li.gc').find('.gc-img');
-  var url = $(gc_img).attr('src');
-  var params = get_url_params(url);
+    var gc_img = $(menu_element).closest('li.gc').find('.gc-img');
+    var url = $(gc_img).attr('src');
+    var params = get_url_params(url);
 
     var end = server_now();
-    var start = server_now().add(-1).hours();
+    var start = server_now().add(-1).days();
 
-  if (params.start !== null) { start = get_exact_date(params.start); }
-    if (params.end !== null) { end = get_exact_date(params.end); }
+    if (params.start != null) { start = get_exact_date(params.start); }
+    if (params.end != null) { end = get_exact_date(params.end); }
 
     var date_distance = Math.round(get_date_distance(start, end) / 2);
 
@@ -67,17 +67,17 @@ function move_graph(menu_element, direction) {
 }
 
 function zoom_graph(menu_element, direction) {
-  var gc_img = $(menu_element).closest('li.gc').find('.gc-img');
-  var url = $(gc_img).attr('src');
-  var params = get_url_params(url);
+    var gc_img = $(menu_element).closest('li.gc').find('.gc-img');
+    var url = $(gc_img).attr('src');
+    var params = get_url_params(url);
 
     var zoom_factor = 0.5;
 
     var end = server_now();
-    var start = server_now().add(-1).hours();
+    var start = server_now().add(-1).days();
 
-  if (params.start !== null) { start = get_exact_date(params.start); }
-    if (params.end !== null) { end = get_exact_date(params.end); }
+    if (params.start != null) { start = get_exact_date(params.start); }
+    if (params.end != null) { end = get_exact_date(params.end); }
 
     var date_distance = Math.round(get_date_distance(start, end) * zoom_factor);
 
