@@ -3070,10 +3070,10 @@ sub load_graph_definitions {
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Voltage",
-            'GPRINT:min:MIN:%5.1lf%sV Min,',
-            'GPRINT:avg:AVERAGE:%5.1lf%sV Avg,',
-            'GPRINT:max:MAX:%5.1lf%sV Max,',
-            'GPRINT:avg:LAST:%5.1lf%sV Last\l'
+            'GPRINT:min:MIN:%5.2lf%sV Min,',
+            'GPRINT:avg:AVERAGE:%5.2lf%sV Avg,',
+            'GPRINT:max:MAX:%5.2lf%sV Max,',
+            'GPRINT:avg:LAST:%5.2lf%sV Last\l'
         ],
         vs_threads => [
             "DEF:total_avg={file}:total:AVERAGE",
