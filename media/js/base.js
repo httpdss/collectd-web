@@ -436,8 +436,8 @@ $(document).ready(function () {
         $('#timespan-menu').data('start',$('.timespan-from').val());
         $('#timespan-menu').data('end', $('.timespan-to').val());
 
-        var start_date = Date.parseExact($('.timespan-from').val(), "yyyy-MM-ddThh:mm");
-        var end_date   = Date.parseExact($('.timespan-to').val(),   "yyyy-MM-ddThh:mm");
+        var start_date = Date.parseExact($('.timespan-from').val(), "yyyy-MM-ddTHH:mm");
+        var end_date   = Date.parseExact($('.timespan-to').val(),   "yyyy-MM-ddTHH:mm");
 
         if (!start_date || !end_date) {
             $('#error-msg').data('msg', 'One of the dates is invalid');
