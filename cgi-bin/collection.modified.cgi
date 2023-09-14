@@ -999,7 +999,26 @@ sub load_graph_definitions {
     my $HalfMagenta   = 'DFB7F7';
     my $HalfBlueGreen = '89B3C9';
     $GraphDefs = {
-        apache_bytes => [
+        activity => [
+            '--lower-limit', '0',
+            'DEF:avg={file}:value:AVERAGE',
+            'CDEF:avg_unkn=avg,0.3,UNKN,IF',
+            'CDEF:avg_prev=PREV(avg),PREV(avg),avg_unkn,IF',
+            'CDEF:clm_less=avg_prev,avg,GT,avg,UNKN,IF',
+            'CDEF:clm_line=avg,0,EQ,0,clm_less,IF',
+            'CDEF:clm_area=clm_line,1,UNKN,IF',
+            'CDEF:avg_area=avg,1,UNKN,IF',
+            'CDEF:clm_sum=clm_line,PREV,ADDNAN',
+            'CDEF:avg_sum=avg,PREV,ADDNAN',
+            'CDEF:ful_sum=avg_area,PREV,ADDNAN',
+            'CDEF:act_pct=avg_sum,clm_sum,-,100,*,ful_sum,/',
+            "AREA:avg_area#$HalfRed:Activity",
+            "LINE:avg#$FullRed",
+            "AREA:clm_area#$HalfGreen",
+            "LINE:clm_line#$FullGreen",
+            'GPRINT:act_pct:LAST:%.0lf%%\l'
+        ],
+        aapache_bytes => [
             'DEF:min_raw={file}:value:MIN',
             'DEF:avg_raw={file}:value:AVERAGE',
             'DEF:max_raw={file}:value:MAX',
