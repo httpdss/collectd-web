@@ -1000,23 +1000,20 @@ sub load_graph_definitions {
     my $HalfBlueGreen = '89B3C9';
     $GraphDefs = {
         activity => [
-            '--lower-limit', '0',
             'DEF:avg={file}:value:AVERAGE',
-            'CDEF:avg_unkn=avg,0.3,UNKN,IF',
-            'CDEF:avg_prev=PREV(avg),PREV(avg),avg_unkn,IF',
-            'CDEF:clm_less=avg_prev,avg,GT,avg,UNKN,IF',
-            'CDEF:clm_line=avg,0,EQ,0,clm_less,IF',
-            'CDEF:clm_area=clm_line,1,UNKN,IF',
+            'CDEF:ina=avg,0.1,LT,avg,UNKN,IF',
             'CDEF:avg_area=avg,1,UNKN,IF',
-            'CDEF:clm_sum=clm_line,PREV,ADDNAN',
+            'CDEF:ina_area=ina,1,UNKN,IF',
             'CDEF:avg_sum=avg,PREV,ADDNAN',
-            'CDEF:ful_sum=avg_area,PREV,ADDNAN',
-            'CDEF:act_pct=avg_sum,clm_sum,-,100,*,ful_sum,/',
-            "AREA:avg_area#$HalfRed:Activity",
-            "LINE:avg#$FullRed",
-            "AREA:clm_area#$HalfGreen",
-            "LINE:clm_line#$FullGreen",
-            'GPRINT:act_pct:LAST:%.0lf%%\l'
+            'CDEF:avg_ful=avg_area,PREV,ADDNAN',
+            'CDEF:avg_msec=avg_sum,STEPWIDTH,*,1000,*',
+            'CDEF:avg_perc=avg_sum,100,*,avg_ful,/',
+            "AREA:avg_area#$HalfRed",
+            "LINE:avg#$FullRed:Active",
+            "AREA:ina_area#$HalfGreen",
+            "LINE:ina#$FullGreen",
+            'GPRINT:avg_msec:LAST:%02h\:%02m Total:valstrfduration',
+            'GPRINT:avg_perc:LAST:[ %.0lf%% ]\l'
         ],
         aapache_bytes => [
             'DEF:min_raw={file}:value:MIN',
