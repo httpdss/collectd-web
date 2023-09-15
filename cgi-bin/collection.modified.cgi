@@ -2727,6 +2727,19 @@ sub load_graph_definitions {
             'GPRINT:inc_max:MAX:%6.2lf Max,',
             'GPRINT:inc_avg:LAST:%6.2lf Last\l'
         ],
+        queue_length => [
+            '-v', 'Length',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfMagenta",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullMagenta:Length ",
+            'GPRINT:min:MIN:%4.1lf Min,',
+            'GPRINT:avg:AVERAGE:%4.1lf Avg,',
+            'GPRINT:max:MAX:%4.1lf Max,',
+            'GPRINT:avg:LAST:%4.1lf Last\l'
+        ],
         signal_noise => [
             '-v', 'Noise',
             'DEF:temp_avg={file}:value:AVERAGE',
@@ -2792,20 +2805,16 @@ sub load_graph_definitions {
             '-v', 'Days',
             '--logarithmic', '--units=si',
             'DEF:avg={file}:value:AVERAGE',
-            'DEF:min={file}:value:MIN',
             'DEF:max={file}:value:MAX',
             'CDEF:avg_days=avg,86400,/',
-            'CDEF:min_days=min,86400,/',
             'CDEF:max_days=max,86400,/',
             'CDEF:avg_msec=avg,1000,*',
-            'CDEF:min_msec=min,1000,*',
             'CDEF:max_msec=max,1000,*',
             'CDEF:val_time=avg,STEPWIDTH,UNKN,IF,PREV,ADDNAN',
             'CDEF:all_time=avg,STEPWIDTH,STEPWIDTH,IF,PREV,ADDNAN',
             'CDEF:pct_time=val_time,100,*,all_time,/',
             "AREA:max_days#$HalfBlue",
             "LINE1:avg_days#$FullBlue:Uptime",
-            'GPRINT:min_msec:MIN:%Dd %02h\:%02m Min,:valstrfduration',
             'GPRINT:max_msec:MAX:%Dd %02h\:%02m Max,:valstrfduration',
             'GPRINT:avg_msec:LAST:%Dd %02h\:%02m Last,:valstrfduration',
             'GPRINT:pct_time:LAST:%3.0lf%% Active\l'
@@ -3393,6 +3402,18 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%4.1lf Last'
         ],
 # jaf-18aug11 END
+        total_values => [
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullBlue:Values/s",
+            'GPRINT:min:MIN:%6.2lf Min,',
+            'GPRINT:avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:max:MAX:%6.2lf Max,',
+            'GPRINT:avg:LAST:%6.2lf Last'
+        ],
 # nm-4Sept13 filecount
         files => [
             '-v',
