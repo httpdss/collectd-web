@@ -3079,6 +3079,7 @@ sub load_graph_definitions {
             'GPRINT:inc_95:%5.1lf%s 95th Percentile\l',
         ],
         cpufreq => [
+            '-l', '0',
             'DEF:cpufreq_avg={file}:value:AVERAGE',
             'DEF:cpufreq_min={file}:value:MIN',
             'DEF:cpufreq_max={file}:value:MAX',
