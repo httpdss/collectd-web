@@ -1233,6 +1233,19 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%5.1lf%sA Max,',
             'GPRINT:avg:LAST:%5.1lf%sA Last\l'
         ],
+        count => [
+            '-v', 'Count', '-l', '0',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfRed",
+            "AREA:min#$Canvas",
+            "LINE1:max#$FullRed:Count ",
+            'GPRINT:min:MIN:%4.1lf Min,',
+            'GPRINT:avg:AVERAGE:%4.1lf Avg,',
+            'GPRINT:max:MAX:%4.1lf Max,',
+            'GPRINT:avg:LAST:%4.1lf Last\l'
+        ],
         counter => [
             '-v',
             'Count',
@@ -3266,10 +3279,10 @@ sub load_graph_definitions {
             "AREA:rt_max#$HalfBlue",
             "AREA:rt_min#$Canvas",
             "LINE1:rt_avg#$FullBlue:Response Time",
-            'GPRINT:rt_min:MIN:%4.1lf ms Min,',
-            'GPRINT:rt_avg:AVERAGE:%4.1lf ms Avg,',
-            'GPRINT:rt_max:MAX:%4.1lf ms Max,',
-            'GPRINT:rt_avg:LAST:%4.1lf ms Last'
+            'GPRINT:rt_min:MIN:%4.1lf%ss Min,',
+            'GPRINT:rt_avg:AVERAGE:%4.1lf%ss Avg,',
+            'GPRINT:rt_max:MAX:%4.1lf%ss Max,',
+            'GPRINT:rt_avg:LAST:%4.1lf%ss Last'
         ],
 # jaf-18aug11 additional memcache graphs
         memcached_items => [
