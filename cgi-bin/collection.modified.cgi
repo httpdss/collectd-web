@@ -1001,17 +1001,15 @@ sub load_graph_definitions {
     $GraphDefs = {
         activity => [
             'DEF:avg={file}:value:AVERAGE',
-            'CDEF:ina=avg,0.1,LT,avg,UNKN,IF',
-            'CDEF:avg_area=avg,1,UNKN,IF',
-            'CDEF:ina_area=ina,1,UNKN,IF',
+            'CDEF:all_area=avg,UN,UNKN,1,IF',
+            'CDEF:act_area=avg,0,GT,1,UNKN,IF',
             'CDEF:avg_sum=avg,PREV,ADDNAN',
-            'CDEF:avg_ful=avg_area,PREV,ADDNAN',
+            'CDEF:all_sum=all_area,PREV,ADDNAN',
             'CDEF:avg_msec=avg_sum,STEPWIDTH,*,1000,*',
-            'CDEF:avg_perc=avg_sum,100,*,avg_ful,/',
-            "AREA:avg_area#$HalfRed",
+            'CDEF:avg_perc=avg_sum,100,*,all_sum,/',
+            "AREA:all_area#$HalfGreen",
+            "AREA:act_area#$HalfRed",
             "LINE:avg#$FullRed:Active",
-            "AREA:ina_area#$HalfGreen",
-            "LINE:ina#$FullGreen",
             'GPRINT:avg_msec:LAST:%02h\:%02m Total:valstrfduration',
             'GPRINT:avg_perc:LAST:[ %.0lf%% ]\l'
         ],
