@@ -1953,6 +1953,28 @@ sub load_graph_definitions {
             'GPRINT:l_max:MAX:%4.2lf Max,',
             'GPRINT:l_avg:LAST:%4.2lf Last\l'
         ],
+        load_avg => [
+            '-v',
+            'Load',
+            'DEF:n_avg={file}:now:AVERAGE',
+            'DEF:n_min={file}:now:MIN',
+            'DEF:n_max={file}:now:MAX',
+            'DEF:a_avg={file}:all:AVERAGE',
+            'DEF:a_min={file}:all:MIN',
+            'DEF:a_max={file}:all:MAX',
+            "AREA:n_max#$HalfGreen",
+            "AREA:n_min#$Canvas",
+            "LINE1:n_avg#$FullGreen:Now average",
+            'GPRINT:n_min:MIN:%4.2lf Min,',
+            'GPRINT:n_avg:AVERAGE:%4.2lf Avg,',
+            'GPRINT:n_max:MAX:%4.2lf Max,',
+            'GPRINT:n_avg:LAST:%4.2lf Last\l',
+            "LINE1:a_avg#$FullRed:All average",
+            'GPRINT:a_min:MIN:%4.2lf Min,',
+            'GPRINT:a_avg:AVERAGE:%4.2lf Avg,',
+            'GPRINT:a_max:MAX:%4.2lf Max,',
+            'GPRINT:a_avg:LAST:%4.2lf Last\l'
+        ],
         load_percent => [
             'DEF:avg={file}:percent:AVERAGE',
             'DEF:min={file}:percent:MIN',
