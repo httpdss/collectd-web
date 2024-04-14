@@ -1843,6 +1843,19 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%3.1lf%s Last',
             'GPRINT:avg_sum:LAST:(ca. %2.0lf%s Total)\l'
         ],
+        illuminance => [
+            '-v', 'Lux',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfYellow",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullYellow:Value",
+            'GPRINT:min:MIN:%7.1lf Min,',
+            'GPRINT:avg:AVERAGE:%7.1lf Avg,',
+            'GPRINT:max:MAX:%7.1lf Max,',
+            'GPRINT:avg:LAST:%7.1lf Last\l'
+        ],
         ipt_bytes => [
             '-v', 'Bits/s',
             'DEF:min_raw={file}:value:MIN',
@@ -2540,6 +2553,19 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%5.1lf%sW Max,',
             'GPRINT:avg:LAST:%5.1lf%sW Last',
             'GPRINT:henergy:LAST:(ca. %5.1lf%sWh Total)\l'
+        ],
+        pressure => [
+            '-v', 'mmHg',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfCyan",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullCyan:Value",
+            'GPRINT:min:MIN:%5.1lf Min,',
+            'GPRINT:avg:AVERAGE:%5.1lf Avg,',
+            'GPRINT:max:MAX:%5.1lf Max,',
+            'GPRINT:avg:LAST:%5.1lf Last\l'
         ],
         processes => [
             "DEF:running_avg={file}:running:AVERAGE",
