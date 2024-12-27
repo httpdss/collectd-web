@@ -1,0 +1,6 @@
+folders:
+  - ./:
+      struct:
+        - github/workflows/pre-commit
+        - github/workflows/release-drafter
+
