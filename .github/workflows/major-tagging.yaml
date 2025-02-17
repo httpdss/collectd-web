@@ -1,0 +1,14 @@
+name: major-tagging
+
+on:
+  push:
+    tags:
+      - v** # Trigger on every tag push
+
+jobs:
+  tag:
+    name: Move major tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: phwt/major-tagging-action@v1
