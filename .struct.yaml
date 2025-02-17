@@ -1,3 +1,38 @@
+structure:
+  - .github/workflows/test.yaml:
+      content: |
+        name: Perl CI
+
+        on:
+          push:
+            branches: [ master ]
+          pull_request:
+            branches: [ master ]
+
+        jobs:
+          test:
+            runs-on: ubuntu-latest
+            steps:
+              - uses: actions/checkout@{{@ "actions/checkout" | latest_release @}}
+
+              - name: Set up Perl
+                uses: shogo82148/actions-setup-perl@{{@ "shogo82148/actions-setup-perl" | latest_release @}}
+                with:
+                  perl-version: '5.36'
+
+              - name: Install dependencies
+                run: |
+                  sudo apt-get update
+                  sudo apt-get install -y librrds-perl \
+                  libjson-perl \
+                  libhtml-parser-perl \
+                  libcgi-pm-perl \
+                  libipc-run-perl
+
+              - name: Run tests
+                run: |
+                  prove -lrv t
+
 folders:
   - ./:
       struct:

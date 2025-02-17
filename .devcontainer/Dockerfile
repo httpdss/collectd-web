@@ -8,4 +8,5 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     librrds-perl \
     libjson-perl \
     libhtml-parser-perl \
-    libcgi-pm-perl
+    libcgi-pm-perl \
+    libipc-run-perl
