@@ -31,6 +31,6 @@ if ($_POST["zip"]) {
         <li><input type="text" name="zip" value="" placeholder="Live post event test" /></li>
     </ul>
     <a style="margin:0 10px;color:rgba(0,0,0,.9)" href="#" class="submit whiteButton">Submit</a>
-    
+
     </form>
 </div>

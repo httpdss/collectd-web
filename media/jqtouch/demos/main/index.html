@@ -25,7 +25,7 @@
             // Some sample Javascript functions:
             $(function(){
                 // Show a swipe event on swipe test
-                $('#swipeme').swipe(function(evt, data) {                
+                $('#swipeme').swipe(function(evt, data) {
                     $(this).html('You swiped <strong>' + data.direction + '</strong>!');
                 });
                 $('a[target="_blank"]').click(function() {
@@ -38,7 +38,7 @@
                 });
                 // Page animation callback events
                 $('#pageevents').
-                    bind('pageAnimationStart', function(e, info){ 
+                    bind('pageAnimationStart', function(e, info){
                         $(this).find('.info').append('Started animating ' + info.direction + '&hellip; ');
                     }).
                     bind('pageAnimationEnd', function(e, info){
@@ -123,7 +123,7 @@
         </div>
         <div id="animdemo">
             <div style="font-size: 1.5em; text-align: center; margin: 160px 0 160px; font-family: Marker felt;">
-                Pretty smooth, eh?            
+                Pretty smooth, eh?
             </div>
             <a style="margin:0 10px;color:rgba(0,0,0,.9)" href="#" class="whiteButton goback">Go back</a>
         </div>

@@ -4,4 +4,3 @@ folders:
         - github/workflows/pre-commit
         - github/workflows/release-drafter
         - github/workflows/run-struct
-

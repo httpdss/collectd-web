@@ -1,14 +1,14 @@
 /*
  * jixedbar - a jQuery fixed bar plugin.
  * http://code.google.com/p/jixedbar/
- * 
+ *
  * Version 0.0.5 (Development) - Minified
- * 
+ *
  * Copyright (c) 2009-2010 Ryan Yonzon, http://ryan.rawswift.com/
  * Dual licensed under the MIT and GPL licenses:
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * Last update - September 21, 2010
  */
 (function($){$.extend({jixedbar:new function(options){var constants={constOverflow:"hidden",constBottom:"0px"};var defaults={showOnTop:false,transparent:false,opacity:0.9,opaqueSpeed:"fast",slideSpeed:"fast",roundedCorners:true,roundedButtons:true,menuFadeSpeed:250,tooltipFadeSpeed:"slow",tooltipFadeOpacity:0.8};var options=$.extend(defaults,options);var ie6=(navigator.appName=="Microsoft Internet Explorer"&&parseInt(navigator.appVersion)==4&&navigator.appVersion.indexOf("MSIE 6.0")!=-1);var ie7=(document.all&&!window.opera&&window.XMLHttpRequest);var button_active=false;var active_button_name="";var element_obj;this.construct=function(){return this.each(function(){var obj=$(this);var screen=jQuery(this);var fullScreen=screen.width();var centerScreen=(fullScreen/2)*(1);var hideBar=false;element_obj=obj;if($(this).checkCookie("JXID")){if($(this).readCookie("JXHID")=="true"){this.hideBar=true;}}else{$(this).createCookie("JXID",$(this).genRandID());$(this).createCookie("JXHID",false);}

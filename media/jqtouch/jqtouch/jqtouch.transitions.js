@@ -1,26 +1,26 @@
 /*
 
-            _/    _/_/    _/_/_/_/_/                              _/       
-               _/    _/      _/      _/_/    _/    _/    _/_/_/  _/_/_/    
-          _/  _/  _/_/      _/    _/    _/  _/    _/  _/        _/    _/   
-         _/  _/    _/      _/    _/    _/  _/    _/  _/        _/    _/    
-        _/    _/_/  _/    _/      _/_/      _/_/_/    _/_/_/  _/    _/     
-       _/                                                                  
+            _/    _/_/    _/_/_/_/_/                              _/
+               _/    _/      _/      _/_/    _/    _/    _/_/_/  _/_/_/
+          _/  _/  _/_/      _/    _/    _/  _/    _/  _/        _/    _/
+         _/  _/    _/      _/    _/    _/  _/    _/  _/        _/    _/
+        _/    _/_/  _/    _/      _/_/      _/_/_/    _/_/_/  _/    _/
+       _/
     _/
 
     Created by David Kaneda <http://www.davidkaneda.com>
     Documentation and issue tracking on Google Code <http://code.google.com/p/jqtouch/>
-    
+
     Special thanks to Jonathan Stark <http://jonathanstark.com/>
     and pinch/zoom <http://www.pinchzoom.com/>
-    
+
     (c) 2009 by jQTouch project members.
     See LICENSE.txt for license.
 
 */
 
 (function($) {
-    
+
     $.fn.transition = function(css, options) {
         return this.each(function(){
             var $el = $(this);
@@ -41,8 +41,8 @@
                         s.push(i);
                     }
                     $el.css({
-                        webkitTransitionProperty: s.join(", "), 
-                        webkitTransitionDuration: settings.speed, 
+                        webkitTransitionProperty: s.join(", "),
+                        webkitTransitionDuration: settings.speed,
                         webkitTransitionTimingFunction: settings.ease
                     });
                     if (settings.callback) {

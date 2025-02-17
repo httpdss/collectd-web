@@ -9,4 +9,3 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     libjson-perl \
     libhtml-parser-perl \
     libcgi-pm-perl
-

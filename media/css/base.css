@@ -68,15 +68,15 @@ span.ui-icon {
     border-bottom:none;
 
 }
-.fg-button { 
-    outline: 0; 
-    margin:2px 4px 2px 0; 
-    padding: .4em 1em; 
+.fg-button {
+    outline: 0;
+    margin:2px 4px 2px 0;
+    padding: .4em 1em;
     text-decoration:none !important;
-    cursor:pointer; 
-    position: relative; 
-    text-align: center; 
-    zoom: 1; 
+    cursor:pointer;
+    position: relative;
+    text-align: center;
+    zoom: 1;
     display:block;
    }
 
@@ -241,7 +241,7 @@ a:focus {
     border-bottom-right-radius: 0 0;
     -webkit-border-top-right-radius: 0;
     -webkit-border-bottom-right-radius: 0;
-    
+
 }
 
 .icon-right, .icon-middle {

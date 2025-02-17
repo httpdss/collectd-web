@@ -7,7 +7,7 @@
         <style type="text/css" media="screen">@import "../../themes/apple/theme.min.css";</style>
         <script src="../../jqtouch/jquery.1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../../jqtouch/jqtouch.min.js" type="application/x-javascript" charset="utf-8"></script>
-        <!-- 
+        <!--
             jQTouch Clock Demo
             All custom code is embedded below:
         -->
@@ -38,7 +38,7 @@
                     var localTime = new Date();
                     $('#clocks > div').each(function(){
                         var tz_offset = $(this).data('tz_offset') || 0;
-                        var ms = localTime.getTime() 
+                        var ms = localTime.getTime()
                              + (localTime.getTimezoneOffset() * 60000)
                              + (tz_offset + 1) * 3600000;
                         var time = new Date(ms);
