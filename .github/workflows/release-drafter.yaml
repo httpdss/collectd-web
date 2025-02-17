@@ -24,19 +24,3 @@ jobs:
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: version
-        id: version
-        run: |
-          git pull --tags
-          echo ${{ steps.release-drafter.outputs.tag_name }}
-          tag=${{ steps.release-drafter.outputs.tag_name }}
-          version=${tag#v}
-          major=${version%%.*}
-          echo "tag=${tag}" >> $GITHUB_OUTPUT
-          echo "version=${version}" >> $GITHUB_OUTPUT
-          echo "major=${major}" >> $GITHUB_OUTPUT
-
-      - name: force update major tag
-        run: |
-          git tag v${{ steps.version.outputs.major }} ${{ steps.version.outputs.tag }} -f
-          git push origin refs/tags/v${{ steps.version.outputs.major }} -f
