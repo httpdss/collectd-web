@@ -19,16 +19,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          dpkg -L libipc-run-perl | grep Run.pm
-          echo "=========="
           sudo apt-get update
           sudo apt-get install -y librrds-perl \
           libjson-perl \
           libhtml-parser-perl \
           libcgi-pm-perl \
           libipc-run-perl
-          sudo cpan IPC::Run
 
       - name: Run tests
         run: |
+          export PERL5LIB=$PERL5LIB:/usr/share/perl5
           prove -lrv t
