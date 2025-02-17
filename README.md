@@ -52,6 +52,12 @@ python runserver.py
 
 Collectd-web is licensed under Apache 2.0. Please see the [LICENSE](LICENSE) file for more information.
 
+## 💰 Funding
+
+If you find this project useful and would like to support its development, please consider making a donation via [PayPal](https://www.paypal.me/httpdss).
+
+Your support is greatly appreciated!
+
 ## 📝 Contributing
 
 We welcome contributions! Please see the [CONTRIBUTING.md](.github/CONTRIBUTING.md) file for more information on how to get involved.
