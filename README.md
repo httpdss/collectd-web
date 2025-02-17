@@ -14,7 +14,8 @@ The main objective of this project is to develop an easy-to-use and customizable
 
 ### Prerequisites
 
-You must have a path containing each host's files in a separate sub-directory, named according to the host.
+* You must have a path containing each host's files in a separate sub-directory, named according to the host.
+* Python 3.6 or higher (to use the standalone web server)
 
 For example:
 
