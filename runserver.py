@@ -1,24 +1,46 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import CGIHTTPServer
-import BaseHTTPServer
-from optparse import OptionParser
+import http.server
+import argparse
 
-class Handler(CGIHTTPServer.CGIHTTPRequestHandler):
+
+class Handler(http.server.CGIHTTPRequestHandler):
     cgi_directories = ["/cgi-bin"]
 
-PORT = 8888
+
+DEFAULT_HOST = "127.0.0.1"
+DEFAULT_PORT = 8888
+
 
 def main():
-    parser = OptionParser()
-    opts, args = parser.parse_args()
-    if args:
-        httpd = BaseHTTPServer.HTTPServer((args[0], int(args[1])), Handler)
-        print "Collectd-web server running at http://%s:%s/" % (args[0], args[1])
-    else:
-        httpd = BaseHTTPServer.HTTPServer(("127.0.0.1", PORT), Handler)
-        print "Collectd-web server running at http://%s:%s/" % ("127.0.0.1", PORT)
-    httpd.serve_forever()
+    parser = argparse.ArgumentParser(
+        description="Start a simple CGI-capable web server for serving Perl scripts."
+    )
+    parser.add_argument(
+        "host",
+        nargs="?",
+        default=DEFAULT_HOST,
+        help="Hostname or IP address to bind to (default: %(default)s)"
+    )
+    parser.add_argument(
+        "port",
+        nargs="?",
+        type=int,
+        default=DEFAULT_PORT,
+        help="Port number to listen on (default: %(default)s)"
+    )
+    args = parser.parse_args()
+
+    # Use HTTPServer to ensure necessary attributes are present.
+    with http.server.HTTPServer((args.host, args.port), Handler) as httpd:
+        print("Collectd-web server running at http://%s:%s/" %
+              (args.host, args.port))
+        try:
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            print("\nShutting down server.")
+            httpd.server_close()
+
 
 if __name__ == "__main__":
     main()

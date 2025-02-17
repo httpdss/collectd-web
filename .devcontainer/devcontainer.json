@@ -1,0 +1,14 @@
+// define devcontainer from Dockerfile image
+{
+    "name": "collectd-web devcontainer",
+    "dockerFile": "Dockerfile",
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "ms-python.python",
+          "Github.copilot"
+        ]
+      }
+    },
+    "forwardPorts": [8888]
+}
