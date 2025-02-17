@@ -9,5 +9,6 @@ jobs:
     with:
       struct_file: 'file://.struct.yaml'
       output_dir: '.'
+      pr_base: 'master'
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
