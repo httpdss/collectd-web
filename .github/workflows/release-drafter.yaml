@@ -4,19 +4,39 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    types: [opened, reopened, synchronize]
-
-permissions:
-  contents: read
 
 jobs:
   update_release_draft:
+    runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
-    runs-on: ubuntu-latest
     steps:
-      - uses: release-drafter/release-drafter@v6
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+      - uses: release-drafter/release-drafter@v6.1.0
+        id: release-drafter
+        with:
+          config-name: release-drafter.yml
+          publish: false
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: version
+        id: version
+        run: |
+          git pull --tags
+          echo ${{ steps.release-drafter.outputs.tag_name }}
+          tag=${{ steps.release-drafter.outputs.tag_name }}
+          version=${tag#v}
+          major=${version%%.*}
+          echo "tag=${tag}" >> $GITHUB_OUTPUT
+          echo "version=${version}" >> $GITHUB_OUTPUT
+          echo "major=${major}" >> $GITHUB_OUTPUT
+
+      - name: force update major tag
+        run: |
+          git tag v${{ steps.version.outputs.major }} ${{ steps.version.outputs.tag }} -f
+          git push origin refs/tags/v${{ steps.version.outputs.major }} -f
