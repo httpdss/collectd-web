@@ -1,7 +1,9 @@
-// define devcontainer from Dockerfile image
 {
     "name": "collectd-web devcontainer",
     "dockerFile": "Dockerfile",
+    "features": {
+      "ghcr.io/gvatsal60/dev-container-features/pre-commit": {}
+    },
     "customizations": {
       "vscode": {
         "extensions": [
