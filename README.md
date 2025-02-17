@@ -33,7 +33,7 @@ datadir: "/etc/collectd/collectd-web/"
 Install the following dependencies:
 
 ```bash
-apt-get install librrds-perl libjson-perl libhtml-parser-perl
+apt-get install librrds-perl libjson-perl libhtml-parser-perl libcgi-pm-perl
 ```
 
 ## 🌐 Using the Webserver
