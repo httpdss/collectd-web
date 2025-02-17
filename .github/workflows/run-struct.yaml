@@ -10,4 +10,4 @@ jobs:
       struct_file: 'file://.struct.yaml'
       output_dir: '.'
     secrets:
-      token: ${{ secrets.STRUCT_RUN_TOKEN }}
+      token: ${{ secrets.GITHUB_TOKEN }}
