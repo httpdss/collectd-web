@@ -14,20 +14,20 @@
 
 jQuery.extend({
 	historyCurrentHash: undefined,
-	
+
 	historyCallback: undefined,
-	
+
 	historyInit: function(callback){
 		jQuery.historyCallback = callback;
 		var current_hash = location.hash;
-		
+
 		jQuery.historyCurrentHash = current_hash;
 		if(jQuery.browser.msie) {
 			// To stop the callback firing twice during initilization if no hash present
 			if (jQuery.historyCurrentHash == '') {
 			jQuery.historyCurrentHash = '#';
 		}
-		
+
 			// add hidden iframe for IE
 			if(!$("#jQuery_history").size()) // to fix IE multi iframes (MaX)
 			$("body").prepend('<iframe id="jQuery_history" style="display:none"></iframe>');
@@ -42,21 +42,21 @@ jQuery.extend({
 			jQuery.historyBackStack = [];
 			jQuery.historyBackStack.length = history.length;
 			jQuery.historyForwardStack = [];
-			
+
 			jQuery.isFirst = true;
 		}
 		jQuery.historyCallback(current_hash.replace(/^#/, ''));
 		setInterval(jQuery.historyCheck, 100);
 	},
-	
+
 	historyAddHistory: function(hash) {
 		// This makes the looping function do something
 		jQuery.historyBackStack.push(hash);
-		
+
 		jQuery.historyForwardStack.length = 0; // clear forwardStack (true click occured)
 		this.isFirst = true;
 	},
-	
+
 	historyCheck: function(){
 		if(jQuery.browser.msie) {
 			// On IE, check for location.hash of iframe
@@ -64,16 +64,16 @@ jQuery.extend({
 			var iframe = ihistory.contentDocument || ihistory.contentWindow.document;
 			var current_hash = iframe.location.hash;
 			if(current_hash != jQuery.historyCurrentHash) {
-			
+
 				location.hash = current_hash;
 				jQuery.historyCurrentHash = current_hash;
 				jQuery.historyCallback(current_hash.replace(/^#/, ''));
-				
+
 			}
 		} else if ($.browser.safari) {
 			if (!jQuery.dontCheck) {
 				var historyDelta = history.length - jQuery.historyBackStack.length;
-				
+
 				if (historyDelta) { // back or forward button has been pushed
 					jQuery.isFirst = false;
 					if (historyDelta < 0) { // back button has been pushed
@@ -111,7 +111,7 @@ jQuery.extend({
 	},
 	historyLoad: function(hash){
 		var newhash;
-		
+
 		if (jQuery.browser.safari) {
 			newhash = hash;
 		}
@@ -120,7 +120,7 @@ jQuery.extend({
 			location.hash = newhash;
 		}
 		jQuery.historyCurrentHash = newhash;
-		
+
 		if(jQuery.browser.msie) {
 			var ihistory = $("#jQuery_history")[0];
 			var iframe = ihistory.contentWindow.document;
@@ -133,7 +133,7 @@ jQuery.extend({
 			jQuery.dontCheck = true;
 			// Manually keep track of the history values for Safari
 			this.historyAddHistory(hash);
-			
+
 			// Wait a while before allowing checking so that Safari has time to update the "history" object
 			// correctly (otherwise the check loop would detect a false change in hash).
 			var fn = function() {jQuery.dontCheck = false;};
@@ -149,4 +149,3 @@ jQuery.extend({
 		}
 	}
 });
-

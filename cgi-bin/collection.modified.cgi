@@ -1588,13 +1588,37 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%4.1lf Max,',
             'GPRINT:avg:LAST:%4.1lf Last\l'
         ],
+        delay => [    # NTPd
+            'DEF:s_avg={file}:value:AVERAGE',
+            'DEF:s_min={file}:value:MIN',
+            'DEF:s_max={file}:value:MAX',
+            "AREA:s_max#$HalfBlue",
+            "AREA:s_min#$Canvas",
+            "LINE1:s_avg#$FullBlue:Delay",
+            'GPRINT:s_min:MIN:%7.3lf%s Min,',
+            'GPRINT:s_avg:AVERAGE:%7.3lf%s Avg,',
+            'GPRINT:s_max:MAX:%7.3lf%s Max,',
+            'GPRINT:s_avg:LAST:%7.3lf%s Last'
+        ],
+        time_dispersion => [    # NTPd
+            'DEF:s_avg={file}:value:AVERAGE',
+            'DEF:s_min={file}:value:MIN',
+            'DEF:s_max={file}:value:MAX',
+            "AREA:s_max#$HalfBlue",
+            "AREA:s_min#$Canvas",
+            "LINE1:s_avg#$FullBlue:Seconds",
+            'GPRINT:s_min:MIN:%7.3lf%s Min,',
+            'GPRINT:s_avg:AVERAGE:%7.3lf%s Avg,',
+            'GPRINT:s_max:MAX:%7.3lf%s Max,',
+            'GPRINT:s_avg:LAST:%7.3lf%s Last'
+        ],
         frequency_offset => [    # NTPd
             'DEF:ppm_avg={file}:value:AVERAGE',
             'DEF:ppm_min={file}:value:MIN',
             'DEF:ppm_max={file}:value:MAX',
             "AREA:ppm_max#$HalfBlue",
             "AREA:ppm_min#$Canvas",
-            "LINE1:ppm_avg#$FullBlue:{inst}",
+            "LINE1:ppm_avg#$FullBlue:Offset",
             'GPRINT:ppm_min:MIN:%5.2lf Min,',
             'GPRINT:ppm_avg:AVERAGE:%5.2lf Avg,',
             'GPRINT:ppm_max:MAX:%5.2lf Max,',
@@ -2865,7 +2889,7 @@ sub load_graph_definitions {
             'DEF:s_max={file}:value:MAX',
             "AREA:s_max#$HalfBlue",
             "AREA:s_min#$Canvas",
-            "LINE1:s_avg#$FullBlue:{inst}",
+            "LINE1:s_avg#$FullBlue:Seconds",
             'GPRINT:s_min:MIN:%7.3lf%s Min,',
             'GPRINT:s_avg:AVERAGE:%7.3lf%s Avg,',
             'GPRINT:s_max:MAX:%7.3lf%s Max,',
@@ -2926,6 +2950,30 @@ sub load_graph_definitions {
             'GPRINT:cpufreq_avg:AVERAGE:%5.1lf%s Avg,',
             'GPRINT:cpufreq_max:MAX:%5.1lf%s Max,',
             'GPRINT:cpufreq_avg:LAST:%5.1lf%s Last\l'
+        ],
+        total_values => [
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullBlue:value",
+            'GPRINT:min:MIN:%9.3lf Min,',
+            'GPRINT:avg:AVERAGE:%9.3lf Average,',
+            'GPRINT:max:MAX:%9.3lf Max,',
+            'GPRINT:avg:LAST:%9.3lf Last\l'
+        ],
+        queue_length => [
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullBlue:value",
+            'GPRINT:min:MIN:%9.3lf Min,',
+            'GPRINT:avg:AVERAGE:%9.3lf Average,',
+            'GPRINT:max:MAX:%9.3lf Max,',
+            'GPRINT:avg:LAST:%9.3lf Last\l'
         ],
         multimeter => [
             'DEF:multimeter_avg={file}:value:AVERAGE',

@@ -104,7 +104,7 @@ body > .current {
 }
 
 .dissolve.out {
-	-webkit-animation-name: fadeout;	
+	-webkit-animation-name: fadeout;
 }
 
 
@@ -278,7 +278,7 @@ body > .current {
     -webkit-transform-origin: 100% 50%;
 }
 .cube.in.reverse {
-	-webkit-animation-name: cubeinfromleft;	
+	-webkit-animation-name: cubeinfromleft;
     -webkit-transform-origin: 100% 50%;
 }
 .cube.out.reverse {
