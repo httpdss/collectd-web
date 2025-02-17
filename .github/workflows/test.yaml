@@ -25,6 +25,7 @@ jobs:
           libhtml-parser-perl \
           libcgi-pm-perl \
           libipc-run-perl
+          sudo cpan IPC::Run
 
       - name: Run tests
         run: |
