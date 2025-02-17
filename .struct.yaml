@@ -1,8 +1,4 @@
-folders:
-  - ./:
-      struct:
-        - github/workflows/pre-commit
-        - github/workflows/release-drafter
-        - github/workflows/run-struct
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+structure:
+  - README.md:
+      content: |
+        # Sample content
