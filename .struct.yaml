@@ -1,7 +1,7 @@
 structure:
   - .github/workflows/test.yaml:
       content: |
-        name: Perl CI
+        name: test-perl
 
         on:
           push:
@@ -31,6 +31,7 @@ structure:
 
               - name: Run tests
                 run: |
+                  export PERL5LIB=$PERL5LIB:/usr/share/perl5
                   prove -lrv t
 
 folders:
