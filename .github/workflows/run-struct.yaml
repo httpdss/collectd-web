@@ -11,4 +11,4 @@ jobs:
       output_dir: '.'
       pr_base: 'master'
     secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
+      token: ${{ secrets.STRUCT_RUN_TOKEN }}
