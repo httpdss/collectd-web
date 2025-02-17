@@ -38,14 +38,14 @@
                         $('#hosts').data('got_hosts', true);
                     };
                         });
-                
+
                 $('#plugins').bind('pageAnimationEnd', function(e, info){
                     $selected_host = $('#hosts').data('selected_host');
                     $('.selected-host').html($selected_host);
                     $("#plugins ul li").each(function(){
                         $(this).remove();
                     });
-                    
+
                     $(this).append($('<div id="loading-plugins"><img src="../media/jqtouch/themes/apple/img/loadinfo.net.gif" alt="Loading" /><p>Loading...</p></div>'));
                     $.getJSON('../cgi-bin/collection.modified.cgi?action=pluginlist_json&host=' + $selected_host, function(data){
                         $('#loading-plugins').remove();
@@ -65,7 +65,7 @@
                     $("#graphs-hour li, #graphs-day li,#graphs-week li,#graphs-month li,#graphs-year li").each(function(){
                         $(this).remove();
                     });
-                    
+
                     $(this).append($('<div id="loading-graphs"><img src="../media/jqtouch/themes/apple/img/loadinfo.net.gif" alt="Loading" /><p>Loading...</p></div>'));
                     $.getJSON('../cgi-bin/collection.modified.cgi?action=graphs_json;plugin=' + $selected_plugin + ';host=' + $selected_host, function(data){
                         $('#loading-graphs').remove();
@@ -86,31 +86,31 @@
                         }
                     });
                 });
-                
+
             });
         </script>
         <style type="text/css" media="screen">
             body.fullscreen #home .info {
                 display: none;
             }
-            
+
             #about {
                 padding: 100px 10px 40px;
                 text-shadow: rgba(255, 255, 255, 0.3) 0px -1px 0;
                 font-size: 13px;
                 text-align: center;
             }
-            
+
             #about p {
                 margin-bottom: 8px;
             }
-            
+
             #about a {
                 color: #333;
                 font-weight: bold;
                 text-decoration: none;
             }
-            
+
             #loading-hosts, #loading-plugins, #loading-graphs {
                 background: #000;
                 width: 100px;
@@ -119,12 +119,13 @@
                 text-align: center;
                 color: #fff;
                 -webkit-border-radius: 8px;
+                border-radius: 8px;
             }
-            
+
             #loading-hosts img, #loading-plugins img, #loading-graphs img {
                 margin-top: 10px;
             }
-            
+
             #graphs-hour img, #graphs-day img, #graphs-week img, #graphs-month img, #graphs-year img {
                 width: 100%;
             }
