@@ -6,3 +6,4 @@ folders:
         - github/workflows/run-struct
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        pr_base: master
