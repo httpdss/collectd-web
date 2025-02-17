@@ -19,6 +19,8 @@ jobs:
 
       - name: Install dependencies
         run: |
+          dpkg -L libipc-run-perl | grep Run.pm
+          echo "=========="
           sudo apt-get update
           sudo apt-get install -y librrds-perl \
           libjson-perl \
