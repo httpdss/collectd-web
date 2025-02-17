@@ -4,3 +4,5 @@ folders:
         - github/workflows/pre-commit
         - github/workflows/release-drafter
         - github/workflows/run-struct
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}

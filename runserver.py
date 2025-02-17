@@ -2,15 +2,17 @@
 
 import http.server
 import argparse
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+DEFAULT_HOST = os.getenv("HOST", "127.0.0.1")
+DEFAULT_PORT = int(os.getenv("PORT", 8888))
 
 
 class Handler(http.server.CGIHTTPRequestHandler):
     cgi_directories = ["/cgi-bin"]
-
-
-DEFAULT_HOST = "127.0.0.1"
-DEFAULT_PORT = 8888
-
 
 def main():
     parser = argparse.ArgumentParser(

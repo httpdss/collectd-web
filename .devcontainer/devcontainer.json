@@ -1,21 +1,22 @@
 {
-    "name": "collectd-web devcontainer",
-    "dockerFile": "Dockerfile",
-    "features": {
-      "ghcr.io/gvatsal60/dev-container-features/pre-commit": {}
-    },
-    "customizations": {
-      "vscode": {
-        "extensions": [
-          "ms-python.python",
-          "Github.copilot",
-          "ms-azuretools.vscode-docker"
-        ]
-      }
-    },
-    "forwardPorts": [8888],
-    "mounts": [
-      "type=bind,source=${localWorkspaceFolder},target=/work",
-      "type=bind,source=/home/${localEnv:USER}/.ssh,target=/home/vscode/.ssh,readonly"
+  "name": "collectd-web devcontainer",
+  "dockerFile": "Dockerfile",
+  "features": {
+    "ghcr.io/gvatsal60/dev-container-features/pre-commit": {}
+  },
+  "customizations": {
+    "vscode": {
+    "extensions": [
+      "ms-python.python",
+      "Github.copilot",
+      "ms-azuretools.vscode-docker"
     ]
+    }
+  },
+  "forwardPorts": [8888],
+  "mounts": [
+    "type=bind,source=${localWorkspaceFolder},target=/work",
+    "type=bind,source=/home/${localEnv:USER}/.ssh,target=/home/vscode/.ssh,readonly"
+  ],
+  "postCreateCommand": "pip install -r requirements.txt"
 }
