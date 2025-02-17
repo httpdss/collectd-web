@@ -92,7 +92,7 @@ span.ui-icon {
     width: 100%;
 }
 
-.day, .week, .month, .year {
+.hour, .week, .month, .year {
     display: none;
 }
 

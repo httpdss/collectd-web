@@ -32,11 +32,12 @@ our @DataDirs = ();
 our $LibDir;
 our $make_transparent = 1;
 our $ValidTimespan    = {
-    hour  => 3600,
-    day   => 86400,
-    week  => 7 * 86400,
-    month => 31 * 86400,
-    year  => 366 * 86400
+    hour    => 3600,
+    day     => 86400,
+    week    => 7 * 86400,
+    month   => 31 * 86400,
+    year    => 366 * 86400,
+    decade  => 10 * 366 * 86400
 };
 
 # FIXEDish: This isn't working when talking to a daemon.
@@ -47,7 +48,7 @@ our $ValidTimespan    = {
 #$ENV{'RRDCACHED_ADDRESS'} = undef;
 
 our @RRDDefaultArgs = (
-'--rigid', '-w', '500', '-h', '160', '--alt-autoscale-max', '--alt-y-grid',
+'--rigid', '-w', '520', '-h', '180', '--alt-autoscale-max', '--alt-y-grid',
 '--slope-mode', '--font', 'TITLE:10:Monospace', '--font', 'AXIS:8:Monospace', '--font', 'LEGEND:8:Monospace',
 '--font', 'UNIT:8:Monospace', '-c', 'BACK#FF000000',
     '-c', 'SHADEA#FF000000', '-c', 'SHADEB#FF000000', '-i');
@@ -129,7 +130,7 @@ sub validate_args {
     {
         delete( $Args->{'type_instance'} );
     }
-    if (defined( $Args->{'timespan'} ) && ( $Args->{'timespan'} =~ m/^(hour|day|week|month|year)$/ ) )
+    if (defined( $Args->{'timespan'} ) && ( $Args->{'timespan'} =~ m/^(hour|day|week|month|year|decade)$/ ) )
     {
         $Args->{'timespan'} = $1;
     }
@@ -542,6 +543,8 @@ sub action_show_plugin {
                               $host_graph_url . ';timespan=month';
                             my $host_graph_url_year =
                               $host_graph_url . ';timespan=year';
+                            my $host_graph_url_decade =
+                              $host_graph_url . ';timespan=decade';
                             my $menu_buttons = _get_menu_buttons();
                             print qq(<ul>);
                             print qq(<li class="gc hour">$menu_buttons<img src="$host_graph_url_hour" /></li>);
@@ -549,6 +552,7 @@ sub action_show_plugin {
                             print qq(<li class="gc week">$menu_buttons<img src="$host_graph_url_week" /></li>);
                             print qq(<li class="gc month">$menu_buttons<img src="$host_graph_url_month" /></li>);
                             print qq(<li class="gc year">$menu_buttons<img src="$host_graph_url_year" /></li>);
+                            print qq(<li class="gc decade">$menu_buttons<img src="$host_graph_url_decade" /></li>);
                             print qq(</ul>);
                         }
                         print "</li>\n";
@@ -586,6 +590,7 @@ sub action_show_plugin {
                             my $host_graph_url_week = $host_graph_url . ';timespan=week';
                             my $host_graph_url_month = $host_graph_url . ';timespan=month';
                             my $host_graph_url_year = $host_graph_url . ';timespan=year';
+                            my $host_graph_url_decade = $host_graph_url . ';timespan=decade';
                             my $menu_buttons = _get_menu_buttons();
                             print qq(<ul>);
                             print qq(<li class="gc hour">$menu_buttons<img src="$host_graph_url_hour" /></li>);
@@ -593,6 +598,7 @@ sub action_show_plugin {
                             print qq(<li class="gc week">$menu_buttons<img src="$host_graph_url_week" /></li>);
                             print qq(<li class="gc month">$menu_buttons<img src="$host_graph_url_month" /></li>);
                             print qq(<li class="gc year">$menu_buttons<img src="$host_graph_url_year" /></li>);
+                            print qq(<li class="gc decade">$menu_buttons<img src="$host_graph_url_decade" /></li>);
                             print qq(</ul>);
                         }
                         print "</li>\n";
@@ -620,6 +626,7 @@ sub action_show_plugin_json {
     my @plugin_list_week =  ();
     my @plugin_list_month = ();
     my @plugin_list_year =  ();
+    my @plugin_list_decade = ();
 
     for ( my $i = 0 ; $i < @hosts ; $i++ ) {
         $plugins_per_host->{ $hosts[$i] } = _find_files_for_host( $hosts[$i] );
@@ -677,11 +684,13 @@ sub action_show_plugin_json {
                             my $host_graph_url_week = $host_graph_url . ';timespan=week';
                             my $host_graph_url_month = $host_graph_url . ';timespan=month';
                             my $host_graph_url_year = $host_graph_url . ';timespan=year';
+                            my $host_graph_url_decade = $host_graph_url . ';timespan=decade';
                             push( @plugin_list_hour, $host_graph_url_hour);
                             push( @plugin_list_day, $host_graph_url_day);
                             push( @plugin_list_week, $host_graph_url_week);
                             push( @plugin_list_month, $host_graph_url_month);
                             push( @plugin_list_year, $host_graph_url_year);
+                            push( @plugin_list_decade, $host_graph_url_decade);
                         }
                     }    # for (my $k = 0; $k < @hosts; $k++)
                     $files_printed++;
@@ -714,11 +723,13 @@ sub action_show_plugin_json {
                             my $host_graph_url_week = $host_graph_url . ';timespan=week';
                             my $host_graph_url_month = $host_graph_url . ';timespan=month';
                             my $host_graph_url_year = $host_graph_url . ';timespan=year';
+                            my $host_graph_url_decade = $host_graph_url . ';timespan=decade';
                             push( @plugin_list_hour, $host_graph_url_hour);
                             push( @plugin_list_day, $host_graph_url_day);
                             push( @plugin_list_week, $host_graph_url_week);
                             push( @plugin_list_month, $host_graph_url_month);
                             push( @plugin_list_year, $host_graph_url_year);
+                            push( @plugin_list_decade, $host_graph_url_decade);
                         }
                     }    # for (my $k = 0; $k < @hosts; $k++)
                     $files_printed++;
@@ -737,7 +748,8 @@ sub action_show_plugin_json {
                            day =>  [@plugin_list_day] ,
                            week => [@plugin_list_week],
                            month => [@plugin_list_month],
-                           year => [@plugin_list_year]},
+                           year => [@plugin_list_year],
+                           decade => [@plugin_list_decade]},
     { pretty => 1, indent => 2 }) . "\n";
     return (1);
 }    # action_show_plugin_json
@@ -768,7 +780,7 @@ sub action_show_type {
     $url_prefix .= ";type_instance=$type_instance_url"
       if ( defined($type_instance) );
 
-    for (qw(hour day week month year)) {
+    for (qw(hour day week month year decade)) {
         my $timespan = $_;
         print qq#  <div><img src="$url_prefix;timespan=$timespan" /></div>\n#;
     }
@@ -787,7 +799,8 @@ sub action_show_graph {
         day   => -86400,
         week  => 7 * -86400,
         month => 31 * -86400,
-        year  => 366 * -86400
+        year  => 366 * -86400,
+        decade => 10 * 366 * -86400
     );
 
     my $start_time;
@@ -986,7 +999,21 @@ sub load_graph_definitions {
     my $HalfMagenta   = 'DFB7F7';
     my $HalfBlueGreen = '89B3C9';
     $GraphDefs = {
-        apache_bytes => [
+        activity => [
+            'DEF:avg={file}:value:AVERAGE',
+            'CDEF:all_area=avg,UN,UNKN,1,IF',
+            'CDEF:act_area=avg,0,GT,1,UNKN,IF',
+            'CDEF:avg_sum=avg,PREV,ADDNAN',
+            'CDEF:all_sum=all_area,PREV,ADDNAN',
+            'CDEF:avg_msec=avg_sum,STEPWIDTH,*,1000,*',
+            'CDEF:avg_perc=avg_sum,100,*,all_sum,/',
+            "AREA:all_area#$HalfGreen",
+            "AREA:act_area#$HalfRed",
+            "LINE:avg#$FullRed:Active",
+            'GPRINT:avg_msec:LAST:%02h\:%02m Total:valstrfduration',
+            'GPRINT:avg_perc:LAST:[ %.0lf%% ]\l'
+        ],
+        aapache_bytes => [
             'DEF:min_raw={file}:value:MIN',
             'DEF:avg_raw={file}:value:AVERAGE',
             'DEF:max_raw={file}:value:MAX',
@@ -1185,13 +1212,37 @@ sub load_graph_definitions {
             'DEF:avg={file}:value:AVERAGE',
             'DEF:min={file}:value:MIN',
             'DEF:max={file}:value:MAX',
-            "AREA:max#$HalfBlue",
-            "AREA:min#$Canvas",
-            "LINE1:avg#$FullBlue:Current",
+            'CDEF:avg_neg=avg,0,LE,avg,UNKN,IF',
+            'CDEF:avg_pos=avg,0,GE,avg,UNKN,IF',
+            'CDEF:avg_neg_ln=PREV(avg_neg),avg,avg_neg,IF',
+            'CDEF:avg_pos_ln=PREV(avg_pos),avg,avg_pos,IF',
+            'CDEF:max_neg=max,0,LT,max,UNKN,IF',
+            'CDEF:max_pos=max,0,GT,max,UNKN,IF',
+            'CDEF:min_neg=min,0,LT,min,UNKN,IF',
+            'CDEF:min_pos=min,0,GT,min,UNKN,IF',
+            "AREA:min_neg#$HalfRed",
+            "AREA:max_pos#$HalfGreen",
+            "AREA:max_neg#$Canvas",
+            "AREA:min_pos#$Canvas",
+            "LINE:avg_neg_ln#$FullRed:-",
+            "LINE:avg_pos_ln#$FullGreen:+ Current",
             'GPRINT:min:MIN:%5.1lf%sA Min,',
             'GPRINT:avg:AVERAGE:%5.1lf%sA Avg,',
             'GPRINT:max:MAX:%5.1lf%sA Max,',
             'GPRINT:avg:LAST:%5.1lf%sA Last\l'
+        ],
+        count => [
+            '-v', 'Count', '-l', '0',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfRed",
+            "AREA:min#$Canvas",
+            "LINE1:max#$FullRed:Count ",
+            'GPRINT:min:MIN:%4.1lf Min,',
+            'GPRINT:avg:AVERAGE:%4.1lf Avg,',
+            'GPRINT:max:MAX:%4.1lf Max,',
+            'GPRINT:avg:LAST:%4.1lf Last\l'
         ],
         counter => [
             '-v',
@@ -1288,6 +1339,27 @@ sub load_graph_definitions {
             'GPRINT:total_avg_ms:AVERAGE:%5.1lf%s Avg,',
             'GPRINT:total_max_ms:MAX:%5.1lf%s Max,',
             'GPRINT:total_avg_ms:LAST:%5.1lf%s Last'
+        ],
+        disk_io_time => [
+            '-v', 'IO-Time in Sec',
+            'DEF:_iot_avg={file}:io_time:AVERAGE',
+            'DEF:_iot_min={file}:io_time:MIN',
+            'DEF:_iot_max={file}:io_time:MAX',
+            'DEF:wiot_avg={file}:weighted_io_time:AVERAGE',
+            'DEF:wiot_min={file}:weighted_io_time:MIN',
+            'DEF:wiot_max={file}:weighted_io_time:MAX',
+            "AREA:wiot_max#$HalfCyan",
+            "AREA:wiot_min#$Canvas",
+            "LINE1:_iot_avg#$FullBlue:         IO Time",
+            'GPRINT:_iot_min:MIN:%5.0lf%ss Min,',
+            'GPRINT:_iot_avg:AVERAGE:%5.0lf%ss Avg,',
+            'GPRINT:_iot_max:MAX:%5.0lf%ss Max,',
+            'GPRINT:_iot_avg:LAST:%5.0lf%ss Last\l',
+            "LINE1:wiot_avg#$FullCyan:Weighted IO Time",
+            'GPRINT:wiot_min:MIN:%5.0lf%ss Min,',
+            'GPRINT:wiot_avg:AVERAGE:%5.0lf%ss Avg,',
+            'GPRINT:wiot_max:MAX:%5.0lf%ss Max,',
+            'GPRINT:wiot_avg:LAST:%5.0lf%ss Last\l',
         ],
         disk_octets => [
             '-v',
@@ -1626,13 +1698,13 @@ sub load_graph_definitions {
         ],
         gauge => [
             '-v',
-            'Exec value',
+            'Value',
             'DEF:temp_avg={file}:value:AVERAGE',
             'DEF:temp_min={file}:value:MIN',
             'DEF:temp_max={file}:value:MAX',
             "AREA:temp_max#$HalfBlue",
             "AREA:temp_min#$Canvas",
-            "LINE1:temp_avg#$FullBlue:Exec value",
+            "LINE1:temp_avg#$FullBlue:Value",
             'GPRINT:temp_min:MIN:%6.2lf Min,',
             'GPRINT:temp_avg:AVERAGE:%6.2lf Avg,',
             'GPRINT:temp_max:MAX:%6.2lf Max,',
@@ -1795,6 +1867,19 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%3.1lf%s Last',
             'GPRINT:avg_sum:LAST:(ca. %2.0lf%s Total)\l'
         ],
+        illuminance => [
+            '-v', 'Lux',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfYellow",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullYellow:Value",
+            'GPRINT:min:MIN:%7.1lf Min,',
+            'GPRINT:avg:AVERAGE:%7.1lf Avg,',
+            'GPRINT:max:MAX:%7.1lf Max,',
+            'GPRINT:avg:LAST:%7.1lf Last\l'
+        ],
         ipt_bytes => [
             '-v', 'Bits/s',
             'DEF:min_raw={file}:value:MIN',
@@ -1874,7 +1959,7 @@ sub load_graph_definitions {
            'GPRINT:bout:MIN:%.2lf',
            'GPRINT:bout:AVERAGE:%.2lf',
            'GPRINT:bout:MAX:%.2lf',
-       ],
+        ],
         load => [
             '-v',
             'System load',
@@ -1893,17 +1978,39 @@ sub load_graph_definitions {
             'GPRINT:s_min:MIN:%4.2lf Min,',
             'GPRINT:s_avg:AVERAGE:%4.2lf Avg,',
             'GPRINT:s_max:MAX:%4.2lf Max,',
-            'GPRINT:s_avg:LAST:%4.2lf Last\n',
+            'GPRINT:s_avg:LAST:%4.2lf Last\l',
             "LINE1:m_avg#$FullBlue: 5m average",
             'GPRINT:m_min:MIN:%4.2lf Min,',
             'GPRINT:m_avg:AVERAGE:%4.2lf Avg,',
             'GPRINT:m_max:MAX:%4.2lf Max,',
-            'GPRINT:m_avg:LAST:%4.2lf Last\n',
+            'GPRINT:m_avg:LAST:%4.2lf Last\l',
             "LINE1:l_avg#$FullRed:15m average",
             'GPRINT:l_min:MIN:%4.2lf Min,',
             'GPRINT:l_avg:AVERAGE:%4.2lf Avg,',
             'GPRINT:l_max:MAX:%4.2lf Max,',
-            'GPRINT:l_avg:LAST:%4.2lf Last'
+            'GPRINT:l_avg:LAST:%4.2lf Last\l'
+        ],
+        load_avg => [
+            '-v',
+            'Load',
+            'DEF:n_avg={file}:now:AVERAGE',
+            'DEF:n_min={file}:now:MIN',
+            'DEF:n_max={file}:now:MAX',
+            'DEF:a_avg={file}:all:AVERAGE',
+            'DEF:a_min={file}:all:MIN',
+            'DEF:a_max={file}:all:MAX',
+            "AREA:n_max#$HalfGreen",
+            "AREA:n_min#$Canvas",
+            "LINE1:n_avg#$FullGreen:Now average",
+            'GPRINT:n_min:MIN:%4.2lf Min,',
+            'GPRINT:n_avg:AVERAGE:%4.2lf Avg,',
+            'GPRINT:n_max:MAX:%4.2lf Max,',
+            'GPRINT:n_avg:LAST:%4.2lf Last\l',
+            "LINE1:a_avg#$FullRed:All average",
+            'GPRINT:a_min:MIN:%4.2lf Min,',
+            'GPRINT:a_avg:AVERAGE:%4.2lf Avg,',
+            'GPRINT:a_max:MAX:%4.2lf Max,',
+            'GPRINT:a_avg:LAST:%4.2lf Last\l'
         ],
         load_percent => [
             'DEF:avg={file}:percent:AVERAGE',
@@ -2307,6 +2414,19 @@ sub load_graph_definitions {
             'GPRINT:rbyte_max:MAX:%5.1lf%s Max,',
             'GPRINT:rbyte_avg:LAST:%5.1lf%s Last\l'
         ],
+        pending_operations => [
+            '-v', 'Pending Requests',
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfRed",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullRed:Requests",
+            'GPRINT:min:MIN:%5.2lf Min,',
+            'GPRINT:avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:max:MAX:%5.2lf Max,',
+            'GPRINT:avg:LAST:%5.2lf Last'
+        ],
 # jaf-18aug11 Changed to work with memcache... which was calling for it. But
 # if it worked with something else its now broken.
         percent => [
@@ -2340,18 +2460,28 @@ sub load_graph_definitions {
             'GPRINT:ping_avg:LAST:%4.1lf ms Last'
         ],
         ping_droprate => [
-            '-v',
-            'Percent',
             'DEF:avg={file}:value:AVERAGE',
             'DEF:min={file}:value:MIN',
             'DEF:max={file}:value:MAX',
             "AREA:max#$HalfRed",
             "AREA:min#$Canvas",
-            "LINE2:avg#$FullRed:Percent",
-            'GPRINT:min:MIN:%5.1lf%% Min,',
-            'GPRINT:avg:AVERAGE:%5.1lf%% Avg,',
-            'GPRINT:max:MAX:%5.1lf%% Max,',
-            'GPRINT:avg:LAST:%5.1lf%% Last\l'
+            "LINE2:avg#$FullRed:DropRate",
+            'GPRINT:min:MIN:%3.2lf Min,',
+            'GPRINT:avg:AVERAGE:%3.2lf Avg,',
+            'GPRINT:max:MAX:%3.2lf Max,',
+            'GPRINT:avg:LAST:%3.2lf Last\l'
+        ],
+        ping_stddev => [
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfCyan",
+            "AREA:min#$Canvas",
+            "LINE2:avg#$FullCyan:StdDev",
+            'GPRINT:min:MIN:%5.1lf Min,',
+            'GPRINT:avg:AVERAGE:%5.1lf Avg,',
+            'GPRINT:max:MAX:%5.1lf Max,',
+            'GPRINT:avg:LAST:%5.1lf Last\l'
         ],
         pg_blks => [
             'DEF:pg_blks_avg={file}:value:AVERAGE',
@@ -2436,13 +2566,40 @@ sub load_graph_definitions {
             'DEF:avg={file}:value:AVERAGE',
             'DEF:min={file}:value:MIN',
             'DEF:max={file}:value:MAX',
-            "AREA:max#$HalfBlue",
-            "AREA:min#$Canvas",
-            "LINE1:avg#$FullBlue:Watt",
+            'CDEF:avg_neg=avg,0,LE,avg,UNKN,IF',
+            'CDEF:avg_pos=avg,0,GE,avg,UNKN,IF',
+            'CDEF:avg_neg_ln=PREV(avg_neg),avg,avg_neg,IF',
+            'CDEF:avg_pos_ln=PREV(avg_pos),avg,avg_pos,IF',
+            'CDEF:max_neg=max,0,LT,max,UNKN,IF',
+            'CDEF:max_pos=max,0,GT,max,UNKN,IF',
+            'CDEF:min_neg=min,0,LT,min,UNKN,IF',
+            'CDEF:min_pos=min,0,GT,min,UNKN,IF',
+            'CDEF:stime=avg,TIME,UNKN,IF',
+            'CDEF:dtime=stime,PREV(stime),-',
+            'CDEF:denergy=dtime,avg,dtime,*,0,IF',
+            'CDEF:senergy=PREV,PREV,0,IF,denergy,+',
+            'CDEF:henergy=senergy,3600,/',
+            "AREA:min_neg#$HalfRed",
+            "AREA:max_pos#$HalfGreen",
+            "LINE:avg_neg_ln#$FullRed:-",
+            "LINE:avg_pos_ln#$FullGreen:+ Power",
             'GPRINT:min:MIN:%5.1lf%sW Min,',
-            'GPRINT:avg:AVERAGE:%5.1lf%sW Avg,',
             'GPRINT:max:MAX:%5.1lf%sW Max,',
-            'GPRINT:avg:LAST:%5.1lf%sW Last\l'
+            'GPRINT:avg:LAST:%5.1lf%sW Last',
+            'GPRINT:henergy:LAST:(ca. %5.1lf%sWh Total)\l'
+        ],
+        pressure => [
+            '-v', 'mmHg',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfCyan",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullCyan:Value",
+            'GPRINT:min:MIN:%5.1lf Min,',
+            'GPRINT:avg:AVERAGE:%5.1lf Avg,',
+            'GPRINT:max:MAX:%5.1lf Max,',
+            'GPRINT:avg:LAST:%5.1lf Last\l'
         ],
         processes => [
             "DEF:running_avg={file}:running:AVERAGE",
@@ -2660,22 +2817,97 @@ sub load_graph_definitions {
             'GPRINT:inc_max:MAX:%6.2lf Max,',
             'GPRINT:inc_avg:LAST:%6.2lf Last\l'
         ],
-        uptime => [
-            '-v',
-            'Days',
-            'DEF:avg_raw={file}:value:AVERAGE',
-            'DEF:min_raw={file}:value:MIN',
-            'DEF:max_raw={file}:value:MAX',
-            'CDEF:avg=avg_raw,86400,/',
-            'CDEF:min=min_raw,86400,/',
-            'CDEF:max=max_raw,86400,/',
-            "AREA:max#$HalfBlue",
+        queue_length => [
+            '-v', 'Length',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfMagenta",
             "AREA:min#$Canvas",
-            "LINE1:avg#$FullBlue:Uptime",
-            'GPRINT:min:MIN:%9.3lf Min,',
-            'GPRINT:avg:AVERAGE:%9.3lf Average,',
-            'GPRINT:max:MAX:%9.3lf Max,',
-            'GPRINT:avg:LAST:%9.3lf Last\l'
+            "LINE1:avg#$FullMagenta:Length ",
+            'GPRINT:min:MIN:%4.1lf Min,',
+            'GPRINT:avg:AVERAGE:%4.1lf Avg,',
+            'GPRINT:max:MAX:%4.1lf Max,',
+            'GPRINT:avg:LAST:%4.1lf Last\l'
+        ],
+        signal_noise => [
+            '-v', 'Noise',
+            'DEF:temp_avg={file}:value:AVERAGE',
+            'DEF:temp_min={file}:value:MIN',
+            'DEF:temp_max={file}:value:MAX',
+            "AREA:temp_min#$HalfRed",
+            "AREA:temp_max#$Canvas",
+            "LINE1:temp_avg#$FullRed:Value",
+            'GPRINT:temp_min:MIN:%6.2lf Min,',
+            'GPRINT:temp_avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:temp_max:MAX:%6.2lf Max,',
+            'GPRINT:temp_avg:LAST:%6.2lf Last\l'
+        ],
+        signal_power => [
+            '-v', 'Power',
+            'DEF:temp_avg={file}:value:AVERAGE',
+            'DEF:temp_min={file}:value:MIN',
+            'DEF:temp_max={file}:value:MAX',
+            "AREA:temp_min#$HalfBlue",
+            "AREA:temp_max#$Canvas",
+            "LINE1:temp_avg#$FullBlue:Value",
+            'GPRINT:temp_min:MIN:%6.2lf Min,',
+            'GPRINT:temp_avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:temp_max:MAX:%6.2lf Max,',
+            'GPRINT:temp_avg:LAST:%6.2lf Last\l'
+        ],
+        signal_quality => [
+            '-v', 'Quality',
+            'DEF:temp_avg={file}:value:AVERAGE',
+            'DEF:temp_min={file}:value:MIN',
+            'DEF:temp_max={file}:value:MAX',
+            "AREA:temp_max#$HalfBlue",
+            "AREA:temp_min#$Canvas",
+            "LINE1:temp_avg#$FullBlue:Value",
+            'GPRINT:temp_min:MIN:%6.2lf Min,',
+            'GPRINT:temp_avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:temp_max:MAX:%6.2lf Max,',
+            'GPRINT:temp_avg:LAST:%6.2lf Last\l'
+        ],
+        spectrum => [
+            '-v', 'Value',
+            '--lower-limit', '0',
+            'DEF:all_min={file}:all:MIN',
+            'DEF:all_avg={file}:all:AVERAGE',
+            'DEF:all_max={file}:all:MAX',
+            'DEF:ir_min={file}:ir:MIN',
+            'DEF:ir_avg={file}:ir:AVERAGE',
+            'DEF:ir_max={file}:ir:MAX',
+            "AREA:all_avg#$HalfGreen",
+            "AREA:ir_avg#$HalfRed",
+            "LINE1:all_avg#$FullGreen:All",
+            'GPRINT:all_min:MIN:%6.2lf Min,',
+            'GPRINT:all_avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:all_max:MAX:%6.2lf Max,',
+            'GPRINT:all_avg:LAST:%6.2lf Last\n',
+            "LINE1:ir_avg#$FullRed:IR ",
+            'GPRINT:ir_min:MIN:%6.2lf Min,',
+            'GPRINT:ir_avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:ir_max:MAX:%6.2lf Max,',
+            'GPRINT:ir_avg:LAST:%6.2lf Last\l'
+        ],
+        uptime => [
+            '-v', 'Days',
+            '--logarithmic', '--units=si',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
+            'CDEF:avg_days=avg,86400,/',
+            'CDEF:max_days=max,86400,/',
+            'CDEF:avg_msec=avg,1000,*',
+            'CDEF:max_msec=max,1000,*',
+            'CDEF:val_time=avg,STEPWIDTH,UNKN,IF,PREV,ADDNAN',
+            'CDEF:all_time=avg,STEPWIDTH,STEPWIDTH,IF,PREV,ADDNAN',
+            'CDEF:pct_time=val_time,100,*,all_time,/',
+            "AREA:max_days#$HalfBlue",
+            "LINE1:avg_days#$FullBlue:Uptime",
+            'GPRINT:max_msec:MAX:%Dd %02h\:%02m Max,:valstrfduration',
+            'GPRINT:avg_msec:LAST:%Dd %02h\:%02m Last,:valstrfduration',
+            'GPRINT:pct_time:LAST:%3.0lf%% Active\l'
         ],
         vmpage_number => [
         '-v',
@@ -2940,6 +3172,7 @@ sub load_graph_definitions {
             'GPRINT:inc_95:%5.1lf%s 95th Percentile\l',
         ],
         cpufreq => [
+            '-l', '0',
             'DEF:cpufreq_avg={file}:value:AVERAGE',
             'DEF:cpufreq_min={file}:value:MIN',
             'DEF:cpufreq_max={file}:value:MAX',
@@ -3010,10 +3243,10 @@ sub load_graph_definitions {
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Voltage",
-            'GPRINT:min:MIN:%5.1lf%sV Min,',
-            'GPRINT:avg:AVERAGE:%5.1lf%sV Avg,',
-            'GPRINT:max:MAX:%5.1lf%sV Max,',
-            'GPRINT:avg:LAST:%5.1lf%sV Last\l'
+            'GPRINT:min:MIN:%5.2lf%sV Min,',
+            'GPRINT:avg:AVERAGE:%5.2lf%sV Avg,',
+            'GPRINT:max:MAX:%5.2lf%sV Max,',
+            'GPRINT:avg:LAST:%5.2lf%sV Last\l'
         ],
         vs_threads => [
             "DEF:total_avg={file}:total:AVERAGE",
@@ -3150,10 +3383,10 @@ sub load_graph_definitions {
             "AREA:rt_max#$HalfBlue",
             "AREA:rt_min#$Canvas",
             "LINE1:rt_avg#$FullBlue:Response Time",
-            'GPRINT:rt_min:MIN:%4.1lf ms Min,',
-            'GPRINT:rt_avg:AVERAGE:%4.1lf ms Avg,',
-            'GPRINT:rt_max:MAX:%4.1lf ms Max,',
-            'GPRINT:rt_avg:LAST:%4.1lf ms Last'
+            'GPRINT:rt_min:MIN:%4.1lf%ss Min,',
+            'GPRINT:rt_avg:AVERAGE:%4.1lf%ss Avg,',
+            'GPRINT:rt_max:MAX:%4.1lf%ss Max,',
+            'GPRINT:rt_avg:LAST:%4.1lf%ss Last'
         ],
         response_code => [
             '-v', 'HTTP Status', '-l', '0',
@@ -3282,7 +3515,32 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%6.2lf Max,',
             'GPRINT:avg:LAST:%6.2lf Last'
         ],
+        total_time_in_ms => [
+            '-v', 'ms/s',
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullBlue:ms/s",
+            'GPRINT:min:MIN:%4.1lf Min,',
+            'GPRINT:avg:AVERAGE:%4.1lf Avg,',
+            'GPRINT:max:MAX:%4.1lf Max,',
+            'GPRINT:avg:LAST:%4.1lf Last'
+        ],
 # jaf-18aug11 END
+        total_values => [
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullBlue:Values/s",
+            'GPRINT:min:MIN:%6.2lf Min,',
+            'GPRINT:avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:max:MAX:%6.2lf Max,',
+            'GPRINT:avg:LAST:%6.2lf Last'
+        ],
 # nm-4Sept13 filecount
         files => [
             '-v',
