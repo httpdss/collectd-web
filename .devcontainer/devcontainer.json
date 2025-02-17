@@ -13,6 +13,6 @@
     "forwardPorts": [8888],
     "mounts": [
       "type=bind,source=${localWorkspaceFolder},target=/work",
-      "type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly"
+      "type=bind,source=/home/${localEnv:USER}/.ssh,target=/home/vscode/.ssh,readonly"
     ]
 }
