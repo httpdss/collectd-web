@@ -10,5 +10,9 @@
         ]
       }
     },
-    "forwardPorts": [8888]
+    "forwardPorts": [8888],
+    "mounts": [
+      "type=bind,source=${localWorkspaceFolder},target=/work",
+      "type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly"
+    ]
 }
