@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  collectd-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8888:80"
+    volumes:
+      - ./:/app
+    environment:
+      - COLLECTD_HOST=0.0.0.0
+      - COLLECTD_PORT=80
