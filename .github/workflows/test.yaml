@@ -29,4 +29,57 @@ jobs:
       - name: Run tests
         run: |
           export PERL5LIB=$PERL5LIB:/usr/share/perl5
-          prove -lrv t
+          prove -lrv t > tap.out
+          cat tap.out
+
+      - name: Convert TAP to Markdown inline
+        run: |
+          python3 - <<'EOF'
+          import re
+          # Read the TAP output from file
+          with open('tap.out') as f:
+              lines = f.readlines()
+
+          total = 0
+          passed = 0
+          failed = 0
+          details = []
+
+          for line in lines:
+              line = line.strip()
+              if re.match(r'^ok\b', line):
+                  passed += 1
+                  total += 1
+                  details.append(f"- ✅ {line}")
+              elif re.match(r'^not ok\b', line):
+                  failed += 1
+                  total += 1
+                  details.append(f"- ❌ {line}")
+
+          # Build the Markdown report
+          print("# Test Results")
+          print("")
+          print(f"**Total tests:** {total}")
+          print(f"**Passed:** {passed}")
+          print(f"**Failed:** {failed}")
+          print("")
+          print("## Test Details")
+          print("")
+          for detail in details:
+              print(detail)
+          EOF > results.md
+
+      - name: Show Markdown Test Results as step summary
+        run: cat results.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload Markdown Test Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-markdown
+          path: results.md
+
+      - name: Upload TAP Test Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-tap
+          path: tap.out
