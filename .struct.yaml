@@ -48,13 +48,13 @@ structure:
                 run: cat results.md >> $GITHUB_STEP_SUMMARY
 
               - name: Upload Markdown Test Results
-                uses: actions/upload-artifact@v4
+                uses: actions/upload-artifact@{{@ "actions/upload-artifact" | latest_release @}}
                 with:
                   name: test-results-markdown
                   path: results.md
 
               - name: Upload TAP Test Results
-                uses: actions/upload-artifact@v4
+                uses: actions/upload-artifact@{{@ "actions/upload-artifact" | latest_release @}}
                 with:
                   name: test-results-tap
                   path: tap.out
@@ -66,4 +66,4 @@ folders:
         - github/workflows/release-drafter
         - github/workflows/run-struct
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.STRUCT_RUN_TOKEN }}
