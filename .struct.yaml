@@ -20,6 +20,11 @@ structure:
                 with:
                   perl-version: '5.36'
 
+              - name: Setup Python
+                uses: actions/setup-python@{{@ "actions/setup-python" | latest_release @}}
+                with:
+                  python-version: '3.x'
+
               - name: Install dependencies
                 run: |
                   sudo apt-get update
@@ -37,40 +42,7 @@ structure:
 
               - name: Convert TAP to Markdown inline
                 run: |
-                  python3 - <<'EOF'
-                  import re
-                  # Read the TAP output from file
-                  with open('tap.out') as f:
-                      lines = f.readlines()
-
-                  total = 0
-                  passed = 0
-                  failed = 0
-                  details = []
-
-                  for line in lines:
-                      line = line.strip()
-                      if re.match(r'^ok\b', line):
-                          passed += 1
-                          total += 1
-                          details.append(f"- ✅ {line}")
-                      elif re.match(r'^not ok\b', line):
-                          failed += 1
-                          total += 1
-                          details.append(f"- ❌ {line}")
-
-                  # Build the Markdown report
-                  print("# Test Results")
-                  print("")
-                  print(f"**Total tests:** {total}")
-                  print(f"**Passed:** {passed}")
-                  print(f"**Failed:** {failed}")
-                  print("")
-                  print("## Test Details")
-                  print("")
-                  for detail in details:
-                      print(detail)
-                  EOF > results.md
+                  python3 ./scripts/tap2md.py tap.out > results.md
 
               - name: Show Markdown Test Results as step summary
                 run: cat results.md >> $GITHUB_STEP_SUMMARY
