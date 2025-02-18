@@ -126,6 +126,9 @@ function get_timespan_start (timespan) {
         case "year":
             out_date.add(-1).years();
             break;
+        case "decade":
+            out_date.add(-10).years();
+            break;
     }
     return out_date;
 }
@@ -274,7 +277,7 @@ var load_url = function () {
         $(".graph-imgs-container").html('');
         $.getJSON('cgi-bin/collection.modified.cgi?action=graphs_json;plugin=' + $selected_plugin + ';host=' + $selected_host, function (data) {
             $graph_json = data;
-            create_graph_list("hour", data.hour);
+            create_graph_list("day", data.day);
             $('#graph-container').html(get_graph_main_container($selected_host));
 
             lazy_check();
@@ -433,8 +436,8 @@ $(document).ready(function () {
         $('#timespan-menu').data('start',$('.timespan-from').val());
         $('#timespan-menu').data('end', $('.timespan-to').val());
 
-        var start_date = Date.parse($('.timespan-from').val());
-        var end_date = Date.parse($('.timespan-to').val());
+        var start_date = Date.parseExact($('.timespan-from').val(), "yyyy-MM-ddTHH:mm");
+        var end_date   = Date.parseExact($('.timespan-to').val(),   "yyyy-MM-ddTHH:mm");
 
         if (!start_date || !end_date) {
             $('#error-msg').data('msg', 'One of the dates is invalid');
