@@ -6,11 +6,21 @@
   },
   "customizations": {
     "vscode": {
-    "extensions": [
-      "ms-python.python",
-      "Github.copilot",
-      "ms-azuretools.vscode-docker"
-    ]
+      "extensions": [
+        "ms-python.python",
+        "Github.copilot",
+        "ms-azuretools.vscode-docker",
+        "kameshkotwani.google-search",
+        "lacroixdavid1.vscode-format-context-menu",
+        "task.vscode-task",
+        "redhat.vscode-yaml",
+        "esbenp.prettier-vscode",
+        "editorconfig.editorconfig",
+        "davidanson.vscode-markdownlint",
+        "foxundermoon.shell-format",
+        "gruntfuggly.todo-tree",
+        "cfgweb.vscode-perl"
+      ]
     }
   },
   "forwardPorts": [8888],

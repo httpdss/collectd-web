@@ -53,8 +53,8 @@ datadir: "/etc/collectd/collectd-web/"
 If you are using a Debian-based distribution, install the necessary dependencies:
 
 ```bash
-sudo apt-get update
-sudo apt-get install librrds-perl libjson-perl libhtml-parser-perl libcgi-pm-perl
+sudo apt update
+sudo apt install librrds-perl libjson-perl libhtml-parser-perl libcgi-pm-perl fonts-recommended python3-dotenv
 ```
 
 ## 🌐 Usage
@@ -65,7 +65,7 @@ To start the Collectd-web standalone server, simply run:
 python runserver.py
 ```
 
-Once running, open your web browser and navigate to the provided address (typically `http://localhost:8000`) to begin monitoring your systems.
+Once running, open your web browser and navigate to the provided address (typically `http://localhost:8888`) to begin monitoring your systems.
 
 ## 🔗 Links
 

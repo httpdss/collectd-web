@@ -48,10 +48,20 @@ our $ValidTimespan    = {
 #$ENV{'RRDCACHED_ADDRESS'} = undef;
 
 our @RRDDefaultArgs = (
-'--rigid', '-w', '520', '-h', '180', '--alt-autoscale-max', '--alt-y-grid',
-'--slope-mode', '--font', 'TITLE:10:Monospace', '--font', 'AXIS:8:Monospace', '--font', 'LEGEND:8:Monospace',
-'--font', 'UNIT:8:Monospace', '-c', 'BACK#FF000000',
-    '-c', 'SHADEA#FF000000', '-c', 'SHADEB#FF000000', '-i');
+  '--rigid',
+  '-w', '1040', '-h', '360',
+  '--alt-autoscale-max',
+  '--alt-y-grid',
+  '--slope-mode',
+  '--font', 'TITLE:28:LiberationMono-Bold',
+  '--font', 'AXIS:16:LiberationMono-Bold',
+  '--font', 'LEGEND:16:LiberationMono-Regular',,
+  '--font', 'UNIT:16:LiberationMono-Regular',
+  '-c', 'BACK#EEEEEEFF',
+  '-c', 'SHADEA#EEEEEEFF',
+  '-c', 'SHADEB#EEEEEEFF',
+  '-i',
+);
 
 our $Args = {};
 our $GraphDefs;
@@ -889,8 +899,8 @@ sub _get_format_param {
             }
         }
     } else {
-        $OutputFormat = 'PNG';
-        $ContentType = 'image/png';
+        $OutputFormat = 'SVG';
+        $ContentType = 'image/svg+xml';
     }
 }
 
@@ -3741,10 +3751,10 @@ sub meta_graph_generic_stack {
     for ( my $i = 0 ; $i < @$sources ; $i++ ) {
         my $inst_data = $sources->[$i];
         my $inst_name = $inst_data->{'name'};
-        my $legend    = sprintf( '%-*s', $max_inst_name, $inst_name );
+        my $legend    = "  " . sprintf( '%-*s\t', $max_inst_name, $inst_name );
         my $line_color;
         my $area_color;
-        my $number_format = $opts->{'number_format'} || '%6.1lf';
+        my $number_format = $opts->{'number_format'} || '%10.1lf';
         if ( exists( $opts->{'colors'}{$inst_name} ) ) {
             $line_color = $opts->{'colors'}{$inst_name};
             $area_color = _string_to_color($line_color);

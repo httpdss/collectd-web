@@ -9,4 +9,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     libjson-perl \
     libhtml-parser-perl \
     libcgi-pm-perl \
-    libipc-run-perl
+    libipc-run-perl \
+    fonts-recommended \
+    python3-dotenv \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
