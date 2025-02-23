@@ -53,10 +53,10 @@ our @RRDDefaultArgs = (
   '--alt-autoscale-max',
   '--alt-y-grid',
   '--slope-mode',
-  '--font', 'TITLE:28:LiberationMono-Bold',
-  '--font', 'AXIS:16:LiberationMono-Bold',
-  '--font', 'LEGEND:16:LiberationMono-Regular',,
-  '--font', 'UNIT:16:LiberationMono-Regular',
+  '--font', 'TITLE:28:Monospace',
+  '--font', 'AXIS:16:Monospace',
+  '--font', 'LEGEND:16:Monospace',
+  '--font', 'UNIT:16:Monospace',
   '-c', 'BACK#EEEEEEFF',
   '-c', 'SHADEA#EEEEEEFF',
   '-c', 'SHADEB#EEEEEEFF',
@@ -3754,7 +3754,7 @@ sub meta_graph_generic_stack {
         my $legend    = "  " . sprintf( '%-*s\t', $max_inst_name, $inst_name );
         my $line_color;
         my $area_color;
-        my $number_format = $opts->{'number_format'} || '%10.1lf';
+        my $number_format = $opts->{'number_format'} || '%6.1lf';
         if ( exists( $opts->{'colors'}{$inst_name} ) ) {
             $line_color = $opts->{'colors'}{$inst_name};
             $area_color = _string_to_color($line_color);
