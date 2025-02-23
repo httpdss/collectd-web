@@ -3751,7 +3751,7 @@ sub meta_graph_generic_stack {
     for ( my $i = 0 ; $i < @$sources ; $i++ ) {
         my $inst_data = $sources->[$i];
         my $inst_name = $inst_data->{'name'};
-        my $legend    = "  " . sprintf( '%-*s\t', $max_inst_name, $inst_name );
+        my $legend    = sprintf( '%-*s\t', $max_inst_name, $inst_name );
         my $line_color;
         my $area_color;
         my $number_format = $opts->{'number_format'} || '%6.1lf';
