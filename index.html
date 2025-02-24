@@ -3,16 +3,18 @@
     <head>
         <meta charset="UTF-8" />
         <title>Collectd-web</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="apple-touch-fullscreen" content="YES" />
         <meta name="app-mobile-web-app-capable" content="yes" />
         <link type="image/png" href="media/images/shortcut-icon.png" rel="icon"/>
-        <link rel="stylesheet" href="media/css/blueprint/screen.css" type="text/css" media="screen, projection">
+        <!-- <link rel="stylesheet" href="media/css/blueprint/screen.css" type="text/css" media="screen, projection">
         <link rel="stylesheet" href="media/css/blueprint/print.css" type="text/css" media="print">
-        <link rel="stylesheet" href="media/css/blueprint/print.css" type="text/css" media="print">
+        <link rel="stylesheet" href="media/css/blueprint/print.css" type="text/css" media="print"> -->
+
         <link rel="stylesheet" href="media/css/custom-theme/jquery-ui-1.8.custom.css" type="text/css" media="screen, projection">
-        <!--[if IE]><link rel="stylesheet" href="media/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
         <link rel="stylesheet" href="media/css/base.css" type="text/css" media="screen, projection">
         <script type="text/javascript" src="media/js/external/jquery-1.4.4.min.js"></script>
         <script type="text/javascript" src="media/js/jquery.livequery.js"></script>
@@ -25,164 +27,176 @@
     </head>
     <body>
         <div id="ruler"></div>
-        <div id="slide-menu-container" class="ui-widget container">
-            <div id="slide-menu-content" class="ui-widget-content column span-22 append-1 prepend-1">
-                <div id="menu-tabs">
-                    <ul>
-                        <li><a href="#graphdefs-tab">Graph Definitions</a> </li>
-                        <li><a href="#tab2">Clocks</a> </li>
-                        <li><a href="#options-tab">Options</a> </li>
-                        <li><a href="#about-tab">About</a> </li>
-                    </ul>
-                    <div id="graphdefs-tab">
-                        <div class="container">
-                            <div class="column span-20">
-                                <div class="span-10">
-                                    <button class="button" id="load-graphdefs">Load definitions</button>
-                                    <p>
-                                    <label for="graphdef-name">Name</label>
-                                    <br/>
-                                    <select style="font-size:120%;" name="graphdef-name" id="graphdef-name"></select>
-                                    </p>
-                                </div>
-                                <div class="span-10 last">
-                                    <textarea name="graphdef-content" id="graphdef-content" cols="30" rows="10"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="tab2">
-                        <div class="container">
-                            <div class="column span-20">
-                                <div class="span-10">
-                                    <h3>Local time</h3>
-                                    <div id="clock" class="clock-container"></div>
-                                </div>
-                                <div class="span-10 last no-bullets">
-                                    <h3>Server time</h3>
-                                    <div id="clock-server" class="clock-container"></div>
-                                    <ul id="new-clock-container"></ul>
-                                    <div style="display:none;">
-                                        <div id="clock-server-slider"></div>
-                                        <p>
-                                        <strong>Offset:</strong>
-                                        <span id="clock-server-gmt">0</span>
-                                        </p>
-                                        <form action="#" id="clock-server-add">
-                                            <input id="clock-server-add-label" class="text" type="text" value="label" />
-                                            <button type="submit">Add</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="options-tab" class="no-bullets">
-                        <div class="container">
-                            <div class="column span-20">
-                                <div class="span-10">
-                                    <ul>
-                                        <li class="ttip">
-                                        <div class="ttip-content">
-                                            Check this option to see the ruler.
-                                            <br/>
-                                            This will enable you to compare different graphs at a given moment
-                                        </div>
-                                        <input value="Show ruler" type="checkbox" id="show-ruler-checkbox" />Show ruler
-                                        </li>
-                                        <li class="ttip">
-                                        <div class="ttip-content">
-                                            Set this option into an integer value.
-                                            <br/>
-                                            This will be used as the increment or decrement on moving timespans [FEATURE UNDER DEVELOPMENT]
-                                        </div>
-                                        <label for="graph-step">Graph step (in minutes) </label>
-                                        <input disabled value="10" name="graph-step" type="text" id="graph-step" class="text" />
-                                        </li>
-                                        <li class="ttip">
-                                        <div class="ttip-content">Set view options (list or grid) to customize your graphs display</div>
-                                        <label for="graph-view">View: </label>
-                                        <select name="graph-view" id="graph-view">
-                                            <option value="list" selected="selected">List</option>
-                                            <option value="grid">Grid</option>
-                                        </select>
-                                        </li>
-                                        <li class="ttip">
-                                        <div class="ttip-content">Setting this option will cache images for 5 minutes and lazyload when necessary</div>
-                                        <input value="Enable graph caching" type="checkbox" id="graph-caching-checkbox" />Enable graph caching and lazyloading
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="span-10 last">
-                                    <div id="help-box" style="display:none;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="about-tab">
-                        <div class="container">
-                            <div class="column span-20">
-                                <div class="span-10">
-                                    <p>The main objective of this is to develop an easy to use and customizable web interface for Collectd (Resource monitoring software).</p>
-                                    <p>Two days of research where enough to realize that collectd didn't have a real frontend and the one bundled with the backend was really made for testing purposes, so much of the usablility and strength of statistics was left aside.</p>
-                                </div>
-                                <div class="span-10 last">
-                                    <ul>
-                                        <li>
-                                        <strong>Author:</strong>
-                                        Kenneth Belitzky
-                                        </li>
-                                        <li>
-                                        <strong>Contributors:</strong>
-                                        Thankfull to have too many contributions. See <a href="https://github.com/httpdss/collectd-web/graphs/contributors">Contributors</a>
-                                        </li>
-                                        <li>
-                                        <strong>Homepage:</strong>
-                                        <a href="http://github.com/httpdss/collectd-web">http://github.com/httpdss/collectd-web</a>
-                                        </li>
-                                        <li>
-                                        <strong>Version:</strong>
-                                        0.9.x
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="slide-menu-btn" class="ui-widget-header ui-corner-bottom">
+        <div class="container">
+          <div id="slide-menu-container" class="ui-widget row">
+
+              <div id="slide-menu-content" class="ui-widget-content col-10">
+                  <div id="menu-tabs">
+                      <ul>
+                          <li><a href="#graphdefs-tab">Graph Definitions</a> </li>
+                          <li><a href="#tab2">Clocks</a> </li>
+                          <li><a href="#options-tab">Options</a> </li>
+                          <li><a href="#about-tab">About</a> </li>
+                      </ul>
+                      <div id="graphdefs-tab">
+                          <div class="container">
+                              <div class="column span-20">
+                                  <div class="span-10">
+                                      <button class="button" id="load-graphdefs">Load definitions</button>
+                                      <p>
+                                      <label for="graphdef-name">Name</label>
+                                      <br/>
+                                      <select style="font-size:120%;" name="graphdef-name" id="graphdef-name"></select>
+                                      </p>
+                                  </div>
+                                  <div class="span-10 last">
+                                      <textarea name="graphdef-content" id="graphdef-content" cols="30" rows="10"></textarea>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div id="tab2">
+                          <div class="container">
+                              <div class="column span-20">
+                                  <div class="span-10">
+                                      <h3>Local time</h3>
+                                      <div id="clock" class="clock-container"></div>
+                                  </div>
+                                  <div class="span-10 last no-bullets">
+                                      <h3>Server time</h3>
+                                      <div id="clock-server" class="clock-container"></div>
+                                      <ul id="new-clock-container"></ul>
+                                      <div style="display:none;">
+                                          <div id="clock-server-slider"></div>
+                                          <p>
+                                          <strong>Offset:</strong>
+                                          <span id="clock-server-gmt">0</span>
+                                          </p>
+                                          <form action="#" id="clock-server-add">
+                                              <input id="clock-server-add-label" class="text" type="text" value="label" />
+                                              <button type="submit">Add</button>
+                                          </form>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div id="options-tab" class="no-bullets">
+                          <div class="container">
+                              <div class="column span-20">
+                                  <div class="span-10">
+                                      <ul>
+                                          <li class="ttip">
+                                          <div class="ttip-content">
+                                              Check this option to see the ruler.
+                                              <br/>
+                                              This will enable you to compare different graphs at a given moment
+                                          </div>
+                                          <input value="Show ruler" type="checkbox" id="show-ruler-checkbox" />Show ruler
+                                          </li>
+                                          <li class="ttip">
+                                          <div class="ttip-content">
+                                              Set this option into an integer value.
+                                              <br/>
+                                              This will be used as the increment or decrement on moving timespans [FEATURE UNDER DEVELOPMENT]
+                                          </div>
+                                          <label for="graph-step">Graph step (in minutes) </label>
+                                          <input disabled value="10" name="graph-step" type="text" id="graph-step" class="text" />
+                                          </li>
+                                          <li class="ttip">
+                                          <div class="ttip-content">Set view options (list or grid) to customize your graphs display</div>
+                                          <label for="graph-view">View: </label>
+                                          <select name="graph-view" id="graph-view">
+                                              <option value="list" selected="selected">List</option>
+                                              <option value="grid">Grid</option>
+                                          </select>
+                                          </li>
+                                          <li class="ttip">
+                                          <div class="ttip-content">Setting this option will cache images for 5 minutes and lazyload when necessary</div>
+                                          <input value="Enable graph caching" type="checkbox" id="graph-caching-checkbox" />Enable graph caching and lazyloading
+                                          </li>
+                                      </ul>
+                                  </div>
+                                  <div class="span-10 last">
+                                      <div id="help-box" style="display:none;"></div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div id="about-tab">
+                          <div class="container">
+                              <div class="column span-20">
+                                  <div class="span-10">
+                                      <p>The main objective of this is to develop an easy to use and customizable web interface for Collectd (Resource monitoring software).</p>
+                                      <p>Two days of research where enough to realize that collectd didn't have a real frontend and the one bundled with the backend was really made for testing purposes, so much of the usablility and strength of statistics was left aside.</p>
+                                  </div>
+                                  <div class="span-10 last">
+                                      <ul>
+                                          <li>
+                                          <strong>Author:</strong>
+                                          Kenneth Belitzky
+                                          </li>
+                                          <li>
+                                          <strong>Contributors:</strong>
+                                          Thankfull to have too many contributions. See <a href="https://github.com/httpdss/collectd-web/graphs/contributors">Contributors</a>
+                                          </li>
+                                          <li>
+                                          <strong>Homepage:</strong>
+                                          <a href="http://github.com/httpdss/collectd-web">http://github.com/httpdss/collectd-web</a>
+                                          </li>
+                                          <li>
+                                          <strong>Version:</strong>
+                                          0.9.x
+                                          </li>
+                                      </ul>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div id="slide-menu-btn" class="ui-widget-header ui-corner-bottom col-2">
                 <h3>Menu</h3>
-            </div>
+              </div>
+          </div>
         </div>
         <div class='container header-content'>
-            <div class='column span-24'>
-                <div id="logo" class="span-6">
+            <div class='row'>
+                <div id="logo" class="col-6">
                     <h1>Collectd-web</h1>
                 </div>
-                <div class="span-17">
+                <div class="col-6">
                     <img id="loading" alt="loading" src="media/images/loading.gif" style="display:none;"/>
                 </div>
             </div>
         </div>
         <div class='container' style="margin-bottom:60px;">
-            <div class='column span-7'>
-                <div id="hosts" class="no-bullets ui-widget">
+            <div class='row'>
+                <div class="col-md-3 col-sm-12">
+                  <div id="hosts" class="no-bullets ui-widget">
                     <div class="ui-widget-header ui-corner-top">
-                        <h3>Hosts</h3>
+                      <h3>Hosts</h3>
                     </div>
                     <div id="hosts-container" class="ui-widget-content ui-corner-bottom ">
-                        <input title="Filter by host" type="search" class="title" id="host-filter"/>
-                        <ul></ul>
+                      <input title="Filter by host" type="search" class="title" id="host-filter" />
+                      <ul></ul>
                     </div>
-                </div>
-                <div id="plugins" class="no-bullets ui-widget">
+                  </div>
+                  <div id="plugins" class="no-bullets ui-widget">
                     <ul></ul>
+                  </div>
                 </div>
+                <div class="col-md-9 col-sm-12">
+                  <div class="row">
+                    <div class='col-12'>
+                      <div id="graph-container" class="no-bullets"></div>
+                    </div>
+                  </div>
+                </div>
+
             </div>
-            <div class='column last prepend-1 span-16'>
-                <div id="graph-container" class="no-bullets"></div>
-            </div>
+
+
         </div>
         <div class='container'>
 
@@ -254,5 +268,8 @@
         <div id="error-msg" style="display:none;">
             <p class="content"></p>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
     </body>
 </html>

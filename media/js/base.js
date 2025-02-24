@@ -509,8 +509,8 @@ $(document).ready(function () {
             $('#graph-container .sortable li img').css('width', '200px');
 
             $('li.gc .gc-menu').css({
-                'height': '60px',
-                'width': '120px'
+                'height': '32px',
+                'width': '220px'
             });
         } else {
             // selected_view == 'list'
@@ -522,8 +522,8 @@ $(document).ready(function () {
             $('#graph-container .sortable li img').css('width', '');
 
             $('li.gc .gc-menu').css({
-                'height': '120px',
-                'width': '60px'
+                'height': '32px',
+                'width': '220px'
             });
         }
     });
