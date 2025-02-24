@@ -1,5 +1,12 @@
 :root { overflow-y: scroll; }
 
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #333;
+    color: #f0f0f0;
+  }
+}
+
 #loader {
     margin-top: 10px;
 }
