@@ -154,6 +154,17 @@ function build_url(original_url, new_params) {
     return url;
 }
 
+function is_dark_mode() {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+function build_url_with_theme(url, params) {
+    if (is_dark_mode()) {
+        params.theme = 'dark';
+    }
+    return build_url(url, params);
+}
+
 function hide_toolbar_items () {
     $('.toolbar-item').fadeOut();
 }
@@ -195,7 +206,7 @@ function get_graph_menu() {
 function update_all_graphs(start, end) {
     $('.gc-img').each(function () {
         var $this = $(this),
-            new_url = build_url($this.attr('src'), {
+            new_url = build_url_with_theme($this.attr('src'), {
             'start': print_date(start),
             'end': print_date(end)
         });
@@ -221,7 +232,7 @@ function create_graph_list(timespan, graphs) {
     $tpl += '<li class="ui-widget graph-image ' + timespan + '">';
     $tpl += '<ul class="sortable ui-sortable">';
     for (var g = 0; g < graphs.length; g++) {
-        final_url = build_url(graphs[g], {'start':print_date(start_date), 'end': print_date(end_date)});
+        final_url = build_url_with_theme(graphs[g], {'start': print_date(start_date), 'end': print_date(end_date)});
         $tpl += '<li class="gc">';
         $tpl += get_graph_menu();
         if ($('#graph-caching-checkbox').attr('checked')) {

@@ -58,10 +58,13 @@ our @RRDDefaultArgs = (
   '--font', 'LEGEND:12:Monospace',
   '--font', 'UNIT:12:Monospace',
   '-c', 'BACK#EEEEEEFF',
+  '-c', 'CANVAS#FFFFFF00',
   '-c', 'SHADEA#EEEEEEFF',
   '-c', 'SHADEB#EEEEEEFF',
   '-i',
 );
+
+
 
 our $Args = {};
 our $GraphDefs;
@@ -994,20 +997,48 @@ sub main {
 }
 
 sub load_graph_definitions {
-    my $Canvas        = 'FFFFFF';
-    my $FullRed       = 'FF0000';
-    my $FullGreen     = '00E000';
-    my $FullBlue      = '0000FF';
-    my $FullYellow    = 'F0A000';
-    my $FullCyan      = '00A0FF';
-    my $FullMagenta   = 'A000FF';
-    my $HalfRed       = 'F7B7B7';
-    my $HalfGreen     = 'B7EFB7';
-    my $HalfBlue      = 'B7B7F7';
-    my $HalfYellow    = 'F3DFB7';
-    my $HalfCyan      = 'B7DFF7';
-    my $HalfMagenta   = 'DFB7F7';
-    my $HalfBlueGreen = '89B3C9';
+    # Check for dark theme
+    my $dark = (defined(param('theme')) && param('theme') eq 'dark') ? 1 : 0;
+
+    if ($dark) {
+        @RRDDefaultArgs = (
+            '--rigid',
+            '-w', '1040', '-h', '360',
+            '--alt-autoscale-max',
+            '--alt-y-grid',
+            '--slope-mode',
+            '--font', 'TITLE:28:Monospace',
+            '--font', 'AXIS:10:Monospace',
+            '--font', 'LEGEND:12:Monospace',
+            '--font', 'UNIT:12:Monospace',
+            '-c', 'BACK#222222FF',   # dark background
+            '-c', 'CANVAS#222222FF',
+            '-c', 'FONT#EEEEEEFF',
+            '-c', 'SHADEA#222222FF',
+            '-c', 'SHADEB#222222FF',
+            '-c', 'GRID#666666FF',
+            '-c', 'MGRID#666666FF',
+            '-c', 'FRAME#666666FF',
+            '-c', 'ARROW#FFFFFF',
+            '-c', 'AXIS#FFFFFF',
+            '-i',
+        );
+    }
+
+    my $Canvas      = $dark ? '222222' : 'FFFFFF';
+    my $FullRed     = $dark ? 'FF6666' : 'FF0000';
+    my $FullGreen   = $dark ? '66FF66' : '00E000';
+    my $FullBlue    = $dark ? '6666FF' : '0000FF';
+    my $FullYellow  = $dark ? 'FFFF66' : 'F0A000';
+    my $FullCyan    = $dark ? '66FFFF' : '00A0FF';
+    my $FullMagenta = $dark ? 'FF66FF' : 'A000FF';
+    my $HalfRed     = $dark ? 'FF9999' : 'F7B7B7';
+    my $HalfGreen   = $dark ? '99FF99' : 'B7EFB7';
+    my $HalfBlue    = $dark ? '9999FF' : 'B7B7F7';
+    my $HalfYellow  = $dark ? 'FFFF99' : 'F3DFB7';
+    my $HalfCyan    = $dark ? '99FFFF' : 'B7DFF7';
+    my $HalfMagenta = $dark ? 'FF99FF' : 'DFB7F7';
+    my $HalfBlueGreen = $dark ? '88CCCC' : '89B3C9';
     $GraphDefs = {
         activity => [
             'DEF:avg={file}:value:AVERAGE',
