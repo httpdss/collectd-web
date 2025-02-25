@@ -33,6 +33,17 @@ function get_date_distance(in_start, in_end) {
    return millis;
 }
 
+function is_dark_mode() {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+function build_url_with_theme(url, params) {
+    if (is_dark_mode()) {
+        params.theme = 'dark';
+    }
+    return build_url(url, params);
+}
+
 /**
  * Function to make the graph move on the x axis
  * @param menu_element the button of the menu pressed
@@ -59,7 +70,7 @@ function build_move_graph_url(url, direction) {
         end.add(date_distance).milliseconds();
     }
 
-    return build_url(url, {'start':print_date(start), 'end':print_date(end)});
+    return build_url_with_theme(url, {'start': print_date(start), 'end': print_date(end)});
 }
 
 function move_graph(menu_element, direction) {
@@ -88,7 +99,7 @@ function build_zoom_graph_url(url, direction) {
         start.add(date_distance).milliseconds();
     }
 
-    return build_url(url, {'start':print_date(start), 'end':print_date(end)});
+    return build_url_with_theme(url, {'start': print_date(start), 'end': print_date(end)});
 }
 
 function zoom_graph(menu_element, direction) {
