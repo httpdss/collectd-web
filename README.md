@@ -24,6 +24,8 @@ Collectd-web provides a sleek, intuitive, and customizable web interface for Col
 - **Quick Deployment:** Launch the built-in, standalone web server with minimal setup.
 - **Efficient Monitoring:** Optimized for performance and usability in monitoring diverse systems.
 
+![Collectd-web UI](docs/ui.png)
+
 ## 🛠 Installation
 
 ### Prerequisites
