@@ -2,8 +2,7 @@
   "name": "collectd-web devcontainer",
   "dockerFile": "Dockerfile",
   "features": {
-    "ghcr.io/gvatsal60/dev-container-features/pre-commit": {},
-    "ghcr.io/eitsupi/devcontainer-features/go-task:latest": {}
+    "ghcr.io/gvatsal60/dev-container-features/pre-commit": {}
   },
   "customizations": {
     "vscode": {
