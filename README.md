@@ -67,6 +67,8 @@ To start the Collectd-web standalone server, simply run:
 python runserver.py
 ```
 
+Once running, open your web browser and navigate to the provided address (typically `http://localhost:8888`) to begin monitoring your systems.
+
 ### Apache Configuration
 
 Add these lines to your apache vhost configuration:
@@ -78,8 +80,6 @@ Add these lines to your apache vhost configuration:
       AddHandler cgi-script .cgi .pl
     </Directory>
 ```
-
-Once running, open your web browser and navigate to the provided address (typically `http://localhost:8888`) to begin monitoring your systems.
 
 ## 🔗 Links
 
