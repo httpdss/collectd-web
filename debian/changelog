@@ -1,0 +1,17 @@
+collectd-web (0.5.0+20250203) jessie; urgency=low
+
+  * sync code with upstream
+
+-- Kenneth Belitzky <kenny@belitzky.com>  Sun, 03 Feb 2025 19:43:00 -0300
+
+collectd-web (0.4.1+20161123) jessie; urgency=low
+
+  * sync code with upstream
+
+ -- Zhang Cheng <stephenpcg@gmail.com>  Wed, 23 Mar 2016 21:38:12 +0800
+
+collectd-web (0.4.0+20121230+git966416d) unstable; urgency=low
+
+  * First debianize.
+
+ -- Zhang Cheng <stephenpcg@gmail.com>  Wed, 20 Mar 2013 13:32:42 +0800

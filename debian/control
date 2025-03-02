@@ -1,0 +1,31 @@
+Source: collectd-web
+Section: misc
+Priority: extra
+Maintainer: Kenneth Belitzky <kenny@belitzky.com>
+Build-Depends: debhelper
+Standards-Version: 3.9.2
+
+Package: collectd-web
+Architecture: all
+Depends: collectd,
+         librrds-perl,
+         libjson-perl,
+         libhtml-parser-perl,
+         libcgi-pm-perl,
+         fonts-recommended,
+         python3-dotenv
+         ${misc:Depends}
+Recommends: fcgiwrap, nginx | httpd
+Description: Collectd-web is a web-based front-end for RRD data collected by collectd
+ Collectd-web is a web-based front-end for RRD data collected by collectd.
+ It is based on contrib/collection.cgi, a demo CGI script included in collectd.
+ .
+ The main objective of this is to develop an easy to use and customizable web
+ interface for Collectd (Resource monitoring software).
+ Two days of research where enough to realize that collectd didn't have a real
+ frontend and the one bundled with the backend was really made for testing purposes,
+ so much of the usability and strength of statistics was left aside.
+ .
+ With strong emphasis on the usage of JQuery and JQueryUI,
+ Collectd-Web manages to give sysadmins a nice yet functional interface for web
+ and mobile UI too!
