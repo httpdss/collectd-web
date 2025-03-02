@@ -37,7 +37,7 @@ Fb.log = function(obj, consoleMethod) {
                        console.log(obj);
                }
        }
-};
+}
 
 var server_tz = 0;
 
@@ -83,14 +83,14 @@ var graph_def_values = [];
 
 function get_gmt(offset) {
     off = '';
-    if (offset === 0) {
+    if (offset == 0) {
         off = '';
     } else if (offset > 0) {
-        off = '+' + offset;
+        off = '+' + offset
     } else {
-        off = offset;
+        off = offset
     }
-    return offset;
+    return offset
 }
 
 function get_url_params(in_url) {
@@ -146,7 +146,7 @@ function build_url(original_url, new_params) {
     $.extend(params, new_params);
     var url = original_url.split('?')[0] + '?';
     for (key in params) {
-        if (params[key] !== '' || params[key] === 0) {
+        if (params[key] != '' || params[key] == 0) {
         url += key + '=' + params[key] + ';';
         }
     }
@@ -215,12 +215,12 @@ function update_all_graphs(start, end) {
 }
 
 function get_graph_main_container(host) {
-    $('.graph-main-container .hostname').html(host);
-    return $('.graph-main-container').html();
+    $('.graph-main-container .hostname').html(host)
+    return $('.graph-main-container').html()
 }
 
 function show_lazy_graph(elem) {
-    $(elem).attr('src', $(elem).attr('title'));
+    $(elem).attr('src', $(elem).attr('title'))
 }
 
 function create_graph_list(timespan, graphs) {
@@ -252,7 +252,7 @@ function lazy_check() {
         $('.toload.gc-img').each(function () {
             window_top = $(window).height() + $(window).scrollTop();
             var elem_top = $(this).offset().top;
-            if ((window_top > elem_top) && (elem_top !== 0)) {
+            if ((window_top > elem_top) && (elem_top != 0)) {
                 show_lazy_graph(this);
                 $(this).removeClass('toload');
             }
@@ -303,7 +303,7 @@ var load_url = function () {
     $(this).addClass('selected');
 
     return false;
-};
+}
 
 function ipad_position_fix () {
 
@@ -332,7 +332,8 @@ $(document).ready(function () {
 
     $.getJSON('cgi-bin/collection.modified.cgi?action=hostlist_json', function (data) {
         for (i = 0; i < data.length; i++) {
-            $("#hosts ul").append('<li><a href="cgi-bin/collection.modified.cgi?action=show_host;host=' + data[i] + '">' + data[i] + '</a></li>');
+            $("#hosts ul").append('<li><a href="cgi-bin/collection.modified.cgi?action=show_host;host=' + data[i] + '">'
+                + data[i] + '</a></li>');
         }
     });
 
@@ -348,7 +349,7 @@ $(document).ready(function () {
     $("#clock").jclock();
 
     $.getJSON('cgi-bin/time.cgi', function (data) {
-        server_tz = parseInt(data.tz, 10);
+        server_tz = parseInt(data.tz);
         $("#clock-server").jclock({
             utc: true,
             utcOffset: server_tz
@@ -366,7 +367,7 @@ $(document).ready(function () {
     });
 
     $('#clock-server-add').submit(function () {
-        var offset = parseInt($('#clock-server-gmt').html(), 10);
+        var offset = parseInt($('#clock-server-gmt').html());
         var new_span = $(document.createElement("span"));
         var new_li = $(document.createElement("li"));
         new_span.jclock({
@@ -424,7 +425,7 @@ $(document).ready(function () {
     $("#host-filter").live('keyup', function () {
         var searchText = $(this).val();
         $("#hosts li").hide();
-        if (searchText === "") {
+        if (searchText == "") {
             $("#hosts li").show();
         } else {
             $("#hosts li:contains(" + searchText + ")").show();
@@ -467,7 +468,7 @@ $(document).ready(function () {
         draggable:false,
         title: "An error has ocurred",
         open: function(event, ui) {
-            $('#error-msg .content').html($('#error-msg').data('msg'));
+            $('#error-msg .content').html($('#error-msg').data('msg'))
         },
         buttons:{Ok: function(){$(this).dialog( "close" );}}
     });
@@ -482,7 +483,7 @@ $(document).ready(function () {
     $('#load-graphdefs').click(
     function () {
         $.getJSON('cgi-bin/graphdefs.cgi', function (data) {
-            graph_def_values = data.graph_defs;
+            graph_def_values = data.graph_defs
             for (var def in graph_def_values) {
                 $('#graphdef-name').append('<option value="' + def + '">' + def + '</option>');
             }
