@@ -18,6 +18,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 use strict;
 use warnings;
+no warnings qw(deprecated);
 
 use JSON ('objToJson');
 use CGI (':cgi');
@@ -428,9 +429,9 @@ sub load_graph_definitions
         'GPRINT:avg:LAST:%5.1lf%s Last\l'
         ],
         frequency => ['-v', 'Hertz',
-        'DEF:avg={file}:frequency:AVERAGE',
-        'DEF:min={file}:frequency:MIN',
-        'DEF:max={file}:frequency:MAX',
+        'DEF:avg={file}:value:AVERAGE',
+        'DEF:min={file}:value:MIN',
+        'DEF:max={file}:value:MAX',
         "AREA:max#$HalfBlue",
         "AREA:min#$Canvas",
         "LINE1:avg#$FullBlue:Frequency [Hz]",
@@ -904,6 +905,18 @@ sub load_graph_definitions
         'GPRINT:queries_avg:AVERAGE:%5.0lf Avg,',
         'GPRINT:queries_max:MAX:%5.0lf Max,',
         'GPRINT:queries_avg:LAST:%5.0lf Last\l'
+        ],
+        mysql_select => ['-v', 'Selects/s',
+        "DEF:val_avg={file}:value:AVERAGE",
+        "DEF:val_min={file}:value:MIN",
+        "DEF:val_max={file}:value:MAX",
+        "AREA:val_max#$HalfBlue",
+        "AREA:val_min#$Canvas",
+        "LINE1:val_avg#$FullBlue:Selects/s",
+        'GPRINT:val_min:MIN:%5.2lf Min,',
+        'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+        'GPRINT:val_max:MAX:%5.2lf Max,',
+        'GPRINT:val_avg:LAST:%5.2lf Last'
         ],
         mysql_threads => ['-v', 'Threads',
         "DEF:running_min={file}:running:MIN",
@@ -1379,9 +1392,9 @@ sub load_graph_definitions
         'GPRINT:temp_avg:LAST:%4.1lf Last\l'
         ],
         timeleft => ['-v', 'Minutes',
-        'DEF:avg={file}:timeleft:AVERAGE',
-        'DEF:min={file}:timeleft:MIN',
-        'DEF:max={file}:timeleft:MAX',
+        'DEF:avg={file}:value:AVERAGE',
+        'DEF:min={file}:value:MIN',
+        'DEF:max={file}:value:MAX',
         "AREA:max#$HalfBlue",
         "AREA:min#$Canvas",
         "LINE1:avg#$FullBlue:Time left [min]",
