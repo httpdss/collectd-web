@@ -67,6 +67,18 @@ To start the Collectd-web standalone server, simply run:
 python runserver.py
 ```
 
+### Apache Configuration
+
+Add these lines to your apache vhost configuration:
+
+```apache
+    Alias /collectd-web/collectd-web /path/to/vhost/httdocs/collectd-web
+    <Directory /path/to/vhost/httdocs/collectd-web/cgi-bin>
+      Options +ExecCGI +FollowSymLinks
+      AddHandler cgi-script .cgi .pl
+    </Directory>
+```
+
 Once running, open your web browser and navigate to the provided address (typically `http://localhost:8888`) to begin monitoring your systems.
 
 ## 🔗 Links
