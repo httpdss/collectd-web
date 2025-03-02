@@ -3145,9 +3145,9 @@ sub load_graph_definitions {
         timeleft => [
             '-v',
             'Minutes',
-            'DEF:avg={file}:timeleft:AVERAGE',
-            'DEF:min={file}:timeleft:MIN',
-            'DEF:max={file}:timeleft:MAX',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Time left [min]",
