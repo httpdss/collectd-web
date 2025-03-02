@@ -376,8 +376,7 @@ sub list_hosts_json {
     $| = 1;
     print STDOUT header(
         -Content_Type => 'application/json',
-        -Charset      => 'utf-8',
-        -Expires      => '+1h'
+        -Charset      => 'utf-8'
     );
     print STDOUT to_json( $host_ref, { pretty => 1, indent => 2 } );
     return (1);
@@ -477,8 +476,8 @@ sub action_show_host_json
     $| = 1;
 
     print STDOUT header (-Content_Type => 'application/json',
-    -Charset => 'utf-8',
-    -Expires => '+1h');
+    -Charset => 'utf-8'
+    );
     print STDOUT to_json ([sort (keys %$all_plugins)],
     { pretty => 1, indent => 2 }) . "\n";
     return (1);
@@ -768,8 +767,7 @@ sub action_show_plugin_json {
     $| = 1;
 
     print STDOUT header (-Content_Type => 'application/json',
-    -Charset => 'utf-8',
-    -Expires => '+1h');
+    -Charset => 'utf-8');
     print STDOUT to_json ({hour => [@plugin_list_hour],
                            day =>  [@plugin_list_day] ,
                            week => [@plugin_list_week],
@@ -949,7 +947,6 @@ sub main {
         $| = 1;
         if(defined ($Args->{'enable-caching'})){
             print STDOUT header(-Content_Type => $ContentType,
-                                -Expires=>'+1h',
                                 -Cache_Control=>'maxage=3600',
                                 -Pragma=>'public');
         } else {
@@ -974,7 +971,6 @@ sub main {
         $| = 1;
         if(defined ($Args->{'enable-caching'})){
             print STDOUT header(-Content_Type => $ContentType,
-                                -Expires=>'+1h',
                                 -Cache_Control=>'maxage=3600',
                                 -Pragma=>'public' );
         } else {
@@ -3383,6 +3379,20 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%4.1lf Max,',
             'GPRINT:avg:LAST:%4.1lf Last\l'
         ],
+        records => [
+            '-v',
+            'Records',
+            'DEF:temp_avg={file}:value:AVERAGE',
+            'DEF:temp_min={file}:value:MIN',
+            'DEF:temp_max={file}:value:MAX',
+            "AREA:temp_max#$HalfBlue",
+            "AREA:temp_min#$Canvas",
+            "LINE1:temp_avg#$FullBlue:Records",
+            'GPRINT:temp_min:MIN:%.3lf%s Min,',
+            'GPRINT:temp_avg:AVERAGE:%.3lf%s Avg,',
+            'GPRINT:temp_max:MAX:%.3lf%s Max,',
+            'GPRINT:temp_avg:LAST:%.3lf%s Last\l'
+        ],
         qtype => [
             'DEF:avg={file}:value:AVERAGE',
             'DEF:min={file}:value:MIN',
@@ -3967,10 +3977,10 @@ sub load_graph_definitions {
             'DEF:max={file}:value:MAX',
             "AREA:avg#$HalfRed",
             "LINE1:avg#$FullRed:Bytes",
-            'GPRINT:min:MIN:%9.3lf Min,',
-            'GPRINT:avg:AVERAGE:%9.3lf Average,',
-            'GPRINT:max:MAX:%9.3lf Max,',
-            'GPRINT:avg:LAST:%9.3lf Last'
+            'GPRINT:min:MIN:%3.3lf%s Min,',
+            'GPRINT:avg:AVERAGE:%3.3lf%s Average,',
+            'GPRINT:max:MAX:%3.3lf%s Max,',
+            'GPRINT:avg:LAST:%3.3lf%s Last'
         ],
 # nm-4Sept13 filecount - END
 # nm-4Sept13 contextswitch
