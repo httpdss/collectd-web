@@ -1,7 +1,8 @@
 Source: collectd-web
 Section: misc
 Priority: extra
-Maintainer: Zhang Cheng <stephenpcg@gmail.com>
+
+Maintainer: Kenneth Belitzky <kenny@belitzky.com>
 Build-Depends: debhelper
 Standards-Version: 3.9.2
 
@@ -11,6 +12,9 @@ Depends: collectd,
          librrds-perl,
          libjson-perl,
          libhtml-parser-perl,
+         libcgi-pm-perl,
+         fonts-recommended,
+         python3-dotenv
          ${misc:Depends}
 Recommends: fcgiwrap, nginx | httpd
 Description: Collectd-web is a web-based front-end for RRD data collected by collectd

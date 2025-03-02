@@ -376,8 +376,7 @@ sub list_hosts_json {
     $| = 1;
     print STDOUT header(
         -Content_Type => 'application/json',
-        -Charset      => 'utf-8',
-        -Expires      => '+1h'
+        -Charset      => 'utf-8'
     );
     print STDOUT to_json( $host_ref, { pretty => 1, indent => 2 } );
     return (1);
@@ -477,8 +476,8 @@ sub action_show_host_json
     $| = 1;
 
     print STDOUT header (-Content_Type => 'application/json',
-    -Charset => 'utf-8',
-    -Expires => '+1h');
+    -Charset => 'utf-8'
+    );
     print STDOUT to_json ([sort (keys %$all_plugins)],
     { pretty => 1, indent => 2 }) . "\n";
     return (1);
@@ -768,8 +767,7 @@ sub action_show_plugin_json {
     $| = 1;
 
     print STDOUT header (-Content_Type => 'application/json',
-    -Charset => 'utf-8',
-    -Expires => '+1h');
+    -Charset => 'utf-8');
     print STDOUT to_json ({hour => [@plugin_list_hour],
                            day =>  [@plugin_list_day] ,
                            week => [@plugin_list_week],
@@ -949,7 +947,6 @@ sub main {
         $| = 1;
         if(defined ($Args->{'enable-caching'})){
             print STDOUT header(-Content_Type => $ContentType,
-                                -Expires=>'+1h',
                                 -Cache_Control=>'maxage=3600',
                                 -Pragma=>'public');
         } else {
@@ -975,7 +972,6 @@ sub main {
         $| = 1;
         if(defined ($Args->{'enable-caching'})){
             print STDOUT header(-Content_Type => $ContentType,
-                                -Expires=>'+1h',
                                 -Cache_Control=>'maxage=3600',
                                 -Pragma=>'public' );
         } else {
@@ -2581,6 +2577,104 @@ sub load_graph_definitions {
         ],
         mysql_octets => [
             '-v',
+            'Issues/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Issues/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_innodb_dblwr => [
+            '-v',
+            'Issues/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Issues/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_innodb_log => [
+            '-v',
+            'Issues/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Issues/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_innodb_locks => [
+            '-v',
+            'Issues/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Issues/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_innodb_pages => [
+            '-v',
+            'Issues/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Issues/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_innodb_row_lock => [
+            '-v',
+            'Locks/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Rows/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_innodb_rows => [
+            '-v',
+            'Rows/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Rows/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_octets => [
+            '-v',
             'Bytes/s',
             'DEF:out_min={file}:tx:MIN',
             'DEF:out_avg={file}:tx:AVERAGE',
@@ -3503,7 +3597,6 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%4.1lf Max,',
             'GPRINT:avg:LAST:%4.1lf Last\l'
         ],
-        # y3ti-8Sep15
         records => [
             '-v',
             'Records',
@@ -3518,7 +3611,6 @@ sub load_graph_definitions {
             'GPRINT:temp_max:MAX:%.3lf%s Max,',
             'GPRINT:temp_avg:LAST:%.3lf%s Last\l'
         ],
-        # y3ti-8Sep15 END
         qtype => [
             'DEF:avg={file}:value:AVERAGE',
             'DEF:min={file}:value:MIN',
@@ -4182,10 +4274,10 @@ sub load_graph_definitions {
             'DEF:max={file}:value:MAX',
             "AREA:avg#$HalfRed",
             "LINE1:avg#$FullRed:Bytes",
-            'GPRINT:min:MIN:%9.3lf Min,',
-            'GPRINT:avg:AVERAGE:%9.3lf Average,',
-            'GPRINT:max:MAX:%9.3lf Max,',
-            'GPRINT:avg:LAST:%9.3lf Last'
+            'GPRINT:min:MIN:%3.3lf%s Min,',
+            'GPRINT:avg:AVERAGE:%3.3lf%s Average,',
+            'GPRINT:max:MAX:%3.3lf%s Max,',
+            'GPRINT:avg:LAST:%3.3lf%s Last'
         ],
 # nm-4Sept13 filecount - END
 # nm-4Sept13 contextswitch
@@ -5113,6 +5205,54 @@ sub meta_graph_nfs_procedure {
     }    # for (@$type_instances)
     return ( meta_graph_generic_stack( $opts, $sources ) );
 }    # meta_graph_nfs_procedure
+
+sub meta_graph_pkg {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;
+    my $opts            = {};
+    my $sources         = [];
+    $opts->{'title'} =
+        "$host/$plugin"
+      . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
+      . "/$type";
+    $opts->{'rrd_opts'} = [ '-v', 'PKGs' ];
+    $opts->{'ds'} = 'values';
+    my @files = ();
+    $opts->{'colors'} = {
+        'skipped'   => 'ffe000',
+        'built'     => '00e000',
+        'failed'    => 'ff0000',
+        'ignored'   => 'ff00ff'
+    };
+    _custom_sort_arrayref( $type_instances,
+        [qw(skipped built failed ignored)] );
+
+    for (@$type_instances) {
+        my $inst  = $_;
+        my $file  = '';
+        my $title = $opts->{'title'};
+        for (@DataDirs) {
+            if ( -e "$_/$title-$inst.rrd" ) {
+                $file = "$_/$title-$inst.rrd";
+                last;
+            }
+        }
+        next if ( $inst eq 'queued' );
+        confess("No file found for $title") if ( $file eq '' );
+        push(
+            @$sources,
+            {
+                name => $inst,
+                file => $file
+            }
+        );
+    }    # for (@$type_instances)
+    return ( meta_graph_generic_stack( $opts, $sources ) );
+}    # meta_graph_pkg
 
 sub meta_graph_pkg {
     confess("Wrong number of arguments") if ( @_ != 5 );

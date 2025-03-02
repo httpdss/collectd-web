@@ -1,3 +1,8 @@
+collectd-web (0.5.0+20250203) jessie; urgency=low
+
+  * sync code with upstream
+
+-- Kenneth Belitzky <kenny@belitzky.com>  Sun, 03 Feb 2025 19:43:00 -0300
 collectd-web (0.4.1+20161123) jessie; urgency=low
 
   * sync code with upstream
