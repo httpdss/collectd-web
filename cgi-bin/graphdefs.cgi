@@ -18,6 +18,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 use strict;
 use warnings;
+no warnings qw(deprecated);
 
 use JSON ('objToJson');
 use CGI (':cgi');
@@ -428,9 +429,9 @@ sub load_graph_definitions
         'GPRINT:avg:LAST:%5.1lf%s Last\l'
         ],
         frequency => ['-v', 'Hertz',
-        'DEF:avg={file}:frequency:AVERAGE',
-        'DEF:min={file}:frequency:MIN',
-        'DEF:max={file}:frequency:MAX',
+        'DEF:avg={file}:value:AVERAGE',
+        'DEF:min={file}:value:MIN',
+        'DEF:max={file}:value:MAX',
         "AREA:max#$HalfBlue",
         "AREA:min#$Canvas",
         "LINE1:avg#$FullBlue:Frequency [Hz]",
@@ -1415,9 +1416,9 @@ sub load_graph_definitions
         'GPRINT:temp_avg:LAST:%4.1lf Last\l'
         ],
         timeleft => ['-v', 'Minutes',
-        'DEF:avg={file}:timeleft:AVERAGE',
-        'DEF:min={file}:timeleft:MIN',
-        'DEF:max={file}:timeleft:MAX',
+        'DEF:avg={file}:value:AVERAGE',
+        'DEF:min={file}:value:MIN',
+        'DEF:max={file}:value:MAX',
         "AREA:max#$HalfBlue",
         "AREA:min#$Canvas",
         "LINE1:avg#$FullBlue:Time left [min]",
