@@ -30,6 +30,7 @@ use JSON ('to_json');
 our $Config   = "/etc/collectd/collection.conf";
 our @DataDirs = ();
 our $LibDir;
+my $ContextRoot;
 our $make_transparent = 1;
 our $ValidTimespan    = {
     hour    => 3600,
@@ -110,6 +111,10 @@ sub read_config {
         elsif ( $key eq 'libdir' ) {
             $value =~ s#/*$##;
             $LibDir = $value;
+        }
+      elsif ( $key eq 'contextroot' ) {
+          $value =~ s#/*$##;
+          $ContextRoot = $value;
         }
         else {
             print STDERR "Unknown key: $key\n";
@@ -439,7 +444,7 @@ sub action_show_host {
     my $timespan    = _get_param_timespan();
     my $all_plugins = _find_files_for_hosts(@hosts);
     my $url_prefix =
-        script_name()
+        $ContextRoot.script_name()
       . '?action=show_plugin'
       . join( '', map { ';host=' . uri_escape($_) } (@hosts) )
       . ';timespan='
@@ -480,7 +485,7 @@ sub action_show_plugin {
     my $plugin_instance = shift;
     my $timespan        = _get_param_timespan();
     my $hosts_url   = join( ';', map { 'host=' . uri_escape($_) } (@hosts) );
-    my $url_prefix  = script_name() . "?$hosts_url";
+    my $url_prefix  = $ContextRoot.script_name() . "?$hosts_url";
     my $all_plugins = {};
     my $plugins_per_host = {};
     my $selected_plugins = {};
@@ -523,7 +528,7 @@ sub action_show_plugin {
                 my $type_url  = "$pinst_url;type=" . uri_escape($type);
                 if ( exists( $MetaGraphDefs->{$type} ) ) {
                     my $graph_url =
-                        script_name()
+                        $ContextRoot.script_name()
                       . '?action=show_graph'
                       . ';plugin='
                       . uri_escape($plugin)
@@ -578,7 +583,7 @@ sub action_show_plugin {
                 {
                     my $tinst     = $_;
                     my $graph_url =
-                        script_name()
+                        $ContextRoot.script_name()
                       . '?action=show_graph'
                       . ';plugin='
                       . uri_escape($plugin)
@@ -630,7 +635,7 @@ sub action_show_plugin_json {
     my $plugin_instance = shift;
     my $timespan        = _get_param_timespan();
     my $hosts_url   = join( ';', map { 'host=' . uri_escape($_) } (@hosts) );
-    my $url_prefix  = script_name() . "?$hosts_url";
+    my $url_prefix  = $ContextRoot.script_name() . "?$hosts_url";
     my $all_plugins = {};
     my $plugins_per_host = {};
     my $selected_plugins = {};
@@ -678,7 +683,7 @@ sub action_show_plugin_json {
                 my $type_url  = "$pinst_url;type=" . uri_escape($type);
                 if ( exists( $MetaGraphDefs->{$type} ) ) {
                     my $graph_url =
-                        script_name()
+                        $ContextRoot.script_name()
                       . '?action=show_graph'
                       . ';plugin='
                       . uri_escape($plugin)
@@ -713,7 +718,7 @@ sub action_show_plugin_json {
                 {
                     my $tinst     = $_;
                     my $graph_url =
-                        script_name()
+                        $ContextRoot.script_name()
                       . '?action=show_graph'
                       . ';plugin='
                       . uri_escape($plugin)
@@ -782,11 +787,11 @@ sub action_show_type {
     my $type_instance_url =
       defined($type_instance) ? uri_escape($type_instance) : undef;
     my $url_prefix =
-      script_name() . "?action=show_plugin;host=$host_url;plugin=$plugin_url";
+      $ContextRoot.script_name() . "?action=show_plugin;host=$host_url;plugin=$plugin_url";
     $url_prefix .= ";plugin_instance=$plugin_instance_url"
       if ( defined($plugin_instance) );
     print qq(    <div><a href="$url_prefix">Back to plugin &quot;$plugin_html&quot;</a></div>\n);
-    $url_prefix = script_name() . "?action=show_graph;host=$host_url;plugin=$plugin_url";
+    $url_prefix = $ContextRoot.script_name() . "?action=show_graph;host=$host_url;plugin=$plugin_url";
     $url_prefix .= ";plugin_instance=$plugin_instance_url"
       if ( defined($plugin_instance) );
     $url_prefix .= ";type=$type_url";
