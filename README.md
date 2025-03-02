@@ -69,6 +69,21 @@ python runserver.py
 
 Once running, open your web browser and navigate to the provided address (typically `http://localhost:8888`) to begin monitoring your systems.
 
+## Docker Support
+
+Added simple docker support.
+
+```bash
+  mkdir data
+```
+
+add your collectd data
+
+```bash
+  docker-compose build
+  docker-compose up
+```
+
 ## 🔗 Links
 
 - **Project Homepage:** [Collectd-web on GitHub](http://github.com/httpdss/collectd-web)
