@@ -27,7 +27,7 @@ use URI::Escape    ('uri_escape');
 use RRDs           ();
 use Data::Dumper   ();
 use JSON ('to_json');
-our $Config   = "/etc/collectd/collection.conf";
+our $Config   = "/etc/collection.conf";
 our @DataDirs = ();
 our $LibDir;
 our $make_transparent = 1;
@@ -365,8 +365,7 @@ sub list_hosts_json {
     $| = 1;
     print STDOUT header(
         -Content_Type => 'application/json',
-        -Charset      => 'utf-8',
-        -Expires      => '+1h'
+        -Charset      => 'utf-8'
     );
     print STDOUT to_json( $host_ref, { pretty => 1, indent => 2 } );
     return (1);
@@ -466,8 +465,8 @@ sub action_show_host_json
     $| = 1;
 
     print STDOUT header (-Content_Type => 'application/json',
-    -Charset => 'utf-8',
-    -Expires => '+1h');
+    -Charset => 'utf-8'
+    );
     print STDOUT to_json ([sort (keys %$all_plugins)],
     { pretty => 1, indent => 2 }) . "\n";
     return (1);
@@ -755,8 +754,7 @@ sub action_show_plugin_json {
     $| = 1;
 
     print STDOUT header (-Content_Type => 'application/json',
-    -Charset => 'utf-8',
-    -Expires => '+1h');
+    -Charset => 'utf-8');
     print STDOUT to_json ({hour => [@plugin_list_hour],
                            day =>  [@plugin_list_day] ,
                            week => [@plugin_list_week],
@@ -936,7 +934,6 @@ sub main {
         $| = 1;
         if(defined ($Args->{'enable-caching'})){
             print STDOUT header(-Content_Type => $ContentType,
-                                -Expires=>'+1h',
                                 -Cache_Control=>'maxage=3600',
                                 -Pragma=>'public');
         } else {
@@ -961,7 +958,6 @@ sub main {
         $| = 1;
         if(defined ($Args->{'enable-caching'})){
             print STDOUT header(-Content_Type => $ContentType,
-                                -Expires=>'+1h',
                                 -Cache_Control=>'maxage=3600',
                                 -Pragma=>'public' );
         } else {
@@ -2142,6 +2138,45 @@ sub load_graph_definitions {
             'GPRINT:used_max:MAX:%5.1lf%s Max,',
             'GPRINT:used_avg:LAST:%5.1lf%s Last'
         ],
+        mysql_bpool_bytes => [
+            '-v', 'Bytes/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Bytes/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_bpool_counters => [
+            '-v', 'Issues/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Issues/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_bpool_pages => [
+            '-v', 'Pages/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Pages/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
         mysql_commands => [
             '-v',
             'Issues/s',
@@ -2165,6 +2200,104 @@ sub load_graph_definitions {
             "AREA:val_max#$HalfBlue",
             "AREA:val_min#$Canvas",
             "LINE1:val_avg#$FullBlue:Issues/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_innodb_data => [
+            '-v',
+            'Issues/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Issues/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_innodb_dblwr => [
+            '-v',
+            'Issues/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Issues/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_innodb_log => [
+            '-v',
+            'Issues/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Issues/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_innodb_locks => [
+            '-v',
+            'Issues/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Issues/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_innodb_pages => [
+            '-v',
+            'Issues/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Issues/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_innodb_row_lock => [
+            '-v',
+            'Locks/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Rows/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_innodb_rows => [
+            '-v',
+            'Rows/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Rows/s",
             'GPRINT:val_min:MIN:%5.2lf Min,',
             'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
             'GPRINT:val_max:MAX:%5.2lf Max,',
@@ -2251,6 +2384,33 @@ sub load_graph_definitions {
             'GPRINT:queries_avg:AVERAGE:%5.0lf Avg,',
             'GPRINT:queries_max:MAX:%5.0lf Max,',
             'GPRINT:queries_avg:LAST:%5.0lf Last\l'
+        ],
+        mysql_select => [
+            '-v', 'Selects/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Selects/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
+        ],
+        mysql_sort => [
+            '-v',
+            'Issues/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Issues/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
         ],
         mysql_threads => [
             '-v',
@@ -2432,6 +2592,20 @@ sub load_graph_definitions {
             'GPRINT:avg:AVERAGE:%9.3lf Average,',
             'GPRINT:max:MAX:%9.3lf Max,',
             'GPRINT:avg:LAST:%9.3lf Last\l'
+        ],
+        operations => [
+            '-v',
+            'Operations/s',
+            "DEF:val_avg={file}:value:AVERAGE",
+            "DEF:val_min={file}:value:MIN",
+            "DEF:val_max={file}:value:MAX",
+            "AREA:val_max#$HalfBlue",
+            "AREA:val_min#$Canvas",
+            "LINE1:val_avg#$FullBlue:Operations/s",
+            'GPRINT:val_min:MIN:%5.2lf Min,',
+            'GPRINT:val_avg:AVERAGE:%5.2lf Avg,',
+            'GPRINT:val_max:MAX:%5.2lf Max,',
+            'GPRINT:val_avg:LAST:%5.2lf Last'
         ],
         partition => [
             "DEF:rbyte_avg={file}:rbytes:AVERAGE",
@@ -3022,6 +3196,20 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%4.1lf Max,',
             'GPRINT:avg:LAST:%4.1lf Last\l'
         ],
+        records => [
+            '-v',
+            'Records',
+            'DEF:temp_avg={file}:value:AVERAGE',
+            'DEF:temp_min={file}:value:MIN',
+            'DEF:temp_max={file}:value:MAX',
+            "AREA:temp_max#$HalfBlue",
+            "AREA:temp_min#$Canvas",
+            "LINE1:temp_avg#$FullBlue:Records",
+            'GPRINT:temp_min:MIN:%.3lf%s Min,',
+            'GPRINT:temp_avg:AVERAGE:%.3lf%s Avg,',
+            'GPRINT:temp_max:MAX:%.3lf%s Max,',
+            'GPRINT:temp_avg:LAST:%.3lf%s Last\l'
+        ],
         qtype => [
             'DEF:avg={file}:value:AVERAGE',
             'DEF:min={file}:value:MIN',
@@ -3606,10 +3794,10 @@ sub load_graph_definitions {
             'DEF:max={file}:value:MAX',
             "AREA:avg#$HalfRed",
             "LINE1:avg#$FullRed:Bytes",
-            'GPRINT:min:MIN:%9.3lf Min,',
-            'GPRINT:avg:AVERAGE:%9.3lf Average,',
-            'GPRINT:max:MAX:%9.3lf Max,',
-            'GPRINT:avg:LAST:%9.3lf Last'
+            'GPRINT:min:MIN:%3.3lf%s Min,',
+            'GPRINT:avg:AVERAGE:%3.3lf%s Average,',
+            'GPRINT:max:MAX:%3.3lf%s Max,',
+            'GPRINT:avg:LAST:%3.3lf%s Last'
         ],
 # nm-4Sept13 filecount - END
 # nm-4Sept13 contextswitch
