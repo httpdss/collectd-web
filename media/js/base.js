@@ -112,7 +112,7 @@ function get_timespan_start (timespan) {
     var out_date = server_now();
     switch (timespan) {
         case "hour":
-            out_date.add(-1).hours();
+            out_date.add(-4).hours();
             break;
         case "day":
             out_date.add(-1).days();

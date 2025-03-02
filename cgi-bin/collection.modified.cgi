@@ -1188,9 +1188,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%5.1lf%sAh Last\l'
         ],
         contextswitch => [
-            'DEF:avg={file}:contextswitches:AVERAGE',
-            'DEF:min={file}:contextswitches:MIN',
-            'DEF:max={file}:contextswitches:MAX',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Switches/s",
