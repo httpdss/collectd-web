@@ -4,4 +4,5 @@ mobile usr/share/collectd-web
 index.html usr/share/collectd-web
 runserver.py usr/share/collectd-web
 debian/collectd-web.service usr/lib/systemd/system
+debian/collectd-web.init etc/init.d
 debian/collectd-web.nginx.conf usr/share/collectd-web/examples/
