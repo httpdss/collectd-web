@@ -1,3 +1,9 @@
+collectd-web (0.11.3) bookworm; urgency=low
+
+  * Add init.d service file.
+
+ -- Kenneth Belitzky <kenny@belitzky.com>  Sun, 03 Mar 2025 19:43:00 -0300
+
 collectd-web (0.11.1) bookworm; urgency=low
 
   * Add systemd service file.
