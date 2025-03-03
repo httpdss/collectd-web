@@ -1,3 +1,9 @@
+collectd-web (0.11.5) bookworm; urgency=low
+
+  * Fix init service file.
+
+ -- Kenneth Belitzky <kenny@belitzky.com>  Sun, 03 Mar 2025 19:47:00 -0300
+
 collectd-web (0.11.3) bookworm; urgency=low
 
   * Add init.d service file.
