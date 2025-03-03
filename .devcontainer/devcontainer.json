@@ -20,7 +20,8 @@
         "davidanson.vscode-markdownlint",
         "foxundermoon.shell-format",
         "gruntfuggly.todo-tree",
-        "cfgweb.vscode-perl"
+        "cfgweb.vscode-perl",
+        "dawidd6.debian-vscode"
       ]
     }
   },
