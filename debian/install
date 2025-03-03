@@ -3,6 +3,6 @@ media usr/share/collectd-web
 mobile usr/share/collectd-web
 index.html usr/share/collectd-web
 runserver.py usr/share/collectd-web
-services/debian/collectd-web.service usr/lib/systemd/system
-services/debian/collectd-web etc/init.d
+debian/services/collectd-web.service usr/lib/systemd/system
+debian/services/collectd-web etc/init.d
 debian/collectd-web.nginx.conf usr/share/collectd-web/examples/

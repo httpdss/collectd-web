@@ -1,4 +1,4 @@
-collectd-web (0.11.7) bookworm; urgency=low
+collectd-web (0.11.8) bookworm; urgency=low
 
   * Fix init service file.
 
