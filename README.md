@@ -54,7 +54,7 @@ datadir: "/etc/collectd/collectd-web/"
 
 To install **collectd-web**, you need to download the latest `.deb` package from the [GitHub Releases](https://github.com/httpdss/collectd-web/releases) page.
 
-### Steps:
+### Steps
 
 1. **Find the Latest Release**
    Navigate to the [collectd-web Releases](https://github.com/httpdss/collectd-web/releases) page.
@@ -78,6 +78,13 @@ To install **collectd-web**, you need to download the latest `.deb` package from
 
    ```bash
    sudo apt-get install -f
+   ```
+
+5. **Start the Service**
+   Finally, start the service:
+
+   ```bash
+   sudo service collectd-web start
    ```
 
 ## 🌐 Usage
