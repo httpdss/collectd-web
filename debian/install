@@ -2,4 +2,5 @@ cgi-bin usr/share/collectd-web
 media usr/share/collectd-web
 mobile usr/share/collectd-web
 index.html usr/share/collectd-web
-dists/debian/collectd-web.nginx.conf usr/share/collectd-web/examples/
+runserver.py usr/share/collectd-web
+debian/collectd-web.nginx.conf usr/share/collectd-web/examples/

@@ -12,4 +12,8 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     libipc-run-perl \
     fonts-recommended \
     python3-dotenv \
+    dpkg-dev \
+    debhelper \
+    devscripts \
+    build-essential \
     && apt-get clean && rm -rf /var/lib/apt/lists/*

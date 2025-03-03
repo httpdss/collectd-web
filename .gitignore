@@ -1,3 +1,10 @@
 docs/_build/*
 .env
 **/node_modules
+debian/collectd-web/**
+/debian/.debhelper/
+/debian/files
+/debian/debhelper-build-stamp
+/debian/*.substvars
+/debian/generated/
+/debian/tmp/
