@@ -1,4 +1,4 @@
-collectd-web (0.5.0+20250203) bookworm; urgency=low
+collectd-web (0.5.0+20250303) bookworm; urgency=low
 
   * Sync code with upstream.
 
