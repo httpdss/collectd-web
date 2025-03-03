@@ -3,4 +3,5 @@ media usr/share/collectd-web
 mobile usr/share/collectd-web
 index.html usr/share/collectd-web
 runserver.py usr/share/collectd-web
+collectd-web.service usr/lib/systemd/system
 debian/collectd-web.nginx.conf usr/share/collectd-web/examples/

@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+if [ "$1" = "remove" ]; then
+    systemctl stop collectd-web || true
+    systemctl disable collectd-web || true
+    systemctl daemon-reload
+fi

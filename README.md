@@ -52,22 +52,49 @@ datadir: "/etc/collectd/collectd-web/"
 
 ### Debian-based Installation
 
-If you are using a Debian-based distribution, install the necessary dependencies:
+To install **collectd-web**, you need to download the latest `.deb` package from the [GitHub Releases](https://github.com/httpdss/collectd-web/releases) page.
 
-```bash
-sudo apt update
-sudo apt install librrds-perl libjson-perl libhtml-parser-perl libcgi-pm-perl fonts-recommended python3-dotenv
-```
+### Steps:
+
+1. **Find the Latest Release**
+   Navigate to the [collectd-web Releases](https://github.com/httpdss/collectd-web/releases) page.
+
+2. **Download the `.deb` File**
+   You can manually download the latest `.deb` file from the release assets or use the following command to fetch it automatically:
+
+   ```bash
+   wget $(curl -s https://api.github.com/repos/httpdss/collectd-web/releases/latest | grep "browser_download_url.*\.deb" | cut -d '"' -f 4)
+   ```
+
+3. **Install the Package**
+   Once downloaded, install it using:
+
+   ```bash
+   sudo dpkg -i collectd-web*.deb
+   ```
+
+4. **Resolve Dependencies (if needed)**
+   If there are missing dependencies, run:
+
+   ```bash
+   sudo apt-get install -f
+   ```
 
 ## 🌐 Usage
+
+### Standalone Server
 
 To start the Collectd-web standalone server, simply run:
 
 ```bash
-python runserver.py
+sudo service collectd-web start
 ```
 
 Once running, open your web browser and navigate to the provided address (typically `http://localhost:8888`) to begin monitoring your systems.
+
+### Nginx Configuration
+
+Check the [Nginx configuration](debian/collectd-web.nginx.conf) for setting up Collectd-web with Nginx.
 
 ### Apache Configuration
 
