@@ -1,6 +1,11 @@
 #!/bin/sh
 set -e
 
+if [ "$1" = "configure" ]; then
+    systemctl daemon-reload
+    systemctl enable collectd-web
+fi
+
 echo "Please install fcgiwrap and nginx, then copy or link the conf file:"
 echo "  ln -s /usr/share/collectd-web/examples/collectd-web.nginx.conf /etc/nginx/conf.d/"
 echo "then reload nginx to enable collectd-web."

@@ -1,3 +1,9 @@
+collectd-web (0.11.1) bookworm; urgency=low
+
+  * Add systemd service file.
+
+ -- Kenneth Belitzky <kenny@belitzky.com>  Sun, 03 Feb 2025 19:43:00 -0300
+
 collectd-web (0.5.0+20250303) bookworm; urgency=low
 
   * Sync code with upstream.

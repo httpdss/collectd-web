@@ -1,0 +1,17 @@
+[Unit]
+Description=Collectd Web UI
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /usr/share/collectd-web/runserver.py
+WorkingDirectory=/usr/share/collectd-web
+Restart=always
+User=collectd
+Group=collectd
+Environment=PYTHONUNBUFFERED=1
+StandardOutput=journal
+StandardError=journal
+ExecStop=/bin/kill -SIGTERM $MAINPID
+
+[Install]
+WantedBy=multi-user.target
