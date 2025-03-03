@@ -1,3 +1,9 @@
+collectd-web (0.11.9) bookworm; urgency=low
+
+  * Fix systemd service file. add missing Environment variables.
+
+ -- Kenneth Belitzky <kenny@belitzky.com>  Sun, 03 Mar 2025 19:48:00 -0300
+
 collectd-web (0.11.8) bookworm; urgency=low
 
   * Fix init service file.

@@ -7,6 +7,7 @@ ExecStart=/usr/bin/python3 /usr/share/collectd-web/runserver.py
 WorkingDirectory=/usr/share/collectd-web
 Restart=always
 Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONPATH=/usr/lib/python3/dist-packages:$PYTHONPATH
 StandardOutput=journal
 StandardError=journal
 ExecStop=/bin/kill -SIGTERM $MAINPID
