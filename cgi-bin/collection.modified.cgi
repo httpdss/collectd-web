@@ -1063,7 +1063,7 @@ sub load_graph_definitions {
             'GPRINT:avg_msec:LAST:%02h\:%02m Total:valstrfduration',
             'GPRINT:avg_perc:LAST:[ %.0lf%% ]\l'
         ],
-        aapache_bytes => [
+        apache_bytes => [
             'DEF:min_raw={file}:value:MIN',
             'DEF:avg_raw={file}:value:AVERAGE',
             'DEF:max_raw={file}:value:MAX',
