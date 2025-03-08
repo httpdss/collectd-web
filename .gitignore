@@ -1,6 +1,8 @@
-docs/_build/*
 .env
 **/node_modules
+
+docs/_build/*
+
 debian/collectd-web/**
 /debian/.debhelper/
 /debian/files
