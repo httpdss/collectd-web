@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Collectd-web</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" crossorigin="anonymous">
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <style>
+    body {
+      background-color: #2b2b2b;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+    }
+
+    .sidebar {
+      min-height: 100vh;
+      border-right: 1px solid #444;
+    }
+
+    .nav-link {
+      color: #cccccc;
+    }
+
+    .nav-link:hover {
+      color: #ffffff;
+    }
+
+    code,
+    pre {
+      background-color: #333333 !important;
+      color: #ffffff !important;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #ffffff;
+    }
+
+    hr {
+      border-color: #444;
+    }
+
+    .section-title i {
+      margin-right: 6px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Collectd-web</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-md-2 sidebar p-3">
+        <h5 class="mb-3">Menu</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="#features"><i class="fas fa-chart-line"></i> Features</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#installation"><i class="fas fa-cogs"></i> Installation</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#usage"><i class="fas fa-play-circle"></i> Usage</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#links"><i class="fas fa-link"></i> Links</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#license"><i class="fas fa-file-alt"></i> License</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#funding"><i class="fas fa-donate"></i> Funding</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contributing"><i class="fas fa-users"></i> Contributing</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Main Content -->
+      <div class="col-md-10 p-4">
+        <h1 class="mb-4">Collectd-web: A User-Friendly Interface for Collectd</h1>
+        <p>
+          Collectd-web provides a sleek, intuitive, and customizable web interface for Collectd – the robust resource
+          monitoring tool.
+          Originally, Collectd’s bundled frontend was designed only for testing, leaving its full potential untapped.
+          Collectd-web bridges
+          that gap by offering an efficient, user-centered experience for monitoring system statistics.
+        </p>
+
+        <hr>
+
+        <!-- Features Section -->
+        <section id="features" class="mb-5">
+          <h2 class="section-title"><i class="fas fa-chart-line"></i> Features</h2>
+          <ul>
+            <li><strong>Intuitive Dashboard:</strong> Easily visualize system statistics with a responsive design.</li>
+            <li><strong>Customizable Interface:</strong> Adjust the display to highlight the data that matters to you.
+            </li>
+            <li><strong>Quick Deployment:</strong> Launch the built-in, standalone web server with minimal setup.</li>
+            <li><strong>Efficient Monitoring:</strong> Optimized for performance and usability in monitoring diverse
+              systems.</li>
+          </ul>
+        </section>
+
+        <!-- Installation Section -->
+        <section id="installation" class="mb-5">
+          <h2 class="section-title"><i class="fas fa-cogs"></i> Installation</h2>
+
+          <h4>Prerequisites</h4>
+          <p>
+            Before installing Collectd-web, please ensure:
+          </p>
+          <ul>
+            <li>
+              <strong>Directory Structure:</strong> Organize your files so that each host’s data resides in its own
+              sub-directory named after the host.
+              <pre><code>/etc/collectd/collectd-web/localhost/</code></pre>
+            </li>
+            <li>
+              <strong>Python 3.6+ Requirement:</strong> The standalone web server requires Python version 3.6 or higher.
+            </li>
+          </ul>
+
+          <h4>Configuration</h4>
+          <p>
+            After setting up your directories, create a configuration file to define your data directory. For example,
+            create <code>/etc/collectd/collection.conf</code> with the following content:
+          </p>
+          <pre><code>datadir: "/etc/collectd/collectd-web/"</code></pre>
+
+          <h4>Debian-based Installation</h4>
+          <p>
+            To install <strong>collectd-web</strong>, download the latest <code>.deb</code> package from the
+            <a href="https://github.com/httpdss/collectd-web/releases" target="_blank" rel="noopener noreferrer">GitHub
+              Releases</a> page.
+          </p>
+
+          <ol>
+            <li><strong>Find the Latest Release</strong><br>
+              Navigate to the <a href="https://github.com/httpdss/collectd-web/releases" target="_blank">collectd-web
+                Releases</a> page.
+            </li>
+            <li><strong>Download the <code>.deb</code> File</strong><br>
+              You can manually download or use the following command:
+              <pre><code>wget $(curl -s https://api.github.com/repos/httpdss/collectd-web/releases/latest | grep "browser_download_url.*\.deb" | cut -d '"' -f 4)</code></pre>
+            </li>
+            <li><strong>Install the Package</strong><br>
+              <pre><code>sudo dpkg -i collectd-web*.deb</code></pre>
+            </li>
+            <li><strong>Resolve Dependencies (if needed)</strong><br>
+              <pre><code>sudo apt-get install -f</code></pre>
+            </li>
+            <li><strong>Start the Service</strong><br>
+              <pre><code>sudo service collectd-web start</code></pre>
+            </li>
+          </ol>
+        </section>
+
+        <!-- Usage Section -->
+        <section id="usage" class="mb-5">
+          <h2 class="section-title"><i class="fas fa-play-circle"></i> Usage</h2>
+          <h4>Standalone Server</h4>
+          <p>
+            To start the Collectd-web standalone server, simply run:
+          </p>
+          <pre><code>sudo service collectd-web start</code></pre>
+          <p>
+            Once running, open your web browser and navigate to the provided address (typically
+            <code>http://localhost:8888</code>)
+            to begin monitoring your systems.
+          </p>
+
+          <h4>Nginx Configuration</h4>
+          <p>
+            Check the <a href="debian/collectd-web.nginx.conf" target="_blank">Nginx configuration</a> for setting up
+            Collectd-web with Nginx.
+          </p>
+
+          <h4>Apache Configuration</h4>
+          <p>Add these lines to your apache vhost configuration:</p>
+          <pre><code>
+Alias /collectd-web/collectd-web /path/to/vhost/httdocs/collectd-web
+<Directory /path/to/vhost/httdocs/collectd-web/cgi-bin>
+  Options +ExecCGI +FollowSymLinks
+  AddHandler cgi-script .cgi .pl
+</Directory>
+        </code></pre>
+        </section>
+
+        <!-- Links Section -->
+        <section id="links" class="mb-5">
+          <h2 class="section-title"><i class="fas fa-link"></i> Links</h2>
+          <ul>
+            <li>
+              <strong>Project Homepage:</strong>
+              <a href="http://github.com/httpdss/collectd-web" target="_blank">Collectd-web on GitHub</a>
+            </li>
+            <li>
+              <strong>Code of Conduct:</strong> Please review our
+              <a href="code_of_conduct.md" target="_blank">Code of Conduct</a> for community guidelines.
+            </li>
+          </ul>
+        </section>
+
+        <!-- License Section -->
+        <section id="license" class="mb-5">
+          <h2 class="section-title"><i class="fas fa-file-alt"></i> License</h2>
+          <p>
+            Collectd-web is licensed under the <strong>Apache 2.0 License</strong>.
+            For full license details, please refer to the <code>LICENSE</code> file.
+          </p>
+        </section>
+
+        <!-- Funding Section -->
+        <section id="funding" class="mb-5">
+          <h2 class="section-title"><i class="fas fa-donate"></i> Funding</h2>
+          <p>
+            If you find Collectd-web useful, please consider supporting its development. Donations can be made via
+            <a href="https://www.paypal.me/httpdss" target="_blank">PayPal</a>. Your support is greatly appreciated!
+          </p>
+        </section>
+
+        <!-- Contributing Section -->
+        <section id="contributing" class="mb-5">
+          <h2 class="section-title"><i class="fas fa-users"></i> Contributing</h2>
+          <p>
+            We welcome contributions from the community. For details on how to get involved,
+            please see our <a href=".github/CONTRIBUTING.md" target="_blank">CONTRIBUTING.md</a>.
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS (optional if you need dynamic components) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>

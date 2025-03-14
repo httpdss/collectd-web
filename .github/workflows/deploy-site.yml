@@ -2,7 +2,11 @@
 name: Deploy static content to Pages
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - 'site/**'
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
