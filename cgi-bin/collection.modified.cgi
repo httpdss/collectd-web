@@ -31,7 +31,7 @@ use Data::Dumper   ();
 use JSON ('to_json');
 our $config_file   = "/etc/collectd/collection.conf";
 if ($Config{osname} eq q{freebsd}){
-  $config_file = "/usr/local/etc/collectd.conf";
+  $config_file = "/usr/local/etc/collectd-web.conf";
 }
 our @DataDirs = ();
 our $LibDir;
@@ -838,13 +838,29 @@ sub action_show_graph {
 
     #print STDERR Data::Dumper->Dump ([$Args], ['Args']);
     # FIXME
-    if ( exists( $MetaGraphDefs->{$type} ) ) {
-        my %types = _find_types( $host, $plugin, $plugin_instance );
-        return $MetaGraphDefs->{$type}
-          ->( $host, $plugin, $plugin_instance, $type, $types{$type} );
+
+    # REDIS plugin generates results for MEMORY, but default RRD memory definition
+    # causes error. That's why we should redifine rrd_args for redis/memory graph
+    #
+    if( $plugin eq 'redis' && $type eq 'memory' ) {
+        @rrd_args = @{ $GraphDefs->{'gauge'} };
+    } else {
+        if ( exists( $MetaGraphDefs->{$type} ) ) {
+            my %types = _find_types( $host, $plugin, $plugin_instance );
+            return $MetaGraphDefs->{$type}
+              ->( $host, $plugin, $plugin_instance, $type, $types{$type} );
+        }
     }
     return if ( !defined( $GraphDefs->{$type} ) );
-    @rrd_args = @{ $GraphDefs->{$type} };
+
+    # REDIS plugin generates results for MEMORY, but default RRD memory definition
+    # causes error. That's why we should redifine rrd_args for redis/memory graph
+    #
+    if( $plugin eq 'redis' && $type eq 'memory' ) {
+        @rrd_args = @{ $GraphDefs->{'gauge'} };
+    } else {
+        @rrd_args = @{ $GraphDefs->{$type} };
+    }
     my $short_title =
         ( defined($plugin_instance) ? "$plugin_instance/" : '' ) . "$type"
       . ( defined($type_instance)   ? "-$type_instance"   : '' );
@@ -2637,6 +2653,18 @@ sub load_graph_definitions {
             'GPRINT:val_max:MAX:%5.2lf Max,',
             'GPRINT:val_avg:LAST:%5.2lf Last'
         ],
+        mysql_slow_queries => [
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullBlue:Queries/s",
+            'GPRINT:min:MIN:%6.2lf Min,',
+            'GPRINT:avg:AVERAGE:%6.2lf Avg,',
+            'GPRINT:max:MAX:%6.2lf Max,',
+            'GPRINT:avg:LAST:%6.2lf Last'
+        ],
         mysql_sort => [
             '-v',
             'Issues/s',
@@ -4100,8 +4128,15 @@ sub load_graph_definitions {
     };
     $GraphDefs->{'if_multicast'}        = $GraphDefs->{'ipt_packets'};
     $GraphDefs->{'if_tx_errors'}        = $GraphDefs->{'if_rx_errors'};
-    $GraphDefs->{'dns_qtype'}           = $GraphDefs->{'dns_opcode'};
-    $GraphDefs->{'dns_rcode'}           = $GraphDefs->{'dns_opcode'};
+    #$GraphDefs->{'dns_rcode'}           = $GraphDefs->{'dns_opcode'};
+    #$GraphDefs->{'dns_qtype'}           = $GraphDefs->{'dns_opcode'};
+    $GraphDefs->{'ps_code'}             = $GraphDefs->{'ps_state'};
+    $GraphDefs->{'ps_data'}             = $GraphDefs->{'ps_state'};
+    $GraphDefs->{'ps_stacksize'}        = $GraphDefs->{'ps_state'};
+    $GraphDefs->{'ps_vm'}               = $GraphDefs->{'ps_state'};
+    $GraphDefs->{'full_join'}        = $GraphDefs->{'mysql_qcache'};
+    $GraphDefs->{'mysql_sort_merge_passes'} = $GraphDefs->{'mysql_slow_queries'};
+    $GraphDefs->{'mysql_sort_rows'} = $GraphDefs->{'mysql_slow_queries'};
 # jaf-18aug11 additional Varnish graphs
     $GraphDefs->{'memcached_command'}       = $GraphDefs->{'total_operations'};
     $GraphDefs->{'memcached_connections'}   = $GraphDefs->{'apache_connections'};
@@ -4114,6 +4149,22 @@ sub load_graph_definitions {
 # jaf-18aug11 END
     $GraphDefs->{'vmpage_io-memory'}    = $GraphDefs->{'vmpage_io'};
     $GraphDefs->{'vmpage_io-swap'}      = $GraphDefs->{'vmpage_io'};
+    $GraphDefs->{'cache_operation'}     = $GraphDefs->{'cache_result'};
+    $GraphDefs->{'memory_throttle_count'} = $GraphDefs->{'cache_result'};
+    $GraphDefs->{'hash_collisions'}     = $GraphDefs->{'cache_result'};
+    $GraphDefs->{'operations'} = $GraphDefs->{'derive'};
+    $GraphDefs->{'queue_length'} = $GraphDefs->{'gauge'};
+    $GraphDefs->{'total_values'} = $GraphDefs->{'gauge'};
+    $GraphDefs->{'total_events'}    = $GraphDefs->{'gauge'};
+    $GraphDefs->{'current_connections'} = $GraphDefs->{'connections'};
+    $GraphDefs->{'total_connections'}   = $GraphDefs->{'connections'};
+    $GraphDefs->{'blocked_clients'}     = $GraphDefs->{'gauge'};
+    $GraphDefs->{'evicted_keys'}        = $GraphDefs->{'derive'};
+    $GraphDefs->{'expired_keys'}        = $GraphDefs->{'derive'};
+    $GraphDefs->{'memory_lua'}          = $GraphDefs->{'gauge'};
+    $GraphDefs->{'operations_per_second'}    = $GraphDefs->{'gauge'};
+    $GraphDefs->{'volatile_changes'}    = $GraphDefs->{'gauge'};
+    $GraphDefs->{'pending_operations'} = $GraphDefs->{'derive'};
     $MetaGraphDefs->{'cpu'}             = \&meta_graph_cpu;
     $MetaGraphDefs->{'df_complex'}      = \&meta_graph_df_complex;
     $MetaGraphDefs->{'dns_qtype'}       = \&meta_graph_dns;
@@ -4121,15 +4172,27 @@ sub load_graph_definitions {
     $MetaGraphDefs->{'if_rx_errors'}    = \&meta_graph_if_rx_errors;
     $MetaGraphDefs->{'if_tx_errors'}    = \&meta_graph_if_rx_errors;
     $MetaGraphDefs->{'memory'}          = \&meta_graph_memory;
+    $MetaGraphDefs->{'pubsub'}          = \&meta_graph_memory;
     $MetaGraphDefs->{'nfs_procedure'}   = \&meta_graph_nfs_procedure;
     $MetaGraphDefs->{'pkg'}             = \&meta_graph_pkg;
     $MetaGraphDefs->{'ps_state'}        = \&meta_graph_ps_state;
     $MetaGraphDefs->{'swap'}            = \&meta_graph_swap;
     $MetaGraphDefs->{'mysql_commands'}  = \&meta_graph_mysql_commands;
     $MetaGraphDefs->{'mysql_handler'}   = \&meta_graph_mysql_commands;
+    $MetaGraphDefs->{'mysql_select'}    = \&meta_graph_mysql_commands;
+    $MetaGraphDefs->{'mysql_sort'}      = \&meta_graph_mysql_commands;
     $MetaGraphDefs->{'tcp_connections'} = \&meta_graph_tcp_connections;
     $MetaGraphDefs->{'vmpage_number'}   = \&meta_graph_vmpage_number;
     $MetaGraphDefs->{'vmpage_action'}   = \&meta_graph_vmpage_action;
+    $MetaGraphDefs->{'fscache_stat'}    = \&meta_graph_dns;
+    $MetaGraphDefs->{'num_class'}       = \&meta_graph_dns;
+    $MetaGraphDefs->{'num_type'}        = \&meta_graph_dns;
+    $MetaGraphDefs->{'num_opcode'}      = \&meta_graph_dns;
+    $MetaGraphDefs->{'num_rcode'}       = \&meta_graph_dns;
+    $MetaGraphDefs->{'thread1_num'}     = \&meta_graph_dns;
+    $MetaGraphDefs->{'thread2_num'}     = \&meta_graph_dns;
+    $MetaGraphDefs->{'thread3_num'}     = \&meta_graph_dns;
+    $MetaGraphDefs->{'thread4_num'}     = \&meta_graph_dns;
 }    # load_graph_definitions
 
 sub meta_graph_generic_stack {
@@ -4384,6 +4447,7 @@ sub meta_graph_dns
 
   for (@$type_instances)
   {
+    next if /#/;
     my $inst = $_;
     my $file = '';
     my $title = $opts->{'title'};
