@@ -65,5 +65,6 @@ folders:
         - github/workflows/pre-commit
         - github/workflows/release-drafter
         - github/workflows/run-struct
+        - github/workflows/stale
       with:
         github_token: ${{ secrets.STRUCT_RUN_TOKEN }}
