@@ -45,13 +45,13 @@ jobs:
         run: cat results.md >> $GITHUB_STEP_SUMMARY
 
       - name: Upload Markdown Test Results
-        uses: actions/upload-artifact@v4.6.1
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: test-results-markdown
           path: results.md
 
       - name: Upload TAP Test Results
-        uses: actions/upload-artifact@v4.6.1
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: test-results-tap
           path: tap.out
