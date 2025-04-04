@@ -4338,7 +4338,7 @@ sub meta_graph_cpu {
     $opts->{'rrd_opts'} = [ '-v', 'Percent' ];
     my @files = ();
     $opts->{'colors'} = {
-        'idle'      => 'ffffff',
+        'idle'      => '333333',
         'nice'      => '00e000',
         'user'      => '0000ff',
         'wait'      => 'ffb000',
