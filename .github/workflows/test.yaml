@@ -18,7 +18,7 @@ jobs:
           perl-version: '5.36'
 
       - name: Setup Python
-        uses: actions/setup-python@v5.4.0
+        uses: actions/setup-python@v5.5.0
         with:
           python-version: '3.x'
 
@@ -45,13 +45,13 @@ jobs:
         run: cat results.md >> $GITHUB_STEP_SUMMARY
 
       - name: Upload Markdown Test Results
-        uses: actions/upload-artifact@v4.6.1
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: test-results-markdown
           path: results.md
 
       - name: Upload TAP Test Results
-        uses: actions/upload-artifact@v4.6.1
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: test-results-tap
           path: tap.out
