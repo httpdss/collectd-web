@@ -430,6 +430,18 @@ sub _get_faded_color {
     return ($ret);
 }    # _get_faded_color
 
+# Sanitize a string for use as an RRDTool variable name (DEF/CDEF vname)
+# - Replace any non [A-Za-z0-9_] with underscores
+# - Ensure the first character is not a digit by prefixing an underscore if needed
+sub _rrd_vname {
+    my $name = shift;
+    $name = '' unless defined $name;
+    $name =~ s/[^A-Za-z0-9_]/_/g;
+    $name =~ s/^([^A-Za-z_])/_$1/;
+    $name = 'v' if ($name eq '');
+    return $name;
+}
+
 sub _custom_sort_arrayref {
     my $array_ref  = shift;
     my $array_sort = shift;
@@ -4252,37 +4264,42 @@ sub meta_graph_generic_stack {
 	    }
 	}
 
+        my $vname = _rrd_vname($inst_name);
         push( @cmd,
-            qq#DEF:${inst_name}_min=$file:value:MIN#,
-            qq#DEF:${inst_name}_avg=$file:value:AVERAGE#,
-            qq#DEF:${inst_name}_max=$file:value:MAX#,
+            qq#DEF:${vname}_min=$file:value:MIN#,
+            qq#DEF:${vname}_avg=$file:value:AVERAGE#,
+            qq#DEF:${vname}_max=$file:value:MAX#,
         );
         if ( $opts->{'ds'} eq 'rate' ) {
             push( @cmd,
-                qq#CDEF:${inst_name}_nnl=${inst_name}_avg,UN,0,${inst_name}_avg,IF#
+                qq#CDEF:${vname}_nnl=${vname}_avg,UN,0,${vname}_avg,IF#
             );
         } else {
             push( @cmd,
-                qq#CDEF:${inst_name}_nnl=${inst_name}_avg,UN,0,${inst_name}_avg,IF,STEPWIDTH,*#
+                qq#CDEF:${vname}_nnl=${vname}_avg,UN,0,${vname}_avg,IF,STEPWIDTH,*#
             );
         }
     }
     {
         my $inst_data = $sources->[ @$sources - 1 ];
         my $inst_name = $inst_data->{'name'};
-        push( @cmd, qq#CDEF:${inst_name}_stk=${inst_name}_nnl# );
+        my $vname     = _rrd_vname($inst_name);
+        push( @cmd, qq#CDEF:${vname}_stk=${vname}_nnl# );
     }
     for ( my $i = 1 ; $i < @$sources ; $i++ ) {
         my $inst_data0 = $sources->[ @$sources - ( $i + 1 ) ];
         my $inst_data1 = $sources->[ @$sources - $i ];
         my $inst_name0 = $inst_data0->{'name'};
         my $inst_name1 = $inst_data1->{'name'};
+        my $vname0     = _rrd_vname($inst_name0);
+        my $vname1     = _rrd_vname($inst_name1);
         push( @cmd,
-            qq#CDEF:${inst_name0}_stk=${inst_name0}_nnl,${inst_name1}_stk,+# );
+            qq#CDEF:${vname0}_stk=${vname0}_nnl,${vname1}_stk,+# );
     }
     for ( my $i = 0 ; $i < @$sources ; $i++ ) {
         my $inst_data = $sources->[$i];
         my $inst_name = $inst_data->{'name'};
+        my $vname     = _rrd_vname($inst_name);
         my $legend    = sprintf( '%-*s\t', $max_inst_name, $inst_name );
         my $line_color;
         my $area_color;
@@ -4297,22 +4314,22 @@ sub meta_graph_generic_stack {
         }
         $area_color = _color_to_string( _get_faded_color($area_color) );
         push( @cmd,
-            qq(AREA:${inst_name}_stk#$area_color),
-            qq(LINE1:${inst_name}_stk#$line_color:$legend),
+            qq(AREA:${vname}_stk#$area_color),
+            qq(LINE1:${vname}_stk#$line_color:$legend),
         );
         if ( $opts->{'ds'} eq 'rate' ) {
             push( @cmd,
-                qq(GPRINT:${inst_name}_min:MIN:$number_format Min,),
-                qq(GPRINT:${inst_name}_avg:AVERAGE:$number_format Avg,),
-                qq(GPRINT:${inst_name}_max:MAX:$number_format Max,),
-                qq(GPRINT:${inst_name}_avg:LAST:$number_format Last\\l),
+                qq(GPRINT:${vname}_min:MIN:$number_format Min,),
+                qq(GPRINT:${vname}_avg:AVERAGE:$number_format Avg,),
+                qq(GPRINT:${vname}_max:MAX:$number_format Max,),
+                qq(GPRINT:${vname}_avg:LAST:$number_format Last\\l),
             );
         } else {
             push( @cmd,
-                qq(GPRINT:${inst_name}_nnl:MIN:$number_format Min,),
-                qq(GPRINT:${inst_name}_nnl:AVERAGE:$number_format Avg,),
-                qq(GPRINT:${inst_name}_nnl:MAX:$number_format Max,),
-                qq(GPRINT:${inst_name}_nnl:LAST:$number_format Last\\l),
+                qq(GPRINT:${vname}_nnl:MIN:$number_format Min,),
+                qq(GPRINT:${vname}_nnl:AVERAGE:$number_format Avg,),
+                qq(GPRINT:${vname}_nnl:MAX:$number_format Max,),
+                qq(GPRINT:${vname}_nnl:LAST:$number_format Last\\l),
             );
         }
     }
