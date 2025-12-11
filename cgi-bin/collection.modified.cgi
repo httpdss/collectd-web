@@ -379,7 +379,7 @@ sub list_hosts_json {
         -Charset      => 'utf-8'
     );
     print STDOUT to_json( $host_ref, { pretty => 1, indent => 2 } );
-    return (1);
+    return (0);
 }    # list_hosts_json
 
 sub _string_to_color {
@@ -492,7 +492,7 @@ sub action_show_host_json
     );
     print STDOUT to_json ([sort (keys %$all_plugins)],
     { pretty => 1, indent => 2 }) . "\n";
-    return (1);
+    return (0);
 } # action_show_host_json
 
 
@@ -787,7 +787,7 @@ sub action_show_plugin_json {
                            year => [@plugin_list_year],
                            decade => [@plugin_list_decade]},
     { pretty => 1, indent => 2 }) . "\n";
-    return (1);
+    return (0);
 }    # action_show_plugin_json
 
 sub action_show_type {
