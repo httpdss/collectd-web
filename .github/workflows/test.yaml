@@ -10,10 +10,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.1
 
       - name: Set up Perl
-        uses: shogo82148/actions-setup-perl@v1.36.0
+        uses: shogo82148/actions-setup-perl@v1.37.0
         with:
           perl-version: '5.36'
 
