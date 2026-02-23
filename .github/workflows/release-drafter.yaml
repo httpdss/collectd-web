@@ -13,10 +13,10 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.1
+        uses: actions/checkout@v6.0.2
         with:
           fetch-depth: 0
-      - uses: release-drafter/release-drafter@v6.1.0
+      - uses: release-drafter/release-drafter@v6.2.0
         id: release-drafter
         with:
           config-name: release-drafter.yml
