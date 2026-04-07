@@ -1,8 +1,15 @@
 # Collectd-web: A User-Friendly Interface for Collectd
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+![GitHub stars](https://img.shields.io/github/stars/httpdss/collectd-web?style=social)
 
-Collectd-web provides a sleek, intuitive, and customizable web interface for Collectd – the robust resource monitoring tool. Originally, Collectd’s bundled frontend was designed only for testing, leaving its full potential untapped. Collectd-web bridges that gap by offering an efficient, user-centered experience for monitoring system statistics.
+Collectd-web provides a sleek, intuitive, and customizable web interface for Collectd – the robust resource monitoring tool. Originally, Collectd's bundled frontend was designed only for testing, leaving its full potential untapped. Collectd-web bridges that gap by offering an efficient, user-centered experience for monitoring system statistics.
+
+## 📌 Project Status
+
+**Maintenance mode.** Collectd-web is stable and actively maintained for bug fixes and security updates. New feature development is limited. If you depend on collectd-web, it is safe to use — just expect incremental rather than major changes going forward.
+
+Found a bug? Please [open an issue](https://github.com/httpdss/collectd-web/issues). Have a question or want to discuss the project? Join us in [GitHub Discussions](https://github.com/httpdss/collectd-web/discussions).
 
 ## 📊 Table of Contents
 
@@ -33,7 +40,7 @@ Collectd-web provides a sleek, intuitive, and customizable web interface for Col
 Before installing Collectd-web, please ensure:
 
 - **Directory Structure:**
-  Organize your files so that each host’s data resides in its own sub-directory named after the host. For example:
+  Organize your files so that each host's data resides in its own sub-directory named after the host. For example:
 
   ```sh
   /etc/collectd/collectd-web/localhost/
@@ -118,6 +125,7 @@ Add these lines to your apache vhost configuration:
 ## 🔗 Links
 
 - **Project Homepage:** [Collectd-web on GitHub](http://github.com/httpdss/collectd-web)
+- **Community Discussions:** [GitHub Discussions](https://github.com/httpdss/collectd-web/discussions)
 - **Code of Conduct:** Please review our [Code of Conduct](code_of_conduct.md) for community guidelines.
 
 ## 📄 License
