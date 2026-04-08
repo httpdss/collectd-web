@@ -1,1 +1,3 @@
-dotenv
+python-dotenv
+flask>=3.0
+rrdtool
