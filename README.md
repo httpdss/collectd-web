@@ -5,6 +5,14 @@
 
 Collectd-web provides a sleek, intuitive, and customizable web interface for Collectd – the robust resource monitoring tool. Originally, Collectd's bundled frontend was designed only for testing, leaving its full potential untapped. Collectd-web bridges that gap by offering an efficient, user-centered experience for monitoring system statistics.
 
+## 🐍 Upcoming: Python Backend Rewrite
+
+The Perl CGI backend is being replaced with a clean **Python Flask** application. All graph functionality is preserved — just lighter, easier to deploy, and ready for community contributions.
+
+> **[PR #168 — Python Flask backend](https://github.com/httpdss/collectd-web/pull/168)** is open for review. Feedback welcome!
+>
+> Key changes: removes `librrds-perl`, `libjson-perl`, `libhtml-parser-perl`, `libcgi-pm-perl`, `libipc-run-perl` — replaced by `pip install flask rrdtool`. Full pytest suite included.
+
 ## 📌 Project Status
 
 **Maintenance mode.** Collectd-web is stable and actively maintained for bug fixes and security updates. New feature development is limited. If you depend on collectd-web, it is safe to use — just expect incremental rather than major changes going forward.
