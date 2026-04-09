@@ -1,57 +1,55 @@
-name: test-perl
+name: test-python
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   test:
+    name: pytest (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+
     steps:
-      - uses: actions/checkout@v6.0.1
+      - uses: actions/checkout@v4
 
-      - name: Set up Perl
-        uses: shogo82148/actions-setup-perl@v1.37.0
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
         with:
-          perl-version: '5.36'
+          python-version: ${{ matrix.python-version }}
+          cache: pip
 
-      - name: Setup Python
-        uses: actions/setup-python@v6.1.0
-        with:
-          python-version: '3.x'
-
-      - name: Install dependencies
+      - name: Install system dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y librrds-perl \
-          libjson-perl \
-          libhtml-parser-perl \
-          libcgi-pm-perl \
-          libipc-run-perl
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            rrdtool \
+            librrd-dev \
+            pkg-config
 
-      - name: Run tests
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run pytest
         run: |
-          export PERL5LIB=$PERL5LIB:/usr/share/perl5
-          prove -lrv t > tap.out
-          cat tap.out
+          pytest tests/ -v \
+            --tb=short \
+            --junitxml=test-results.xml
 
-      - name: Convert TAP to Markdown inline
-        run: |
-          python3 ./scripts/tap2md.py tap.out > results.md
-
-      - name: Show Markdown Test Results as step summary
-        run: cat results.md >> $GITHUB_STEP_SUMMARY
-
-      - name: Upload Markdown Test Results
-        uses: actions/upload-artifact@v6.0.0
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: test-results-markdown
-          path: results.md
+          name: test-results-py${{ matrix.python-version }}
+          path: test-results.xml
 
-      - name: Upload TAP Test Results
-        uses: actions/upload-artifact@v6.0.0
+      - name: Publish test summary
+        if: always()
+        uses: test-summary/action@v2
         with:
-          name: test-results-tap
-          path: tap.out
+          paths: test-results.xml
