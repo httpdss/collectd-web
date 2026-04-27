@@ -10,3 +10,10 @@ debian/collectd-web/**
 /debian/*.substvars
 /debian/generated/
 /debian/tmp/
+
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+venv/
+.venv/

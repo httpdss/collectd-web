@@ -1,0 +1,71 @@
+body {
+  background-color: #2b2b2b;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+.sidebar {
+  min-height: 100vh;
+  border-right: 1px solid #444;
+}
+
+.nav-link {
+  color: #cccccc;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+}
+
+code,
+pre {
+  background-color: #333333 !important;
+  color: #ffffff !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #ff8800;
+}
+
+hr {
+  border-color: #444;
+}
+
+.section-title i {
+  margin-right: 6px;
+}
+
+/* Redirect banner */
+#redirect-banner {
+  background-color: #ff8800;
+  color: #1a1a1a;
+  text-align: center;
+  padding: 14px 20px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+#redirect-banner a {
+  color: #1a1a1a;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+#redirect-banner a:hover {
+  color: #333;
+}
+
+#countdown {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
