@@ -5,61 +5,26 @@
   <meta charset="UTF-8" />
   <title>Collectd-web - The Frontend for collectd</title>
   <meta name="description" content="Collectd-web provides a sleek, intuitive, and customizable web interface for Collectd, the robust resource monitoring tool. Easily visualize system statistics with a responsive design.">
+  <!-- Redirect -->
+  <meta http-equiv="refresh" content="15;url=https://collectd-web.lovable.app">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" crossorigin="anonymous">
   <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
-  <style>
-    body {
-      background-color: #2b2b2b;
-      color: #ffffff;
-      margin: 0;
-      padding: 0;
-    }
-
-    .navbar-brand {
-      font-weight: bold;
-    }
-
-    .sidebar {
-      min-height: 100vh;
-      border-right: 1px solid #444;
-    }
-
-    .nav-link {
-      color: #cccccc;
-    }
-
-    .nav-link:hover {
-      color: #ffffff;
-    }
-
-    code,
-    pre {
-      background-color: #333333 !important;
-      color: #ffffff !important;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      color: #ff8800;
-    }
-
-    hr {
-      border-color: #444;
-    }
-
-    .section-title i {
-      margin-right: 6px;
-    }
-  </style>
+  <!-- Site styles -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+
+  <!-- Redirect Banner -->
+  <div id="redirect-banner">
+    <i class="fas fa-external-link-alt"></i>
+    This page has moved. You will be redirected to
+    <a href="https://collectd-web.lovable.app">collectd-web.lovable.app</a>
+    in <span id="countdown">15</span> seconds.
+    <a href="https://collectd-web.lovable.app">Go now &rarr;</a>
+  </div>
 
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -268,8 +233,21 @@ Alias /collectd-web/collectd-web /path/to/vhost/httdocs/collectd-web
   </div>
 
   <!-- Bootstrap JS (optional if you need dynamic components) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
-    </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script>
+    (function () {
+      var seconds = 15;
+      var el = document.getElementById('countdown');
+      var interval = setInterval(function () {
+        seconds--;
+        if (el) el.textContent = seconds;
+        if (seconds <= 0) {
+          clearInterval(interval);
+          window.location.href = 'https://collectd-web.lovable.app';
+        }
+      }, 1000);
+    })();
+  </script>
 </body>
 
 </html>
