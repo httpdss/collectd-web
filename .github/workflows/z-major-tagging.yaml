@@ -1,4 +1,4 @@
-name: major-tagging
+name: z-major-tagging
 
 on:
   push:
