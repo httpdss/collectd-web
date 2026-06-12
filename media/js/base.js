@@ -332,7 +332,7 @@ $(document).ready(function () {
 
     $.getJSON('cgi-bin/collection.modified.cgi?action=hostlist_json', function (data) {
         for (i = 0; i < data.length; i++) {
-            $("#hosts ul").append('<li><a href="cgi-bin/collection.modified.cgi?action=show_host;host=' + data[i] + '" onclick="window.scrollTo(0, document.body.scrollHeight)">'
+            $("#hosts ul").append('<li><a href="cgi-bin/collection.modified.cgi?action=show_host;host=' + data[i] + '">'
                 + data[i] + '</a></li>');
         }
     });
