@@ -10,15 +10,15 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7.0.0
+      - uses: actions/checkout@v7.0.1
 
       - name: Set up Perl
-        uses: shogo82148/actions-setup-perl@v1.41.1
+        uses: shogo82148/actions-setup-perl@v1.43.0
         with:
           perl-version: '5.36'
 
       - name: Setup Python
-        uses: actions/setup-python@v6.3.0
+        uses: actions/setup-python@v7.0.0
         with:
           python-version: '3.x'
 
