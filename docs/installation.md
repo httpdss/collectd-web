@@ -158,4 +158,3 @@ Adjust `/path/to/collectd-web/` to match where the files are installed on your s
 - Inspect the service logs with `journalctl -u collectd-web`.
 - Confirm that `/usr/share/collectd-web/runserver.py` exists after package install.
 - Verify `HOST` and `PORT` are valid and not already in use.
-
